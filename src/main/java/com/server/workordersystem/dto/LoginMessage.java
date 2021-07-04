@@ -3,7 +3,7 @@ package com.server.workordersystem.dto;
 /**
  * @author 全鸿润
  */
-public class UserMessage {
+public class LoginMessage {
 
     private String username;
     private String password;

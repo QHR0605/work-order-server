@@ -46,8 +46,8 @@ public class TokenVerifier {
      * @param token 密钥
      * @return 用户名
      */
-    public static String getUserNameFromToken(String token) {
-        return getDecodeJwt(token).getClaim("username").asString();
+    public static Integer getUidFromToken(String token) {
+        return getDecodeJwt(token).getClaim("uid").asInt();
     }
 
     /**

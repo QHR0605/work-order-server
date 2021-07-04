@@ -3,7 +3,7 @@ package com.server.workordersystem.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.server.workordersystem.config.SpringContextConfig;
 import com.server.workordersystem.dto.NewUserMessage;
-import com.server.workordersystem.dto.UserMessage;
+import com.server.workordersystem.dto.LoginMessage;
 import com.server.workordersystem.entity.User;
 import com.server.workordersystem.service.AuthService;
 import com.server.workordersystem.util.json.JsonResult;
@@ -26,10 +26,10 @@ public class LoginController {
     private final AuthService authService = SpringContextConfig.getBean("LoginServiceImpl");
 
     @PostMapping("/login")
-    public JsonResult handleLogin(@RequestBody UserMessage userMessage) {
+    public JsonResult handleLogin(@RequestBody LoginMessage loginMessage) {
 
-        String username = userMessage.getUsername();
-        String password = userMessage.getPassword();
+        String username = loginMessage.getUsername();
+        String password = loginMessage.getPassword();
         String msg = authService.handleLogin(username, password);
         JsonResult res = null;
         if (JsonResultStateCode.USERNAME_WRONG_DESC.equals(msg)) {

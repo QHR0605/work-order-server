@@ -1,5 +1,6 @@
 package com.server.workordersystem.service;
 
+import com.server.workordersystem.dto.UserMessage;
 import com.server.workordersystem.dto.UserPhoneMsg;
 import com.server.workordersystem.entity.Contact;
 import com.server.workordersystem.entity.ContactMsg;
@@ -13,11 +14,7 @@ import java.util.List;
 @Service
 public interface UserService {
 
-    Integer addContact(Contact contact);
+    UserMessage getUserInfo(Integer uid);
 
-    Integer deleteContact(Contact contact);
-
-    List<ContactMsg> getContactList(String username);
-
-    Integer updatePhone(UserPhoneMsg msg);
+    Integer updateUserInfo(UserMessage message);
 }

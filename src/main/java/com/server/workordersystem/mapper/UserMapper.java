@@ -1,9 +1,11 @@
 package com.server.workordersystem.mapper;
 
 import com.server.workordersystem.dto.LatestLoginMsg;
+import com.server.workordersystem.dto.UserMessage;
 import com.server.workordersystem.dto.UserPhoneMsg;
 import com.server.workordersystem.entity.Contact;
 import com.server.workordersystem.entity.ContactMsg;
+import com.server.workordersystem.entity.User;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -15,41 +17,24 @@ import java.util.List;
 public interface UserMapper {
 
     /**
-     * @param contact 联系人信息
-     * @return 添加行数
+     * @param uid 用户ID
+     * @return 用户信息
      * @throws Exception 数据库操作异常
      */
-    Integer addContact(Contact contact) throws Exception;
+    UserMessage getUserInfo(Integer uid) throws Exception;
 
     /**
-     * @param contact 删除的联系人
-     * @return 删除行数
-     * @throws Exception 数据库操作异常
+     * @param userMessage 修改的用户信息
+     * @return 修改行数
+     * @throws Exception  数据库操作异常
      */
-    Integer deleteContact(Contact contact) throws Exception;
+    Integer updateUserMsg(UserMessage userMessage) throws Exception;
 
     /**
-     * @param username 用户名
-     * @return 该用户的联系人信息列表
-     * @throws Exception 数据库操作异常
-     */
-    List<ContactMsg> getContact(String username) throws Exception;
-
-    /**
-     * 更新登录信息
-     *
      * @param msg 最近登录信息
-     * @return 修改的行数
+     * @return 修改行数
      * @throws Exception 数据库操作异常
      */
     Integer updateUserLatestLoginMsg(LatestLoginMsg msg) throws Exception;
 
-    /**
-     * 修改用户手机
-     *
-     * @param msg 手机信息
-     * @return 修改的行数
-     * @throws Exception 数据库操作异常
-     */
-    Integer updateUserPhone(UserPhoneMsg msg) throws Exception;
 }

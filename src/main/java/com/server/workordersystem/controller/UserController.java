@@ -1,5 +1,6 @@
 package com.server.workordersystem.controller;
 import com.server.workordersystem.config.SpringContextConfig;
+import com.server.workordersystem.dto.UserMessage;
 import com.server.workordersystem.dto.UserPhoneMsg;
 import com.server.workordersystem.entity.Contact;
 import com.server.workordersystem.entity.ContactMsg;
@@ -27,61 +28,33 @@ public class UserController {
 
     private final UserService userService = SpringContextConfig.getBean(UserServiceImpl.class);
 
-    @GetMapping("/get-contact")
+    @GetMapping("/get-user-info")
     @IsLogin
-    public JsonResult handleGetContact(HttpServletRequest request) {
-        String username = CookieUtils.findCookie(request.getCookies(), "username").getValue();
-        List<ContactMsg> contactList = userService.getContactList(username);
-        if (contactList != null) {
-            if (contactList.size() > 0) {
-                return JsonResultFactory.buildJsonResult(
-                        JsonResultStateCode.SUCCESS,
-                        JsonResultStateCode.SUCCESS_DESC,
-                        contactList
-                );
-            } else {
-                return JsonResultFactory.buildJsonResult(
-                        JsonResultStateCode.NOT_FOUND,
-                        JsonResultStateCode.NOT_FOUND_DESC,
-                        null
-                );
-            }
-        }
-        return JsonResultFactory.buildFailureResult();
-    }
+    public JsonResult handleGetUserInfo(HttpServletRequest request){
+        Integer uid = CookieUtils.parseInt(request.getCookies(),"uid");
+        UserMessage message = userService.getUserInfo(uid);
 
-    @PostMapping("/add-contact")
-    @IsLogin
-    public JsonResult handleAddContact(@RequestBody Contact contact) {
-
-        Integer row;
-        row = userService.addContact(contact);
-        if (row != null && row == 1) {
-            return JsonResultFactory.buildSuccessResult();
-        } else {
+        if (message == null){
             return JsonResultFactory.buildFailureResult();
+        }else{
+            return JsonResultFactory.buildJsonResult(
+                    JsonResultStateCode.SUCCESS,
+                    JsonResultStateCode.SUCCESS_DESC,
+                    message
+            );
         }
+
     }
-
-    @PostMapping("/del-contact")
+    @PostMapping("update-user-info")
     @IsLogin
-    public JsonResult handleDelContact(@RequestBody Contact contact) {
-        Integer row = userService.deleteContact(contact);
-        if (row != null && row == 1) {
-            return JsonResultFactory.buildSuccessResult();
-        } else {
-            return JsonResultFactory.buildFailureResult();
-        }
-    }
+    public JsonResult handleUpdateUserInfo(@RequestBody UserMessage message,HttpServletRequest request){
+        Integer uid = CookieUtils.parseInt(request.getCookies(),"uid");
 
-    @PostMapping("/update-phone")
-    @IsLogin
-    public JsonResult handleUpdatePhone(@RequestBody UserPhoneMsg msg) {
+        Integer row = userService.updateUserInfo(message);
 
-        Integer row = userService.updatePhone(msg);
-        if (row != null && row == 1) {
+        if (row != null && row ==1){
             return JsonResultFactory.buildSuccessResult();
-        } else {
+        }else{
             return JsonResultFactory.buildFailureResult();
         }
     }

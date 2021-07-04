@@ -1,14 +1,10 @@
 package com.server.workordersystem.service.impl;
 
 import com.server.workordersystem.config.SpringContextConfig;
-import com.server.workordersystem.dto.UserPhoneMsg;
-import com.server.workordersystem.entity.Contact;
-import com.server.workordersystem.entity.ContactMsg;
+import com.server.workordersystem.dto.UserMessage;
 import com.server.workordersystem.mapper.UserMapper;
 import com.server.workordersystem.service.UserService;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * @author 全鸿润
@@ -19,49 +15,25 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper = SpringContextConfig.getBean(UserMapper.class);
 
     @Override
-    public Integer addContact(Contact contact) {
-        Integer row;
+    public UserMessage getUserInfo(Integer uid) {
+
+        UserMessage message = null;
         try {
-            row = userMapper.addContact(contact);
+            message = userMapper.getUserInfo(uid);
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
         }
-        return row;
+        return message;
     }
 
     @Override
-    public Integer deleteContact(Contact contact) {
-        Integer row;
-        try {
-            row = userMapper.deleteContact(contact);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-        return row;
-    }
+    public Integer updateUserInfo(UserMessage message) {
 
-    @Override
-    public List<ContactMsg> getContactList(String username) {
-        List<ContactMsg> contactList;
+        Integer row = null;
         try {
-            contactList = userMapper.getContact(username);
+            row = userMapper.updateUserMsg(message);
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
-        }
-        return contactList;
-    }
-
-    @Override
-    public Integer updatePhone(UserPhoneMsg msg) {
-        Integer row;
-        try {
-            row = userMapper.updateUserPhone(msg);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
         }
         return row;
     }

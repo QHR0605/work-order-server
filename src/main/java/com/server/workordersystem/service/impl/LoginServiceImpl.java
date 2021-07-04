@@ -7,7 +7,6 @@ package com.server.workordersystem.service.impl;
 import com.server.workordersystem.config.SpringContextConfig;
 import com.server.workordersystem.dto.LatestLoginMsg;
 import com.server.workordersystem.dto.NewUserMessage;
-import com.server.workordersystem.dto.UserMessage;
 import com.server.workordersystem.entity.User;
 import com.server.workordersystem.mapper.LoginMapper;
 import com.server.workordersystem.mapper.UserMapper;
@@ -45,13 +44,13 @@ public class LoginServiceImpl implements AuthService {
                 if (!user.getPassword().equals(password)) {
                     return JsonResultStateCode.PASSWORD_WRONG_DESC;
                 } else {
-                    //设置cookie:token和用户名
+                    //设置cookie:token和用户ID
                     HttpServletResponse response = HttpUtil.getResponse();
                     System.out.println(user);
-                    String token = TokenGenerator.generateToken(username, password, user.getAccountType());
+                    String token = TokenGenerator.generateToken(user.getUid(), password, user.getAccountType());
                     System.out.println("登录成功,生成token: " + token);
                     Cookie tokenCookie = CookieUtils.buildCookie("token", token);
-                    Cookie usernameCookie = CookieUtils.buildCookie("username", username);
+                    Cookie usernameCookie = CookieUtils.buildCookie("uid", user.getUid().toString());
                     response.addCookie(tokenCookie);
                     response.addCookie(usernameCookie);
                 }
