@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.server.workordersystem.mapper.MaintainerMapper">
+
+    <insert id="insertNewWorkOrder">
+        INSERT INTO work_order(order_id, order_name, creator, create_time, content, image, handle_group)
+        VALUES (#{orderId}, #{orderName}, #{creator}, #{createTime}, #{content}, #{image}, #{handleGroup})
+    </insert>
+    <update id="updateOrderCompletedState">
+        UPDATE work_order
+        SET completed = #{completed},
+            open      = false
+        WHERE order_id = #{orderId}
+    </update>
+    <select id="selectOrders" resultType="com.server.workordersystem.entity.WorkOrder">
+        SELECT * FROM work_order WHERE creator = #{uid}
+    </select>
+</mapper>
+

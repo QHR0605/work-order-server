@@ -25,7 +25,7 @@ public class JsonResultStateCode {
     static public Integer UNKNOWN_ERROR = 404;
     static public String UNKNOWN_ERROR_DESC = "unknown error";
 
-    public static Integer PASSWORD_WRONG = 414;
+    public static Integer PASSWORD_WRONG = 415;
     public static String PASSWORD_WRONG_DESC = "密码错误";
 
     public static Integer OPERATION_IS_NOT_COMPLETED = 490;
