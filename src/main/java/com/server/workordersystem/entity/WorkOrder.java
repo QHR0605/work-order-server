@@ -9,16 +9,12 @@ public class WorkOrder {
     private String creator;
     private String reviewer;
     private String handler;
-    private Integer handleGroup;
+    private String handleGroup;
     private Date createTime;
     private String content;
     private String image;
     private Date completionTime;
-    private Boolean created;
-    private Integer verified;
-    private Boolean handled;
-    private Boolean completed;
-    private Boolean open;
+    private Boolean state;
     private Boolean deleted;
 
     public Integer getOrderId() {
@@ -61,11 +57,11 @@ public class WorkOrder {
         this.handler = handler;
     }
 
-    public Integer getHandleGroup() {
+    public String getHandleGroup() {
         return handleGroup;
     }
 
-    public void setHandleGroup(Integer handleGroup) {
+    public void setHandleGroup(String handleGroup) {
         this.handleGroup = handleGroup;
     }
 
@@ -101,45 +97,7 @@ public class WorkOrder {
         this.completionTime = completionTime;
     }
 
-    public Boolean getCreated() {
-        return created;
-    }
 
-    public void setCreated(Boolean created) {
-        this.created = created;
-    }
-
-    public Integer getVerified() {
-        return verified;
-    }
-
-    public void setVerified(Integer verified) {
-        this.verified = verified;
-    }
-
-    public Boolean getHandled() {
-        return handled;
-    }
-
-    public void setHandled(Boolean handled) {
-        this.handled = handled;
-    }
-
-    public Boolean getCompleted() {
-        return completed;
-    }
-
-    public void setCompleted(Boolean completed) {
-        this.completed = completed;
-    }
-
-    public Boolean getOpen() {
-        return open;
-    }
-
-    public void setOpen(Boolean open) {
-        this.open = open;
-    }
 
     public Boolean getDeleted() {
         return deleted;
@@ -147,5 +105,13 @@ public class WorkOrder {
 
     public void setDeleted(Boolean deleted) {
         this.deleted = deleted;
+    }
+
+    public Boolean getState() {
+        return state;
+    }
+
+    public void setState(Boolean state) {
+        this.state = state;
     }
 }

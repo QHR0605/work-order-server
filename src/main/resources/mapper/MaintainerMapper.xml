@@ -15,7 +15,7 @@
         WHERE order_id = #{orderId}
     </update>
     <select id="selectOrders" resultType="com.server.workordersystem.entity.WorkOrder">
-        SELECT * FROM work_order WHERE creator = #{uid}
+        SELECT * FROM order_msg WHERE uid = #{uid}
     </select>
 </mapper>
 
