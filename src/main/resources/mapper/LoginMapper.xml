@@ -3,11 +3,6 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.server.workordersystem.mapper.LoginMapper">
-    <insert id="insertNewUser">
-        INSERT INTO user(uid,username, password, phone, `account_type`, `latest_login_time`, `latest_login_ip`,
-                         `avatar_url`)
-        VALUES (#{uid},#{username}, #{password}, #{phone}, #{accountType}, #{latestLoginTime}, #{latestLoginIp}, #{avatarUrl})
-    </insert>
     <update id="updatePassword">
         UPDATE user
         SET user.password = #{newPassword}

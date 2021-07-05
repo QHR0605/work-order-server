@@ -27,13 +27,4 @@ public interface LoginMapper {
      * @throws Exception 数据库操作异常
      */
     Integer updatePassword(String userName, String newPassword) throws Exception;
-
-    /**
-     * 插入新用户
-     *
-     * @param user 新注册的用户
-     * @return 影响的行数
-     * @throws Exception 数据库操作异常
-     */
-    Integer insertNewUser(User user) throws Exception;
 }

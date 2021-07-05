@@ -7,7 +7,7 @@ import com.server.workordersystem.entity.User;
 /**
  * @author 全鸿润
  */
-public interface AuthService {
+public interface LoginService {
     /**
      * 登录验证
      *
@@ -24,14 +24,6 @@ public interface AuthService {
      * @return 用户实例
      */
     User findUserByUsername(String username);
-
-    /**
-     * 注册用户
-     *
-     * @param userMessage 用户填写的信息
-     * @return 新增用户数
-     */
-    Integer registerUser(NewUserMessage userMessage);
 
     /**
      * 修改密码

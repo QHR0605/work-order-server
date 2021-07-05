@@ -6,14 +6,12 @@ package com.server.workordersystem.service.impl;
 
 import com.server.workordersystem.config.SpringContextConfig;
 import com.server.workordersystem.dto.LatestLoginMsg;
-import com.server.workordersystem.dto.NewUserMessage;
 import com.server.workordersystem.entity.User;
 import com.server.workordersystem.mapper.LoginMapper;
 import com.server.workordersystem.mapper.UserMapper;
-import com.server.workordersystem.service.AuthService;
+import com.server.workordersystem.service.LoginService;
 import com.server.workordersystem.util.http.CookieUtils;
 import com.server.workordersystem.util.http.HttpUtil;
-import com.server.workordersystem.util.idGenerator.IdGenerator;
 import com.server.workordersystem.util.interceptor.IpUtil;
 import com.server.workordersystem.util.json.JsonResultStateCode;
 import com.server.workordersystem.util.token.TokenGenerator;
@@ -24,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.sql.Timestamp;
 
 @Service("LoginServiceImpl")
-public class LoginServiceImpl implements AuthService {
+public class LoginServiceImpl implements LoginService {
 
     private final LoginMapper loginMapper = SpringContextConfig.getBean(LoginMapper.class);
     private final UserMapper userMapper = SpringContextConfig.getBean(UserMapper.class);
@@ -82,30 +80,6 @@ public class LoginServiceImpl implements AuthService {
             e.printStackTrace();
         }
         return user;
-    }
-
-    @Override
-    public Integer registerUser(NewUserMessage userMessage) {
-
-        Integer rows = null;
-        try {
-            User res = loginMapper.findUserByUserName(userMessage.getUsername());
-            if (res != null) {
-                return JsonResultStateCode.USERNAME_IS_EXITED;
-            }
-            User user = new User()
-                    .uid(IdGenerator.getId())
-                    .username(userMessage.getUsername())
-                    .password(userMessage.getPassword())
-                    .accountType(userMessage.getAccountType())
-                    .isLogout(false)
-                    .build();
-            rows = loginMapper.insertNewUser(user);
-            return rows;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return rows;
-        }
     }
 
     @Override
