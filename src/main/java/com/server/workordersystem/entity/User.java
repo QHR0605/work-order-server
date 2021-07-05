@@ -1,7 +1,5 @@
 package com.server.workordersystem.entity;
 
-import io.swagger.models.auth.In;
-
 import java.sql.Timestamp;
 
 /**
@@ -26,7 +24,7 @@ public class User {
 
     }
 
-    public User uid(Integer uid){
+    public User uid(Integer uid) {
         this.uid = uid;
         return this;
     }

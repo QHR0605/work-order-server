@@ -41,13 +41,6 @@
         SELECT *
         FROM user
     </select>
-    <insert id="insertNewIpAddress">
-        INSERT INTO filter(fid, ip_address)
-        VALUES
-        <foreach collection="filter" index="index" item="item" separator=",">
-            (#{item.fid},#{item.ipAddress})
-        </foreach>
-    </insert>
     <insert id="addLog">
         INSERT INTO log(log_id, username, time, operation, state, reason)
         VALUES (#{logId}, #{username}, #{time}, #{operation}, #{state}, #{reason})
@@ -75,39 +68,18 @@
             UPDATE `server-msg` SET `server-msg`.`pop3_state` = #{serverState} WHERE sid = #{sid}
         </if>
     </update>
-    <update id="updateMailBoxSize">
-        UPDATE user SET user.mail_box_size = #{size} WHERE username IN
-        <foreach collection="usernames" index="index" item="item" open="(" close=")" separator=",">
-            #{item}
-        </foreach>
-    </update>
     <update id="updateUserForbidden">
         UPDATE user SET user.forbidden = #{forbidden} WHERE username IN
         <foreach collection="usernames" index="index" item="item" open="(" close=")" separator=",">
             #{item}
         </foreach>
     </update>
-    <delete id="deleteIpAddress">
-        DELETE FROM filter
-        WHERE ip_address IN
-        <foreach collection="list" item="item" separator="," open="(" close=")">
-            #{item}
-        </foreach>
-    </delete>
     <delete id="deleteLog" parameterType="java.util.List">
         DELETE FROM log WHERE log.log_id IN
         <foreach collection="list" item="item" separator="," open="(" close=")">
             #{item}
         </foreach>
     </delete>
-    <select id="selectServerMessage" resultType="com.server.workordersystem.entity.ServerMessage">
-        SELECT *
-        FROM `server-msg`
-    </select>
-    <select id="selectFilter" resultType="com.server.workordersystem.entity.Filter">
-        SELECT *
-        FROM filter
-    </select>
     <select id="selectLogs" resultType="com.server.workordersystem.entity.Log">
         SELECT *
         FROM log

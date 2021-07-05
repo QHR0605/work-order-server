@@ -2,13 +2,7 @@ package com.server.workordersystem.mapper;
 
 import com.server.workordersystem.dto.LatestLoginMsg;
 import com.server.workordersystem.dto.UserMessage;
-import com.server.workordersystem.dto.UserPhoneMsg;
-import com.server.workordersystem.entity.Contact;
-import com.server.workordersystem.entity.ContactMsg;
-import com.server.workordersystem.entity.User;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 /**
  * @author 全鸿润
@@ -26,7 +20,7 @@ public interface UserMapper {
     /**
      * @param userMessage 修改的用户信息
      * @return 修改行数
-     * @throws Exception  数据库操作异常
+     * @throws Exception 数据库操作异常
      */
     Integer updateUserMsg(UserMessage userMessage) throws Exception;
 

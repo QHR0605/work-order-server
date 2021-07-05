@@ -52,6 +52,7 @@ public interface AdminService {
      * @return 修改个数
      */
     Integer updateUsersType(List<String> username, Integer type);
+
     /**
      * 获取所有用户
      *

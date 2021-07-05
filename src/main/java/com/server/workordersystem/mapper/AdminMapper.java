@@ -1,7 +1,6 @@
 package com.server.workordersystem.mapper;
-import com.server.workordersystem.entity.Filter;
+
 import com.server.workordersystem.entity.Log;
-import com.server.workordersystem.entity.ServerMessage;
 import com.server.workordersystem.entity.User;
 import org.springframework.stereotype.Repository;
 
@@ -77,49 +76,6 @@ public interface AdminMapper {
      * @throws Exception 数据库操作异常
      */
     Integer updateUserForbidden(List<String> usernames, Boolean forbidden) throws Exception;
-
-    /**
-     * 获取服务器信息
-     *
-     * @return 服务器信息
-     */
-    List<ServerMessage> selectServerMessage() throws Exception;
-
-    /**
-     * 获取IP地址黑名单
-     *
-     * @return IP地址黑名单
-     * @throws Exception 数据库操作异常
-     */
-    List<Filter> selectFilter() throws Exception;
-
-    /**
-     * 添加IP黑名单
-     *
-     * @param filter 新添加的IP地址黑名单列表
-     * @return 添加的行数
-     * @throws Exception 数据库操作异常
-     */
-    Integer insertNewIpAddress(List<Filter> filter) throws Exception;
-
-    /**
-     * 取消黑名单的IP地址
-     *
-     * @param ipList 黑名单的id列表
-     * @return 删除行数
-     * @throws Exception 数据库操作异常
-     */
-    Integer deleteIpAddress(List<String> ipList) throws Exception;
-
-    /**
-     * 修改邮箱大小
-     *
-     * @param usernames 要修改的邮箱
-     * @param size      邮箱大小
-     * @return 修改行数
-     * @throws Exception 数据库操作异常
-     */
-    Integer updateMailBoxSize(List<String> usernames, Integer size) throws Exception;
 
     /**
      * 添加日志

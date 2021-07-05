@@ -18,12 +18,12 @@ public interface MaintainerMapper {
 
 
     /**
-     * @param orderId 工单号
+     * @param orderId   工单号
      * @param completed 完成状态
      * @return 修改行数
      * @throws Exception 数据库操作异常
      */
-    Integer updateOrderCompletedState(Integer orderId , Boolean completed) throws Exception;
+    Integer updateOrderCompletedState(Integer orderId, Boolean completed) throws Exception;
 
     List<WorkOrder> selectOrders(Integer uid) throws Exception;
 }

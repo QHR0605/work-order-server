@@ -98,7 +98,6 @@ public class WorkOrder {
     }
 
 
-
     public Boolean getDeleted() {
         return deleted;
     }

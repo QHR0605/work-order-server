@@ -2,8 +2,8 @@ package com.server.workordersystem.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.server.workordersystem.config.SpringContextConfig;
-import com.server.workordersystem.dto.NewUserMessage;
 import com.server.workordersystem.dto.LoginMessage;
+import com.server.workordersystem.dto.NewUserMessage;
 import com.server.workordersystem.entity.User;
 import com.server.workordersystem.service.AuthService;
 import com.server.workordersystem.util.json.JsonResult;

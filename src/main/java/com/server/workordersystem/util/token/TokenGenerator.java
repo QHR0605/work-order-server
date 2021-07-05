@@ -16,7 +16,7 @@ public class TokenGenerator {
      * 根据传入的用户名和用户ID生成token
      * * 这里使用的是HS256加密算法
      *
-     * @param uid 用户id
+     * @param uid      用户id
      * @param type     用户类型
      * @param password 密码
      * @return token

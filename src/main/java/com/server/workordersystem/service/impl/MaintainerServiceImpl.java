@@ -4,7 +4,6 @@ import com.server.workordersystem.dto.WorkOrderMessage;
 import com.server.workordersystem.entity.WorkOrder;
 import com.server.workordersystem.mapper.MaintainerMapper;
 import com.server.workordersystem.service.MaintainerService;
-import com.server.workordersystem.util.http.CookieUtils;
 import com.server.workordersystem.util.idGenerator.IdGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,7 +30,7 @@ public class MaintainerServiceImpl implements MaintainerService {
     }
 
     @Override
-    public Integer completeOrder(Integer orderId , Boolean completed) {
+    public Integer completeOrder(Integer orderId, Boolean completed) {
 
         Integer row = null;
         try {
