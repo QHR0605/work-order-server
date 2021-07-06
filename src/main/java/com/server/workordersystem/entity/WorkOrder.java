@@ -7,7 +7,7 @@ public class WorkOrder {
     private Integer orderId;
     private String orderName;
     private String creator;
-    private String reviewer;
+    private String verifier;
     private String handler;
     private String handleGroup;
     private Date createTime;
@@ -41,12 +41,12 @@ public class WorkOrder {
         this.creator = creator;
     }
 
-    public String getReviewer() {
-        return reviewer;
+    public String getVerifier() {
+        return verifier;
     }
 
-    public void setReviewer(String reviewer) {
-        this.reviewer = reviewer;
+    public void setVerifier(String verifier) {
+        this.verifier = verifier;
     }
 
     public String getHandler() {

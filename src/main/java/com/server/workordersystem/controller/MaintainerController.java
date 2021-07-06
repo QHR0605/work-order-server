@@ -26,8 +26,19 @@ public class MaintainerController {
 
     @PostMapping("/commit-order")
     public JsonResult handleCommitOrder(@RequestBody WorkOrderMessage message) {
-        Integer row = null;
+        Integer row;
         row = maintainerService.insertNewWorkerOrder(message);
+        if (row != null && row == 1) {
+            return JsonResultFactory.buildSuccessResult();
+        } else {
+            return JsonResultFactory.buildFailureResult();
+        }
+    }
+
+    @PostMapping("/recommit-order")
+    public JsonResult handleRecommitOrder(@RequestBody WorkOrderMessage message) {
+        Integer row;
+        row = maintainerService.insertNewCommitLog(message);
         if (row != null && row == 1) {
             return JsonResultFactory.buildSuccessResult();
         } else {
@@ -37,7 +48,6 @@ public class MaintainerController {
 
     @PostMapping("/complete-order")
     public JsonResult handleCompleteOrder(@RequestBody JSONObject jsonObject, HttpServletRequest request) {
-
         Boolean completed = Boolean.valueOf(jsonObject.getString("completed"));
         Integer orderId = jsonObject.getInteger("orderId");
         Integer row = maintainerService.completeOrder(orderId, completed);
