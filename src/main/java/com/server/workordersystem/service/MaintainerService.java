@@ -12,4 +12,6 @@ public interface MaintainerService {
     Integer completeOrder(Integer uid, Boolean completed);
 
     List<WorkOrder> getOrders(Integer uid);
+
+    Integer insertNewCommitLog(WorkOrderMessage message);
 }

@@ -6,16 +6,17 @@ public class WorkOrder {
 
     private Integer orderId;
     private String orderName;
-    private Integer creator;
-    private Date createTime;
+    private String creator;
+    private String verifier;
+    private String handler;
     private String handleGroup;
+    private Date createTime;
     private String content;
     private String image;
     private Date completionTime;
     private Integer state;
     private Boolean deleted;
     private Integer type;
-    private Integer verifier;
     private String verification;
     private Date verifiedTime;
     private Integer handle;
@@ -32,7 +33,7 @@ public class WorkOrder {
         return this;
     }
 
-    public WorkOrder creator(Integer creator){
+    public WorkOrder creator(String creator){
         this.setCreator(creator);
         return this;
     }
@@ -72,7 +73,7 @@ public class WorkOrder {
         return this;
     }
 
-    public WorkOrder verifier(Integer verifier){
+    public WorkOrder verifier(String verifier){
         this.setVerifier(verifier);
         return this;
     }
@@ -118,12 +119,28 @@ public class WorkOrder {
         this.orderName = orderName;
     }
 
-    public Integer getCreator() {
+    public String getCreator() {
         return creator;
     }
 
-    public void setCreator(Integer creator) {
+    public void setCreator(String creator) {
         this.creator = creator;
+    }
+
+    public String getVerifier() {
+        return verifier;
+    }
+
+    public void setVerifier(String verifier) {
+        this.verifier = verifier;
+    }
+
+    public String getHandler() {
+        return handler;
+    }
+
+    public void setHandler(String handler) {
+        this.handler = handler;
     }
 
     public String getHandleGroup() {
@@ -188,14 +205,6 @@ public class WorkOrder {
 
     public void setType(Integer type) {
         this.type = type;
-    }
-
-    public Integer getVerifier() {
-        return verifier;
-    }
-
-    public void setVerifier(Integer verifier) {
-        this.verifier = verifier;
     }
 
     public String getVerification() {

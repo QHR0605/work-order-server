@@ -4,7 +4,6 @@ import com.server.workordersystem.config.SpringContextConfig;
 import com.server.workordersystem.dto.UserMessage;
 import com.server.workordersystem.service.UserService;
 import com.server.workordersystem.service.impl.UserServiceImpl;
-import com.server.workordersystem.util.annotation.IsLogin;
 import com.server.workordersystem.util.http.CookieUtils;
 import com.server.workordersystem.util.json.JsonResult;
 import com.server.workordersystem.util.json.JsonResultFactory;
@@ -26,7 +25,6 @@ public class UserController {
     private final UserService userService = SpringContextConfig.getBean(UserServiceImpl.class);
 
     @GetMapping("/get-user-info")
-    @IsLogin
     public JsonResult handleGetUserInfo(HttpServletRequest request) {
         Integer uid = CookieUtils.parseInt(request.getCookies(), "uid");
         UserMessage message = userService.getUserInfo(uid);
@@ -44,10 +42,7 @@ public class UserController {
     }
 
     @PostMapping("update-user-info")
-    @IsLogin
     public JsonResult handleUpdateUserInfo(@RequestBody UserMessage message, HttpServletRequest request) {
-        Integer uid = CookieUtils.parseInt(request.getCookies(), "uid");
-
         Integer row = userService.updateUserInfo(message);
 
         if (row != null && row == 1) {

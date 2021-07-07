@@ -4,9 +4,43 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.server.workordersystem.mapper.MaintainerMapper">
 
-    <insert id="insertNewWorkOrder">
-        INSERT INTO work_order(order_id, order_name, creator, create_time, content, image, handle_group)
-        VALUES (#{orderId}, #{orderName}, #{creator}, #{createTime}, #{content}, #{image}, #{handleGroup})
+    <parameterMap id="map" type="com.server.workordersystem.dto.WorkOrderDto">
+        <parameter property="orderId" mode="IN" jdbcType="BIGINT"/>
+        <parameter property="orderName" mode="IN" jdbcType="VARCHAR"/>
+        <parameter property="creator" mode="IN" jdbcType="BIGINT"/>
+        <parameter property="content" mode="IN" jdbcType="VARCHAR"/>
+        <parameter property="image" mode="IN" jdbcType="VARCHAR"/>
+        <parameter property="handleGroup" mode="IN" jdbcType="VARCHAR"/>
+        <parameter property="cid" mode="IN" jdbcType="VARCHAR"/>
+        <parameter property="row" mode="OUT" jdbcType="VARCHAR"/>
+    </parameterMap>
+    <insert id="insertNewWorkOrder" parameterMap="map" statementType="CALLABLE">
+        {
+           CALL commit_order(
+                #{orderId,mode=IN},
+                #{orderName,mode=IN},
+                #{creator,mode=IN},
+                #{createTime,mode=IN},
+                #{content,mode=IN},
+                #{image,mode=IN},
+                #{handleGroup,mode=IN},
+                #{cid,mode=IN},
+                #{row,mode=OUT,jdbcType=INTEGER}
+            )
+        }
+    </insert>
+    <insert id="insertNewCommitLog" parameterMap="map" statementType="CALLABLE">
+        CALL recommit_order(
+            #{orderId,mode=IN},
+            #{orderName,mode=IN},
+            #{creator,mode=IN},
+            #{createTime,mode=IN},
+            #{content,mode=IN},
+            #{image,mode=IN},
+            #{handleGroup,mode=IN},
+            #{cid,mode=IN},
+            #{row,mode=OUT,jdbcType=INTEGER}
+            )
     </insert>
     <update id="updateOrderCompletedState">
         UPDATE work_order
@@ -15,7 +49,9 @@
         WHERE order_id = #{orderId}
     </update>
     <select id="selectOrders" resultType="com.server.workordersystem.entity.WorkOrder">
-        SELECT * FROM order_msg WHERE uid = #{uid}
+        SELECT *
+        FROM order_msg
+        WHERE uid = #{uid}
     </select>
 </mapper>
 

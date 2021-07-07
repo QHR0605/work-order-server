@@ -1,5 +1,6 @@
 package com.server.workordersystem.service.impl;
 
+import com.server.workordersystem.dto.WorkOrderDto;
 import com.server.workordersystem.dto.WorkOrderMessage;
 import com.server.workordersystem.entity.WorkOrder;
 import com.server.workordersystem.mapper.MaintainerMapper;
@@ -22,7 +23,10 @@ public class MaintainerServiceImpl implements MaintainerService {
         Integer row = null;
         try {
             message.setOrderId(IdGenerator.getId());
-            row = maintainerMapper.insertNewWorkOrder(message);
+            WorkOrderDto workOrderDto = new WorkOrderDto(message);
+            workOrderDto.setCid(IdGenerator.getId());
+            maintainerMapper.insertNewWorkOrder(workOrderDto);
+            row = workOrderDto.getRow();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -51,5 +55,20 @@ public class MaintainerServiceImpl implements MaintainerService {
             e.printStackTrace();
         }
         return orders;
+    }
+
+    @Override
+    public Integer insertNewCommitLog(WorkOrderMessage message) {
+        Integer row = null;
+        try {
+            WorkOrderDto workOrderDto = new WorkOrderDto(message);
+            workOrderDto.setCid(IdGenerator.getId());
+            maintainerMapper.insertNewCommitLog(workOrderDto);
+            row = workOrderDto.getRow();
+            System.out.println(row);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return row;
     }
 }
