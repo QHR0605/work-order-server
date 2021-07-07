@@ -3,6 +3,12 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.server.workordersystem.mapper.AdminMapper">
+
+    <select id="findUserByUserNameAdmin" resultType="com.server.workordersystem.entity.User">
+        SELECT *
+        FROM user
+        WHERE user.username = #{userName} and user.account_type = 2
+    </select>
     <insert id="insertNewUser">
         INSERT INTO user(username, password, phone, `account_type`, `latest_login_time`, `latest_login_ip`,
                          `avatar_url`)
@@ -26,7 +32,7 @@
         </foreach>
     </update>
     <delete id="deleteUsers">
-        DELETE FROM user WHERE username IN
+        DELETE FROM user WHERE uid IN
         <foreach collection="list" item="item" separator="," open="(" close=")">
             #{item}
         </foreach>
@@ -42,10 +48,7 @@
         FROM user
     </select>
     <update id="updateUserAuthorization">
-        UPDATE user SET `account_type` = #{type}
-        WHERE user.username IN
-        <foreach collection="usernames" item="username" index="index" open="(" close=")" separator=",">
-            #{username}
-        </foreach>
+        UPDATE user SET `account_type` = #{accountType}, `group` = #{group}
+        WHERE #{uid} = uid
     </update>
 </mapper>
