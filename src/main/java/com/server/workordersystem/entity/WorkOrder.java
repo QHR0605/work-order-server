@@ -12,7 +12,6 @@ public class WorkOrder {
     private String handleGroup;
     private Date createTime;
     private String content;
-    private String image;
     private Date completionTime;
     private Integer state;
     private Boolean deleted;
@@ -22,6 +21,8 @@ public class WorkOrder {
     private Integer handle;
     private Date handleTime;
     private String handlerContent;
+    private Integer cid;
+    private Integer sid;
 
     public WorkOrder orderId(Integer orderId){
         this.setOrderId(orderId);
@@ -167,14 +168,6 @@ public class WorkOrder {
         this.content = content;
     }
 
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
     public Date getCompletionTime() {
         return completionTime;
     }
@@ -245,5 +238,21 @@ public class WorkOrder {
 
     public void setHandlerContent(String handlerContent) {
         this.handlerContent = handlerContent;
+    }
+
+    public Integer getCid() {
+        return cid;
+    }
+
+    public void setCid(Integer cid) {
+        this.cid = cid;
+    }
+
+    public Integer getSid() {
+        return sid;
+    }
+
+    public void setSid(Integer sid) {
+        this.sid = sid;
     }
 }

@@ -2,6 +2,7 @@ package com.server.workordersystem.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.server.workordersystem.dto.WorkOrderMessage;
+import com.server.workordersystem.dto.WorkOrderWithFiles;
 import com.server.workordersystem.entity.WorkOrder;
 import com.server.workordersystem.service.MaintainerService;
 import com.server.workordersystem.util.http.CookieUtils;
@@ -68,6 +69,9 @@ public class MaintainerController {
         }
     }
 
+//    @PostMapping("/commit-solution")
+//    public JsonResult handleCommitSolution()
+
 
     @PostMapping("/complete-order")
     public JsonResult handleCompleteOrder(@RequestBody JSONObject jsonObject, HttpServletRequest request) {
@@ -86,7 +90,7 @@ public class MaintainerController {
     public JsonResult handleGetOrders(HttpServletRequest request) {
 
         Integer uid = CookieUtils.parseInt(request.getCookies(), "uid");
-        List<WorkOrder> res;
+        List<WorkOrderWithFiles> res;
         res = maintainerService.getOrders(uid);
         if (res == null) {
             return JsonResultFactory.buildFailureResult();
@@ -107,7 +111,7 @@ public class MaintainerController {
     public JsonResult handleGetDraft(HttpServletRequest request){
 
         Integer uid = CookieUtils.parseInt(request.getCookies(), "uid");
-        List<WorkOrder> res;
+        List<WorkOrderWithFiles> res;
         res = maintainerService.getDrafts(uid);
         if (res == null) {
             return JsonResultFactory.buildFailureResult();

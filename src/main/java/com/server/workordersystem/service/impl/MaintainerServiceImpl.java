@@ -1,9 +1,6 @@
 package com.server.workordersystem.service.impl;
 
-import com.server.workordersystem.dto.CommitAttachFile;
-import com.server.workordersystem.dto.OrderAttachFile;
-import com.server.workordersystem.dto.WorkOrderDto;
-import com.server.workordersystem.dto.WorkOrderMessage;
+import com.server.workordersystem.dto.*;
 import com.server.workordersystem.entity.WorkOrder;
 import com.server.workordersystem.mapper.MaintainerMapper;
 import com.server.workordersystem.service.MaintainerService;
@@ -83,26 +80,48 @@ public class MaintainerServiceImpl implements MaintainerService {
     }
 
     @Override
-    public List<WorkOrder> getOrders(Integer uid) {
+    public List<WorkOrderWithFiles> getOrders(Integer uid) {
 
-        List<WorkOrder> orders = null;
+        List<WorkOrder> orders;
+        List<String> commitFiles;
+        List<String> solutionAttachFiles;
+        List<WorkOrderWithFiles> result = new LinkedList<>();
+
         try {
             orders = maintainerMapper.selectOrders(uid);
+            for (WorkOrder order: orders
+                 ) {
+                commitFiles = maintainerMapper.getOrderFiles(order.getOrderId());
+                solutionAttachFiles = maintainerMapper.getSolutionFiles(order.getSid());
+                WorkOrderWithFiles res = new WorkOrderWithFiles(order);
+                res.setCommitImages(commitFiles);
+                res.setSolutionImages(solutionAttachFiles);
+                result.add(res);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return orders;
+        return result;
     }
 
     @Override
-    public List<WorkOrder> getDrafts(Integer uid) {
+    public List<WorkOrderWithFiles> getDrafts(Integer uid) {
         List<WorkOrder> orders = null;
+        List<String> commitFiles;
+        List<WorkOrderWithFiles> result = new LinkedList<>();
         try {
             orders = maintainerMapper.selectDrafts(uid);
+            for (WorkOrder order: orders
+            ) {
+                commitFiles = maintainerMapper.getOrderFiles(order.getOrderId());
+                WorkOrderWithFiles res = new WorkOrderWithFiles(order);
+                res.setCommitImages(commitFiles);
+                result.add(res);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return orders;
+        return result;
     }
 
     @Override

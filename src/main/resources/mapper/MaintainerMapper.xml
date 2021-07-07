@@ -108,5 +108,20 @@
         WHERE uid = #{uid}
           AND state = 1
     </select>
+    <select id="getOrderFiles" resultType="java.lang.String">
+        SELECT url
+        FROM work_order_file
+        WHERE order_id = #{orderId}
+    </select>
+    <select id="getSolutionFiles" resultType="java.lang.String">
+        SELECT url
+        from solution_file
+        WHERE sid = #{sid}
+    </select>
+    <select id="getCommitFiles" resultType="java.lang.String">
+        SELECT url
+        from commit_file
+        WHERE cid = #{cid}
+    </select>
 </mapper>
 

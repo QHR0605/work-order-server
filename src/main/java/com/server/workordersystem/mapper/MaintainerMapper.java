@@ -46,4 +46,10 @@ public interface MaintainerMapper {
     List<WorkOrder> selectDrafts(Integer uid) throws Exception;
 
     Integer deleteOrderFile(Integer orderId);
+
+    List<String> getOrderFiles(Integer orderId);
+
+    List<String> getSolutionFiles(Integer sid);
+
+    List<String> getCommitFiles(Integer cid);
 }

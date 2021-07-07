@@ -1,6 +1,7 @@
 package com.server.workordersystem.service;
 
 import com.server.workordersystem.dto.WorkOrderMessage;
+import com.server.workordersystem.dto.WorkOrderWithFiles;
 import com.server.workordersystem.entity.WorkOrder;
 
 import java.util.List;
@@ -11,9 +12,9 @@ public interface MaintainerService {
 
     Integer completeOrder(Integer uid, Boolean completed);
 
-    List<WorkOrder> getOrders(Integer uid);
+    List<WorkOrderWithFiles> getOrders(Integer uid);
 
-    List<WorkOrder> getDrafts(Integer uid);
+    List<WorkOrderWithFiles> getDrafts(Integer uid);
 
     Integer insertNewCommitLog(WorkOrderMessage message);
 
