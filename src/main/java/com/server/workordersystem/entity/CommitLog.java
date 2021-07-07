@@ -1,9 +1,6 @@
 package com.server.workordersystem.entity;
 
-import io.swagger.models.auth.In;
-
 import java.sql.Date;
-import java.sql.Timestamp;
 
 /**
  * @author 全鸿润
@@ -24,47 +21,47 @@ public class CommitLog {
 
     }
 
-    public CommitLog cid(Integer cid){
+    public CommitLog cid(Integer cid) {
         this.setCid(cid);
         return this;
     }
 
-    public CommitLog orderId(Integer orderId){
+    public CommitLog orderId(Integer orderId) {
         this.setOrderId(orderId);
         return this;
     }
 
-    public CommitLog commitTime(Date commitTime){
+    public CommitLog commitTime(Date commitTime) {
         this.setCommitTime(commitTime);
         return this;
     }
 
-    public CommitLog verifuyer(Integer verifuyer){
+    public CommitLog verifuyer(Integer verifuyer) {
         this.setVerifuyer(verifuyer);
         return this;
     }
 
-    public CommitLog verification(String verification){
+    public CommitLog verification(String verification) {
         this.setVerification(verification);
         return this;
     }
 
-    public CommitLog verifiedTime(Date verifiedTime){
+    public CommitLog verifiedTime(Date verifiedTime) {
         this.setVerifiedTime(verifiedTime);
         return this;
     }
 
-    public CommitLog verifiedResult(Boolean verifiedResult){
+    public CommitLog verifiedResult(Boolean verifiedResult) {
         this.setVerifiedResult(verifiedResult);
         return this;
     }
 
-    public CommitLog content(String content){
+    public CommitLog content(String content) {
         this.setContent(content);
         return this;
     }
 
-    public CommitLog image(String image){
+    public CommitLog image(String image) {
         this.setImage(image);
         return this;
     }

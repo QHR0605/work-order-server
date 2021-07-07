@@ -1,7 +1,6 @@
 package com.server.workordersystem.dto;
 
 import com.sun.istack.internal.NotNull;
-import io.swagger.models.auth.In;
 
 public class ModifyUserPowerMessage {
 
@@ -35,7 +34,6 @@ public class ModifyUserPowerMessage {
     public void setAccountType(Integer accountType) {
         this.accountType = accountType;
     }
-
 
 
 }

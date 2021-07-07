@@ -1,28 +1,26 @@
 package com.server.workordersystem.entity;
 
-import io.swagger.models.auth.In;
-
 public class Group {
 
     private Integer gid;
     private String name;
     private Integer mentor;
 
-    public Group(){
+    public Group() {
 
     }
 
-    public Group gid(Integer gid){
+    public Group gid(Integer gid) {
         this.setGid(gid);
         return this;
     }
 
-    public Group name(String name){
+    public Group name(String name) {
         this.setName(name);
         return this;
     }
 
-    public Group mentor(Integer mentor){
+    public Group mentor(Integer mentor) {
         this.setMentor(mentor);
         return this;
     }

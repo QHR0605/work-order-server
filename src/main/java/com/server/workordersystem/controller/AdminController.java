@@ -4,7 +4,6 @@ import com.server.workordersystem.config.SpringContextConfig;
 import com.server.workordersystem.dto.LoginMessage;
 import com.server.workordersystem.dto.ModifyUserPowerMessage;
 import com.server.workordersystem.dto.NewUserMessage;
-import com.server.workordersystem.dto.UserNameAndType;
 import com.server.workordersystem.entity.User;
 import com.server.workordersystem.service.AdminService;
 import com.server.workordersystem.service.impl.AdminServiceImpl;
@@ -15,7 +14,6 @@ import com.server.workordersystem.util.json.JsonResultStateCode;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -60,7 +58,7 @@ public class AdminController {
     public JsonResult handleAuthorize(@RequestBody ModifyUserPowerMessage message) {
 
         Integer rows = adminService.auth(message);
-        if (rows != null && rows == 1){
+        if (rows != null && rows == 1) {
             return JsonResultFactory.buildSuccessResult();
         } else {
             return JsonResultFactory.buildFailureResult();

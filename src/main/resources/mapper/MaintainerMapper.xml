@@ -98,13 +98,13 @@
     </delete>
     <select id="selectOrders" resultType="com.server.workordersystem.entity.WorkOrder">
         SELECT *
-        FROM order_msg
+        FROM new_order_msg
         WHERE uid = #{uid}
           AND state != 1
     </select>
     <select id="selectDrafts" resultType="com.server.workordersystem.entity.WorkOrder">
         SELECT *
-        FROM order_msg
+        FROM new_order_msg
         WHERE uid = #{uid}
           AND state = 1
     </select>

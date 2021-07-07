@@ -11,36 +11,36 @@ public class SolutionLog {
     private Date handleTime;
     private Integer cid;
 
-    public SolutionLog(){
+    public SolutionLog() {
 
     }
 
-    public SolutionLog sid(Integer sid){
+    public SolutionLog sid(Integer sid) {
         this.setSid(sid);
         return this;
     }
 
-    public SolutionLog uid(Integer uid){
+    public SolutionLog uid(Integer uid) {
         this.setUid(uid);
         return this;
     }
 
-    public SolutionLog advice(String advice){
+    public SolutionLog advice(String advice) {
         this.setAdvice(advice);
         return this;
     }
 
-    public SolutionLog image(String image){
+    public SolutionLog image(String image) {
         this.setImage(image);
         return this;
     }
 
-    public SolutionLog handleTime(Date handleTime){
+    public SolutionLog handleTime(Date handleTime) {
         this.setHandleTime(handleTime);
         return this;
     }
 
-    public SolutionLog cid(Integer cid){
+    public SolutionLog cid(Integer cid) {
         this.setCid(cid);
         return this;
     }

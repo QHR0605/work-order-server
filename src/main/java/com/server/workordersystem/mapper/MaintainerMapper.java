@@ -22,6 +22,7 @@ public interface MaintainerMapper {
 
     Integer insertNewSolutionFile(List<SolutionAttachFile> files);
 
+
     /**
      * @param workOrderDto 提交记录
      * @return 插入行数
@@ -39,7 +40,7 @@ public interface MaintainerMapper {
      */
     Integer updateOrderCompletedState(Integer orderId, Boolean completed) throws Exception;
 
-    Integer updateOrderState(Integer orderId,Integer state) throws Exception;
+    Integer updateOrderState(Integer orderId, Integer state) throws Exception;
 
     List<WorkOrder> selectOrders(Integer uid) throws Exception;
 

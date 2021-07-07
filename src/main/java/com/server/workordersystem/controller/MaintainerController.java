@@ -3,14 +3,12 @@ package com.server.workordersystem.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.server.workordersystem.dto.WorkOrderMessage;
 import com.server.workordersystem.dto.WorkOrderWithFiles;
-import com.server.workordersystem.entity.WorkOrder;
 import com.server.workordersystem.service.MaintainerService;
 import com.server.workordersystem.util.http.CookieUtils;
 import com.server.workordersystem.util.json.JsonResult;
 import com.server.workordersystem.util.json.JsonResultFactory;
 import com.server.workordersystem.util.json.JsonResultStateCode;
 import io.swagger.annotations.Api;
-import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -49,7 +47,7 @@ public class MaintainerController {
     }
 
     @PostMapping("/create-draft")
-    public JsonResult handleCreateDraft(@RequestBody WorkOrderMessage message){
+    public JsonResult handleCreateDraft(@RequestBody WorkOrderMessage message) {
         Integer row;
         row = maintainerService.insertNewDraft(message);
         if (row != null && row == 1) {
@@ -60,8 +58,8 @@ public class MaintainerController {
     }
 
     @PostMapping("/commit-draft")
-    public JsonResult handleCommit(Integer orderId){
-        Integer row = maintainerService.updateOrderState(orderId,0);
+    public JsonResult handleCommit(Integer orderId) {
+        Integer row = maintainerService.updateOrderState(orderId, 0);
         if (row != null && row == 1) {
             return JsonResultFactory.buildSuccessResult();
         } else {
@@ -69,8 +67,20 @@ public class MaintainerController {
         }
     }
 
-//    @PostMapping("/commit-solution")
-//    public JsonResult handleCommitSolution()
+    @PostMapping("/commit-solution")
+    public JsonResult handleCommitSolution(){
+        return null;
+    }
+
+    @PostMapping("/update-solution")
+    public JsonResult handleUpdateSolution(){
+        return null;
+    }
+
+    @PostMapping("/get-solutions")
+    public JsonResult handleGetSolutions(){
+        return null;
+    }
 
 
     @PostMapping("/complete-order")
@@ -108,7 +118,7 @@ public class MaintainerController {
     }
 
     @GetMapping("/get-drafts")
-    public JsonResult handleGetDraft(HttpServletRequest request){
+    public JsonResult handleGetDraft(HttpServletRequest request) {
 
         Integer uid = CookieUtils.parseInt(request.getCookies(), "uid");
         List<WorkOrderWithFiles> res;

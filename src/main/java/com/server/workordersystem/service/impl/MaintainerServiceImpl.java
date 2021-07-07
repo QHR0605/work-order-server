@@ -89,8 +89,8 @@ public class MaintainerServiceImpl implements MaintainerService {
 
         try {
             orders = maintainerMapper.selectOrders(uid);
-            for (WorkOrder order: orders
-                 ) {
+            for (WorkOrder order : orders
+            ) {
                 commitFiles = maintainerMapper.getOrderFiles(order.getOrderId());
                 solutionAttachFiles = maintainerMapper.getSolutionFiles(order.getSid());
                 WorkOrderWithFiles res = new WorkOrderWithFiles(order);
@@ -111,7 +111,7 @@ public class MaintainerServiceImpl implements MaintainerService {
         List<WorkOrderWithFiles> result = new LinkedList<>();
         try {
             orders = maintainerMapper.selectDrafts(uid);
-            for (WorkOrder order: orders
+            for (WorkOrder order : orders
             ) {
                 commitFiles = maintainerMapper.getOrderFiles(order.getOrderId());
                 WorkOrderWithFiles res = new WorkOrderWithFiles(order);
@@ -132,11 +132,11 @@ public class MaintainerServiceImpl implements MaintainerService {
             workOrderDto.setCid(IdGenerator.getId());
             maintainerMapper.insertNewCommitLog(workOrderDto);
             row = workOrderDto.getRow();
-            if (row == 0){
+            if (row == 0) {
                 return null;
             }
             row = maintainerMapper.deleteOrderFile(workOrderDto.getOrderId());
-            if (row == null){
+            if (row == null) {
                 return row;
             }
             //添加工单附件
@@ -185,7 +185,7 @@ public class MaintainerServiceImpl implements MaintainerService {
         try {
             message.setOrderId(IdGenerator.getId());
             row = maintainerMapper.insertNewDraft(message);
-            if (row == null || row != 1){
+            if (row == null || row != 1) {
                 return row;
             }//添加工单附件
             List<OrderAttachFile> orderAttachFiles = new LinkedList<>();
@@ -214,7 +214,7 @@ public class MaintainerServiceImpl implements MaintainerService {
 
         Integer row = null;
         try {
-            row = maintainerMapper.updateOrderState(orderId,state);
+            row = maintainerMapper.updateOrderState(orderId, state);
         } catch (Exception e) {
             e.printStackTrace();
         }

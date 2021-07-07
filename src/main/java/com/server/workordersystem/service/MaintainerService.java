@@ -2,7 +2,6 @@ package com.server.workordersystem.service;
 
 import com.server.workordersystem.dto.WorkOrderMessage;
 import com.server.workordersystem.dto.WorkOrderWithFiles;
-import com.server.workordersystem.entity.WorkOrder;
 
 import java.util.List;
 
