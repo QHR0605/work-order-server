@@ -102,7 +102,8 @@ public class MaintainerController {
     @PostMapping("/complete-order")
     public JsonResult handleCompleteOrder(@RequestBody JSONObject jsonObject) {
         Integer orderId = jsonObject.getInteger("orderId");
-        Integer row = maintainerService.updateOrderState(orderId, 8);
+        Integer state = jsonObject.getInteger("state");
+        Integer row = maintainerService.updateOrderState(orderId, state);
 
         if (row != null && row == 1) {
             return JsonResultFactory.buildSuccessResult();
