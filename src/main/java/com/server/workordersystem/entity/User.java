@@ -8,6 +8,7 @@ import java.sql.Timestamp;
 public class User {
 
     private Integer uid;
+    private Integer group;
     private Integer accountType;
     private String username;
     private String password;
@@ -74,6 +75,14 @@ public class User {
 
     public void setUid(Integer uid) {
         this.uid = uid;
+    }
+
+    public Integer getGroup() {
+        return group;
+    }
+
+    public void setGroup(Integer group) {
+        this.group = group;
     }
 
     public Boolean getLogout() {

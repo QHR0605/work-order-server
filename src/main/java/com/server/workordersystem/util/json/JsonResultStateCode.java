@@ -15,6 +15,7 @@ public class JsonResultStateCode {
 
     public static Integer USERNAME_WRONG = 410;
     public static String USERNAME_WRONG_DESC = "用户名错误";
+    public static String NOT_Admin = "非管理员用户";
 
     public static Integer USERNAME_IS_EXITED = 413;
     public static String USERNAME_IS_EXITED_DESC = "用户名已存在";

@@ -1,5 +1,6 @@
 package com.server.workordersystem.mapper;
 
+import com.server.workordersystem.dto.ModifyUserPowerMessage;
 import com.server.workordersystem.entity.User;
 import org.springframework.stereotype.Repository;
 
@@ -10,15 +11,34 @@ import java.util.List;
  */
 @Repository
 public interface AdminMapper {
+
+    /**
+     * 通过用户名查询用户
+     *
+     * @param userName 用户名
+     * @return 用户数据
+     * @throws Exception 数据库操作异常
+     */
+    User findUserByUserNameAdmin(String userName) throws Exception;
+
     /**
      * 修改权限
      *
-     * @param usernames 用户集合
-     * @param type      用户类型
-     * @return 授权的个数
+     * @param message   用户uid、分组、权限
+     * @return 操作是否成功
      * @throws Exception 数据库操作异常
      */
-    Integer updateUserAuthorization(List<String> usernames, Integer type) throws Exception;
+    Integer updateUserAuthorization(ModifyUserPowerMessage message) throws Exception;
+
+//    /**
+//     * 修改权限
+//     *
+//     * @param usernames 用户集合
+//     * @param type      用户类型
+//     * @return 授权的个数
+//     * @throws Exception 数据库操作异常
+//     */
+////    Integer updateUserAuthorization(List<String> usernames, Integer type) throws Exception;
 
     /**
      * 创建新账户
@@ -32,11 +52,11 @@ public interface AdminMapper {
     /**
      * 批量删除用户
      *
-     * @param usernames 要删除的用户名集合
+     * @param uids 要删除的用户名集合
      * @return 删除的个数
      * @throws Exception 数据库操作异常
      */
-    Integer deleteUsers(List<String> usernames) throws Exception;
+    Integer deleteUsers(List<Integer> uids) throws Exception;
 
     /**
      * 获取用户列表

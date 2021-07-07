@@ -1,5 +1,6 @@
 package com.server.workordersystem.service;
 
+import com.server.workordersystem.dto.ModifyUserPowerMessage;
 import com.server.workordersystem.dto.NewUserMessage;
 import com.server.workordersystem.entity.User;
 
@@ -11,13 +12,20 @@ import java.util.List;
 public interface AdminService {
 
     /**
-     * 授权
+     * 管理员登录验证
      *
-     * @param usernames 授权的用户集合
-     * @param authType  授予的用户权限
-     * @return 授予成功的个数
+     * @param username password 用户名，密码
+     * @return 操作是否成功
      */
-    Integer auth(List<String> usernames, Integer authType);
+    public String handleLoginAdmin(String username, String password);
+
+    /**
+     * 修改用户权限和分组
+     *
+     * @param message 用户uid、分组、权限
+     * @return 操作是否成功
+     */
+    Integer auth(ModifyUserPowerMessage message);
 
     /**
      * 创建新账户
@@ -30,10 +38,10 @@ public interface AdminService {
     /**
      * 批量删除用户
      *
-     * @param username 要删除的用户名单
+     * @param uid 要删除的用户名单
      * @return 删除个数
      */
-    Integer deleteUsersByUsername(List<String> username);
+    Integer deleteUsersByUid(List<Integer> uid);
 
     /**
      * 批量注销用户
