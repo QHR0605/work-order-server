@@ -9,38 +9,80 @@
         <parameter property="orderName" mode="IN" jdbcType="VARCHAR"/>
         <parameter property="creator" mode="IN" jdbcType="BIGINT"/>
         <parameter property="content" mode="IN" jdbcType="VARCHAR"/>
-        <parameter property="image" mode="IN" jdbcType="VARCHAR"/>
         <parameter property="handleGroup" mode="IN" jdbcType="VARCHAR"/>
+        <parameter property="type" mode="IN" jdbcType="INTEGER"/>
         <parameter property="cid" mode="IN" jdbcType="VARCHAR"/>
         <parameter property="row" mode="OUT" jdbcType="VARCHAR"/>
     </parameterMap>
     <insert id="insertNewWorkOrder" parameterMap="map" statementType="CALLABLE">
         {
-           CALL commit_order(
+            CALL commit_order(
                 #{orderId,mode=IN},
                 #{orderName,mode=IN},
                 #{creator,mode=IN},
                 #{createTime,mode=IN},
                 #{content,mode=IN},
-                #{image,mode=IN},
                 #{handleGroup,mode=IN},
+                #{type,mode=IN},
                 #{cid,mode=IN},
                 #{row,mode=OUT,jdbcType=INTEGER}
             )
-        }
+            }
     </insert>
     <insert id="insertNewCommitLog" parameterMap="map" statementType="CALLABLE">
-        CALL recommit_order(
-            #{orderId,mode=IN},
+        CALL recommit_order( #{orderId,mode=IN},
             #{orderName,mode=IN},
             #{creator,mode=IN},
             #{createTime,mode=IN},
             #{content,mode=IN},
-            #{image,mode=IN},
             #{handleGroup,mode=IN},
+            #{type,mode=IN},
             #{cid,mode=IN},
             #{row,mode=OUT,jdbcType=INTEGER}
             )
+    </insert>
+    <insert id="insertNewOrderFile">
+        INSERT INTO work_order_file(fid,url,order_id)
+        VALUES
+        <foreach collection="files" index="index" item="item" separator=",">
+            (#{item.fid},#{item.url},#{item.orderId})
+        </foreach>
+    </insert>
+    <insert id="insertNewCommitFile">
+        INSERT INTO commit_file(fid,url,cid)
+        VALUES
+        <foreach collection="files" index="index" item="item" separator=",">
+            (#{item.fid},#{item.url},#{item.cid})
+        </foreach>
+    </insert>
+    <insert id="insertNewSolutionFile">
+        INSERT INTO solution_file(fid,url,sid)
+        VALUES
+        <foreach collection="files" index="index" item="item" separator=",">
+            (#{item.fid},#{item.url},#{sid})
+        </foreach>
+    </insert>
+    <insert id="insertNewDraft">
+        INSERT INTO work_order(
+                               order_id,
+                               order_name,
+                               creator,
+                               create_time,
+                               content,
+                               state,
+                               handle_group,
+                               type
+        )
+        VALUES(
+               #{orderId},
+               #{orderName},
+               #{creator},
+               #{createTime},
+               #{content},
+               1,
+               #{handleGroup},
+               #{type}
+              )
     </insert>
     <update id="updateOrderCompletedState">
         UPDATE work_order
@@ -48,10 +90,20 @@
             open      = false
         WHERE order_id = #{orderId}
     </update>
+    <delete id="deleteOrderFile">
+        DELETE
+        FROM work_order_file
+        WHERE order_id = #{orderId}
+    </delete>
     <select id="selectOrders" resultType="com.server.workordersystem.entity.WorkOrder">
         SELECT *
         FROM order_msg
-        WHERE uid = #{uid}
+        WHERE uid = #{uid} AND state != 1
+    </select>
+    <select id="selectDrafts" resultType="com.server.workordersystem.entity.WorkOrder">
+        SELECT *
+        FROM order_msg
+        WHERE uid = #{uid} AND state = 1
     </select>
 </mapper>
 

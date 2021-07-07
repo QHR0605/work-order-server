@@ -5,17 +5,26 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import java.sql.Date;
 import java.util.List;
 
-public class WorkOrderMessage {
-
+public class WorkOrderDto {
     private Integer orderId;
     private String orderName;
     private Integer creator;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
     private String content;
-    private List<String> image;
     private Integer handleGroup;
     private Integer type;
+    private Integer cid;
+    private Integer row;
+
+    public WorkOrderDto(WorkOrderMessage message) {
+        this.orderId = message.getOrderId();
+        this.orderName = message.getOrderName();
+        this.creator = message.getCreator();
+        this.createTime = message.getCreateTime();
+        this.content = message.getContent();
+        this.handleGroup = message.getHandleGroup();
+    }
 
     public Integer getOrderId() {
         return orderId;
@@ -57,14 +66,6 @@ public class WorkOrderMessage {
         this.content = content;
     }
 
-    public List<String> getImage() {
-        return image;
-    }
-
-    public void setImage(List<String> image) {
-        this.image = image;
-    }
-
     public Integer getHandleGroup() {
         return handleGroup;
     }
@@ -79,5 +80,21 @@ public class WorkOrderMessage {
 
     public void setType(Integer type) {
         this.type = type;
+    }
+
+    public Integer getCid() {
+        return cid;
+    }
+
+    public void setCid(Integer cid) {
+        this.cid = cid;
+    }
+
+    public Integer getRow() {
+        return row;
+    }
+
+    public void setRow(Integer row) {
+        this.row = row;
     }
 }

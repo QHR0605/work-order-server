@@ -46,6 +46,23 @@ public class MaintainerController {
         }
     }
 
+    @PostMapping("/create-draft")
+    public JsonResult handleCreateDraft(@RequestBody WorkOrderMessage message){
+        Integer row;
+        row = maintainerService.insertNewDraft(message);
+        if (row != null && row == 1) {
+            return JsonResultFactory.buildSuccessResult();
+        } else {
+            return JsonResultFactory.buildFailureResult();
+        }
+    }
+
+    @PostMapping("/commit-draft")
+    public JsonResult handleCommit(Integer orderId){
+        return  null;
+    }
+
+
     @PostMapping("/complete-order")
     public JsonResult handleCompleteOrder(@RequestBody JSONObject jsonObject, HttpServletRequest request) {
         Boolean completed = Boolean.valueOf(jsonObject.getString("completed"));
@@ -79,4 +96,27 @@ public class MaintainerController {
                     JsonResultStateCode.NOT_FOUND_DESC, null);
         }
     }
+
+    @GetMapping("/get-drafts")
+    public JsonResult handleGetDraft(HttpServletRequest request){
+
+        Integer uid = CookieUtils.parseInt(request.getCookies(), "uid");
+        List<WorkOrder> res;
+        res = maintainerService.getDrafts(uid);
+        if (res == null) {
+            return JsonResultFactory.buildFailureResult();
+        } else if (res.size() > 0) {
+            return JsonResultFactory.buildJsonResult(
+                    JsonResultStateCode.SUCCESS,
+                    JsonResultStateCode.SUCCESS_DESC,
+                    res
+            );
+        } else {
+            return JsonResultFactory.buildJsonResult(
+                    JsonResultStateCode.NOT_FOUND,
+                    JsonResultStateCode.NOT_FOUND_DESC, null);
+        }
+    }
+
+
 }

@@ -1,6 +1,6 @@
 package com.server.workordersystem.mapper;
 
-import com.server.workordersystem.dto.WorkOrderDto;
+import com.server.workordersystem.dto.*;
 import com.server.workordersystem.entity.WorkOrder;
 import org.springframework.stereotype.Repository;
 
@@ -16,12 +16,20 @@ public interface MaintainerMapper {
      */
     Integer insertNewWorkOrder(WorkOrderDto workOrderDto) throws Exception;
 
+    Integer insertNewOrderFile(List<OrderAttachFile> files);
+
+    Integer insertNewCommitFile(List<CommitAttachFile> files);
+
+    Integer insertNewSolutionFile(List<SolutionAttachFile> files);
+
     /**
      * @param workOrderDto 提交记录
      * @return 插入行数
      * @throws Exception 数据库操作异常
      */
     Integer insertNewCommitLog(WorkOrderDto workOrderDto) throws Exception;
+
+    Integer insertNewDraft(WorkOrderMessage message) throws Exception;
 
     /**
      * @param orderId   工单号
@@ -32,4 +40,8 @@ public interface MaintainerMapper {
     Integer updateOrderCompletedState(Integer orderId, Boolean completed) throws Exception;
 
     List<WorkOrder> selectOrders(Integer uid) throws Exception;
+
+    List<WorkOrder> selectDrafts(Integer uid) throws Exception;
+
+    Integer deleteOrderFile(Integer orderId);
 }

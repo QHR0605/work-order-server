@@ -14,7 +14,7 @@ public class WorkOrder {
     private String content;
     private String image;
     private Date completionTime;
-    private Boolean state;
+    private Integer state;
     private Boolean deleted;
 
     public Integer getOrderId() {
@@ -106,11 +106,11 @@ public class WorkOrder {
         this.deleted = deleted;
     }
 
-    public Boolean getState() {
+    public Integer getState() {
         return state;
     }
 
-    public void setState(Boolean state) {
+    public void setState(Integer state) {
         this.state = state;
     }
 }

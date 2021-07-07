@@ -13,5 +13,9 @@ public interface MaintainerService {
 
     List<WorkOrder> getOrders(Integer uid);
 
+    List<WorkOrder> getDrafts(Integer uid);
+
     Integer insertNewCommitLog(WorkOrderMessage message);
+
+    Integer insertNewDraft(WorkOrderMessage message);
 }
