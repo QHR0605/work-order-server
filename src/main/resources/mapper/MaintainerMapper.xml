@@ -8,11 +8,12 @@
         <parameter property="orderId" mode="IN" jdbcType="BIGINT"/>
         <parameter property="orderName" mode="IN" jdbcType="VARCHAR"/>
         <parameter property="creator" mode="IN" jdbcType="BIGINT"/>
+        <parameter property="createTime" mode="IN" jdbcType="DATE"/>
         <parameter property="content" mode="IN" jdbcType="VARCHAR"/>
-        <parameter property="handleGroup" mode="IN" jdbcType="VARCHAR"/>
+        <parameter property="handleGroup" mode="IN" jdbcType="BIGINT"/>
         <parameter property="type" mode="IN" jdbcType="INTEGER"/>
-        <parameter property="cid" mode="IN" jdbcType="VARCHAR"/>
-        <parameter property="row" mode="OUT" jdbcType="VARCHAR"/>
+        <parameter property="cid" mode="IN" jdbcType="BIGINT"/>
+        <parameter property="row" mode="OUT" jdbcType="INTEGER"/>
     </parameterMap>
     <parameterMap id="solution" type="com.server.workordersystem.dto.SolutionMessage">
         <parameter property="sid" mode="IN" jdbcType="INTEGER"/>
@@ -40,7 +41,8 @@
             }
     </insert>
     <insert id="insertNewCommitLog" parameterMap="map" statementType="CALLABLE">
-        CALL recommit_order( #{orderId,mode=IN},
+        CALL recommit_order(
+            #{orderId,mode=IN},
             #{orderName,mode=IN},
             #{creator,mode=IN},
             #{createTime,mode=IN},

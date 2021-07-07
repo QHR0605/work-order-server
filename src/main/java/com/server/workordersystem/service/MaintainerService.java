@@ -10,8 +10,6 @@ public interface MaintainerService {
 
     Integer insertNewWorkerOrder(WorkOrderMessage message);
 
-    Integer completeOrder(Integer uid, Boolean completed);
-
     List<WorkOrderWithFiles> getOrders(Integer uid);
 
     List<WorkOrderWithFiles> getDrafts(Integer uid);
@@ -25,5 +23,6 @@ public interface MaintainerService {
     Integer insertNewSolution(SolutionMessage message);
 
     List<WorkOrderWithFiles> getHandledOrders(Integer uid);
+
     List<WorkOrderWithFiles> getNotHandledOrders(Integer uid);
 }

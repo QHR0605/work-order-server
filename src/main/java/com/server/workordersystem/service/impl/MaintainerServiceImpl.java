@@ -1,7 +1,6 @@
 package com.server.workordersystem.service.impl;
 
 import com.server.workordersystem.dto.*;
-import com.server.workordersystem.dto.WorkOrder;
 import com.server.workordersystem.mapper.MaintainerMapper;
 import com.server.workordersystem.service.MaintainerService;
 import com.server.workordersystem.util.idGenerator.IdGenerator;
@@ -68,18 +67,6 @@ public class MaintainerServiceImpl implements MaintainerService {
     }
 
     @Override
-    public Integer completeOrder(Integer orderId, Boolean completed) {
-
-        Integer row = null;
-        try {
-            row = maintainerMapper.updateOrderCompletedState(orderId, completed);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return row;
-    }
-
-    @Override
     public List<WorkOrderWithFiles> getOrders(Integer uid) {
 
         List<WorkOrder> orders;
@@ -132,6 +119,7 @@ public class MaintainerServiceImpl implements MaintainerService {
             workOrderDto.setCid(IdGenerator.getId());
             maintainerMapper.insertNewCommitLog(workOrderDto);
             row = workOrderDto.getRow();
+            System.out.println("插入记录和工单: " + row);
             if (row == 0) {
                 return null;
             }
@@ -227,7 +215,7 @@ public class MaintainerServiceImpl implements MaintainerService {
 
         try {
             row = maintainerMapper.insertNewSolution(message);
-            if (row == 0){
+            if (row == 0) {
                 return null;
             }
             List<SolutionAttachFile> orderAttachFiles = new LinkedList<>();

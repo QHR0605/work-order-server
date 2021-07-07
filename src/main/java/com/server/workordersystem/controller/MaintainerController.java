@@ -69,7 +69,7 @@ public class MaintainerController {
     }
 
     @PostMapping("/commit-solution")
-    public JsonResult handleCommitSolution(@RequestBody SolutionMessage message){
+    public JsonResult handleCommitSolution(@RequestBody SolutionMessage message) {
         Integer row = maintainerService.insertNewSolution(message);
         if (row != null && row == 1) {
             return JsonResultFactory.buildSuccessResult();
@@ -79,7 +79,7 @@ public class MaintainerController {
     }
 
     @PostMapping("/get-solutions")
-    public JsonResult handleGetSolutions(HttpServletRequest request){
+    public JsonResult handleGetSolutions(HttpServletRequest request) {
         Integer uid = CookieUtils.parseInt(request.getCookies(), "uid");
         List<WorkOrderWithFiles> res;
         res = maintainerService.getHandledOrders(uid);
@@ -100,10 +100,9 @@ public class MaintainerController {
 
 
     @PostMapping("/complete-order")
-    public JsonResult handleCompleteOrder(@RequestBody JSONObject jsonObject, HttpServletRequest request) {
-        Boolean completed = Boolean.valueOf(jsonObject.getString("completed"));
+    public JsonResult handleCompleteOrder(@RequestBody JSONObject jsonObject) {
         Integer orderId = jsonObject.getInteger("orderId");
-        Integer row = maintainerService.completeOrder(orderId, completed);
+        Integer row = maintainerService.updateOrderState(orderId, 8);
 
         if (row != null && row == 1) {
             return JsonResultFactory.buildSuccessResult();
