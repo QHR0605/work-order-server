@@ -18,4 +18,6 @@ public interface MaintainerService {
     Integer insertNewCommitLog(WorkOrderMessage message);
 
     Integer insertNewDraft(WorkOrderMessage message);
+
+    Integer updateOrderState(Integer orderId, Integer state);
 }

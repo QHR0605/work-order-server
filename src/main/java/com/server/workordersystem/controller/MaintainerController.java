@@ -9,6 +9,7 @@ import com.server.workordersystem.util.json.JsonResult;
 import com.server.workordersystem.util.json.JsonResultFactory;
 import com.server.workordersystem.util.json.JsonResultStateCode;
 import io.swagger.annotations.Api;
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -59,7 +60,12 @@ public class MaintainerController {
 
     @PostMapping("/commit-draft")
     public JsonResult handleCommit(Integer orderId){
-        return  null;
+        Integer row = maintainerService.updateOrderState(orderId,0);
+        if (row != null && row == 1) {
+            return JsonResultFactory.buildSuccessResult();
+        } else {
+            return JsonResultFactory.buildFailureResult();
+        }
     }
 
 

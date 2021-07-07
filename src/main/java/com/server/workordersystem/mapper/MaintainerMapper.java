@@ -39,6 +39,8 @@ public interface MaintainerMapper {
      */
     Integer updateOrderCompletedState(Integer orderId, Boolean completed) throws Exception;
 
+    Integer updateOrderState(Integer orderId,Integer state) throws Exception;
+
     List<WorkOrder> selectOrders(Integer uid) throws Exception;
 
     List<WorkOrder> selectDrafts(Integer uid) throws Exception;

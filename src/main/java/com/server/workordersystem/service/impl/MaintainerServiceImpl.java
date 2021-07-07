@@ -189,4 +189,16 @@ public class MaintainerServiceImpl implements MaintainerService {
         }
         return row;
     }
+
+    @Override
+    public Integer updateOrderState(Integer orderId, Integer state) {
+
+        Integer row = null;
+        try {
+            row = maintainerMapper.updateOrderState(orderId,state);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return row;
+    }
 }

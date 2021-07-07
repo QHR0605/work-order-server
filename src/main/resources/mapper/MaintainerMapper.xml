@@ -63,31 +63,32 @@
         </foreach>
     </insert>
     <insert id="insertNewDraft">
-        INSERT INTO work_order(
-                               order_id,
+        INSERT INTO work_order(order_id,
                                order_name,
                                creator,
                                create_time,
                                content,
                                state,
                                handle_group,
-                               type
-        )
-        VALUES(
-               #{orderId},
-               #{orderName},
-               #{creator},
-               #{createTime},
-               #{content},
-               1,
-               #{handleGroup},
-               #{type}
-              )
+                               type)
+        VALUES (#{orderId},
+                #{orderName},
+                #{creator},
+                #{createTime},
+                #{content},
+                1,
+                #{handleGroup},
+                #{type})
     </insert>
     <update id="updateOrderCompletedState">
         UPDATE work_order
         SET completed = #{completed},
             open      = false
+        WHERE order_id = #{orderId}
+    </update>
+    <update id="updateOrderState">
+        UPDATE work_order
+        SET state = #{state}
         WHERE order_id = #{orderId}
     </update>
     <delete id="deleteOrderFile">
@@ -98,12 +99,14 @@
     <select id="selectOrders" resultType="com.server.workordersystem.entity.WorkOrder">
         SELECT *
         FROM order_msg
-        WHERE uid = #{uid} AND state != 1
+        WHERE uid = #{uid}
+          AND state != 1
     </select>
     <select id="selectDrafts" resultType="com.server.workordersystem.entity.WorkOrder">
         SELECT *
         FROM order_msg
-        WHERE uid = #{uid} AND state = 1
+        WHERE uid = #{uid}
+          AND state = 1
     </select>
 </mapper>
 
