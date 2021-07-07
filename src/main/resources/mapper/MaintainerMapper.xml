@@ -14,6 +14,16 @@
         <parameter property="cid" mode="IN" jdbcType="VARCHAR"/>
         <parameter property="row" mode="OUT" jdbcType="VARCHAR"/>
     </parameterMap>
+    <parameterMap id="solution" type="com.server.workordersystem.dto.SolutionMessage">
+        <parameter property="sid" mode="IN" jdbcType="INTEGER"/>
+        <parameter property="orderId" mode="IN" jdbcType="INTEGER"/>
+        <parameter property="uid" mode="IN" jdbcType="INTEGER"/>
+        <parameter property="cid" mode="IN" jdbcType="INTEGER"/>
+        <parameter property="advice" mode="IN" jdbcType="INTEGER"/>
+        <parameter property="handleTime" mode="IN" jdbcType="DATE"/>
+        <parameter property="handleResult" mode="IN" jdbcType="TINYINT"/>
+        <parameter property="row" mode="OUT" jdbcType="INTEGER"/>
+    </parameterMap>
     <insert id="insertNewWorkOrder" parameterMap="map" statementType="CALLABLE">
         {
             CALL commit_order(
@@ -80,6 +90,18 @@
                 #{handleGroup},
                 #{type})
     </insert>
+    <insert id="insertNewSolution" parameterMap="solution" statementType="CALLABLE">
+        CALL solute_order(
+            #{sid},
+            #{orderId},
+            #{cid},
+            #{uid},
+            #{advice},
+            #{handleTime},
+            #{handleResult},
+            #{row}
+        )
+    </insert>
     <update id="updateOrderCompletedState">
         UPDATE work_order
         SET completed = #{completed},
@@ -96,13 +118,13 @@
         FROM work_order_file
         WHERE order_id = #{orderId}
     </delete>
-    <select id="selectOrders" resultType="com.server.workordersystem.entity.WorkOrder">
+    <select id="selectOrders" resultType="com.server.workordersystem.dto.WorkOrder">
         SELECT *
         FROM new_order_msg
         WHERE uid = #{uid}
           AND state != 1
     </select>
-    <select id="selectDrafts" resultType="com.server.workordersystem.entity.WorkOrder">
+    <select id="selectDrafts" resultType="com.server.workordersystem.dto.WorkOrder">
         SELECT *
         FROM new_order_msg
         WHERE uid = #{uid}
@@ -122,6 +144,18 @@
         SELECT url
         from commit_file
         WHERE cid = #{cid}
+    </select>
+    <select id="selectHandledOrders" resultType="com.server.workordersystem.dto.WorkOrder">
+        SELECT *
+        FROM new_order_msg
+        WHERE handler = #{uid}
+          AND state = 5
+    </select>
+    <select id="selectNotHandledOrders" resultType="com.server.workordersystem.dto.WorkOrder">
+        SELECT *
+        FROM new_order_msg
+        WHERE handler = #{uid}
+          AND state = 4
     </select>
 </mapper>
 

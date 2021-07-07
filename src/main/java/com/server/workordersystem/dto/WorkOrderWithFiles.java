@@ -1,7 +1,5 @@
 package com.server.workordersystem.dto;
 
-import com.server.workordersystem.entity.WorkOrder;
-
 import java.util.List;
 
 public class WorkOrderWithFiles {

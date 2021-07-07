@@ -1,4 +1,4 @@
-package com.server.workordersystem.entity;
+package com.server.workordersystem.dto;
 
 import java.sql.Date;
 
