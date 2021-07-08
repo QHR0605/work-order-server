@@ -1,7 +1,10 @@
 package com.server.workordersystem.mapper;
 
 import com.server.workordersystem.dto.ModifyUserPowerMessage;
+import com.server.workordersystem.dto.TypeGroupListMeg;
+import com.server.workordersystem.dto.UserTypeGroup;
 import com.server.workordersystem.entity.User;
+import io.swagger.models.auth.In;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -20,6 +23,15 @@ public interface AdminMapper {
      * @throws Exception 数据库操作异常
      */
     User findUserByUserNameAdmin(String userName) throws Exception;
+
+    /**
+     * 批量修改权限和分组
+     *
+     * @param message   用户uid、分组、权限
+     * @return 操作是否成功
+     * @throws Exception 数据库操作异常
+     */
+    Integer updateUserAuthorizations(List<UserTypeGroup> message) throws Exception;
 
     /**
      * 修改权限
@@ -79,11 +91,11 @@ public interface AdminMapper {
     /**
      * 批量注销用户
      *
-     * @param usernames 要注销的用户集合
+     * @param uids 要注销的用户集合
      * @param logState  注销状态
      * @return 注销的个数
      * @throws Exception 数据库操作异常
      */
-    Integer updateUserLogState(List<String> usernames, Boolean logState) throws Exception;
+    Integer updateUserLogState(List<Integer> uids, Boolean logState) throws Exception;
 
 }

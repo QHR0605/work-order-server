@@ -10,9 +10,9 @@
         WHERE user.username = #{userName} and user.account_type = 2
     </select>
     <insert id="insertNewUser">
-        INSERT INTO user(username, password, phone, `account_type`, `latest_login_time`, `latest_login_ip`,
+        INSERT INTO user(uid, username, password, phone, `account_type`, `latest_login_time`, `latest_login_ip`,
                          `avatar_url`)
-        VALUES (#{username}, #{password}, #{phone}, #{accountType}, #{latestLoginTime}, #{latestLoginIp}, #{avatarUrl})
+        VALUES (#{uid}, #{username}, #{password}, #{phone}, #{accountType}, #{latestLoginTime}, #{latestLoginIp}, #{avatarUrl})
     </insert>
     <update id="updatePassword">
         UPDATE user
@@ -26,9 +26,9 @@
         </foreach>
     </update>
     <update id="updateUserLogState">
-        UPDATE user SET user.logout = #{logState} WHERE username IN
-        <foreach collection="usernames" item="username" index="index" open="(" close=")" separator=",">
-            #{username}
+        UPDATE user SET user.logout = #{logState} WHERE uid IN
+        <foreach collection="uids" item="uid" index="index" open="(" close=")" separator=",">
+            #{uid}
         </foreach>
     </update>
     <delete id="deleteUsers">
@@ -47,6 +47,22 @@
         SELECT *
         FROM user
     </select>
+
+    <update id="updateUserAuthorizations">
+        <foreach collection="list" item="item" index="index" separator=";" close=";">
+            UPDATE user SET `account_type` = #{item.accountType},`group` = #{item.group}
+            WHERE `uid` = #{item.uid}
+        </foreach>
+    </update>
+
+<!--     <update id="updateUserAuthorization">-->
+<!--            UPDATE user SET `account_type` = #{type}-->
+<!--            WHERE user.username IN-->
+<!--            <foreach collection="usernames" item="username" index="index" open="(" close=")" separator=",">-->
+<!--                #{username}-->
+<!--            </foreach>-->
+<!--        </update> -->
+
     <update id="updateUserAuthorization">
         UPDATE user SET `account_type` = #{accountType}, `group` = #{group}
         WHERE #{uid} = uid

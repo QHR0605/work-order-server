@@ -12,6 +12,7 @@ public class User {
     private Integer accountType;
     private String username;
     private String password;
+    private String name;
     private Boolean sex;
     private Integer age;
     private String phone;
@@ -37,6 +38,11 @@ public class User {
 
     public User password(String password) {
         this.setPassword(password);
+        return this;
+    }
+
+    public User name(String name) {
+        this.setName(name);
         return this;
     }
 
@@ -107,6 +113,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Boolean getSex() {
