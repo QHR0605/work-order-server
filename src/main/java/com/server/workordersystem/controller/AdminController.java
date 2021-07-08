@@ -57,7 +57,7 @@ public class AdminController {
 
             Integer rows = adminService.auths(typeGroupListMegs.getUserTypeGroupMegs());
             if (rows != null){
-                if ((rows.equals(typeGroupListMegs.getUserTypeGroupMegs().size()))){
+                if ((rows.equals(1))){
                     return JsonResultFactory.buildSuccessResult();
                 } else {
                     return JsonResultFactory.
