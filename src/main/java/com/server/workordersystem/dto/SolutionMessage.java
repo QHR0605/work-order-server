@@ -1,5 +1,7 @@
 package com.server.workordersystem.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.sql.Date;
 import java.util.List;
 
@@ -10,6 +12,7 @@ public class SolutionMessage {
     private Integer cid;
     private Integer uid;
     private String advice;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date handleTime;
     private Boolean handleResult;
     private List<String> images;
@@ -85,5 +88,20 @@ public class SolutionMessage {
 
     public void setRow(Integer row) {
         this.row = row;
+    }
+
+    @Override
+    public String toString() {
+        return "SolutionMessage{" +
+                "sid=" + sid +
+                ", orderId=" + orderId +
+                ", cid=" + cid +
+                ", uid=" + uid +
+                ", advice='" + advice + '\'' +
+                ", handleTime=" + handleTime +
+                ", handleResult=" + handleResult +
+                ", images=" + images +
+                ", row=" + row +
+                '}';
     }
 }

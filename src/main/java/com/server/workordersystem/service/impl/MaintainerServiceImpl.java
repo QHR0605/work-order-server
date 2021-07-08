@@ -212,9 +212,12 @@ public class MaintainerServiceImpl implements MaintainerService {
     @Override
     public Integer insertNewSolution(SolutionMessage message) {
         Integer row = null;
-
+        message.setSid(IdGenerator.getId());
+        System.out.println(message);
         try {
-            row = maintainerMapper.insertNewSolution(message);
+             maintainerMapper.insertNewSolution(message);
+             row = message.getRow();
+            System.out.println("插入解决记录表: "+row);
             if (row == 0) {
                 return null;
             }

@@ -16,11 +16,11 @@
         <parameter property="row" mode="OUT" jdbcType="INTEGER"/>
     </parameterMap>
     <parameterMap id="solution" type="com.server.workordersystem.dto.SolutionMessage">
-        <parameter property="sid" mode="IN" jdbcType="INTEGER"/>
-        <parameter property="orderId" mode="IN" jdbcType="INTEGER"/>
-        <parameter property="uid" mode="IN" jdbcType="INTEGER"/>
-        <parameter property="cid" mode="IN" jdbcType="INTEGER"/>
-        <parameter property="advice" mode="IN" jdbcType="INTEGER"/>
+        <parameter property="sid" mode="IN" jdbcType="BIGINT"/>
+        <parameter property="orderId" mode="IN" jdbcType="BIGINT"/>
+        <parameter property="cid" mode="IN" jdbcType="BIGINT"/>
+        <parameter property="uid" mode="IN" jdbcType="BIGINT"/>
+        <parameter property="advice" mode="IN" jdbcType="VARCHAR"/>
         <parameter property="handleTime" mode="IN" jdbcType="DATE"/>
         <parameter property="handleResult" mode="IN" jdbcType="TINYINT"/>
         <parameter property="row" mode="OUT" jdbcType="INTEGER"/>
@@ -71,7 +71,7 @@
         INSERT INTO solution_file(fid,url,sid)
         VALUES
         <foreach collection="files" index="index" item="item" separator=",">
-            (#{item.fid},#{item.url},#{sid})
+            (#{item.fid},#{item.url},#{item.sid})
         </foreach>
     </insert>
     <insert id="insertNewDraft">
@@ -94,14 +94,14 @@
     </insert>
     <insert id="insertNewSolution" parameterMap="solution" statementType="CALLABLE">
         CALL solute_order(
-            #{sid},
-            #{orderId},
-            #{cid},
-            #{uid},
-            #{advice},
-            #{handleTime},
-            #{handleResult},
-            #{row}
+            #{sid,mode=IN},
+            #{orderId,mode=IN},
+            #{cid,mode=IN},
+            #{uid,mode=IN},
+            #{advice,mode=IN},
+            #{handleTime,mode=IN},
+            #{handleResult,mode=IN},
+            #{row,mode=OUT,jdbcType=INTEGER}
         )
     </insert>
     <update id="updateOrderCompletedState">
@@ -150,13 +150,12 @@
     <select id="selectHandledOrders" resultType="com.server.workordersystem.dto.WorkOrder">
         SELECT *
         FROM new_order_msg
-        WHERE handler = #{uid}
-          AND state = 5
+        WHERE handler_id = #{uid}
     </select>
     <select id="selectNotHandledOrders" resultType="com.server.workordersystem.dto.WorkOrder">
         SELECT *
         FROM new_order_msg
-        WHERE handler = #{uid}
+        WHERE handler_id = #{uid}
           AND state = 4
     </select>
 </mapper>

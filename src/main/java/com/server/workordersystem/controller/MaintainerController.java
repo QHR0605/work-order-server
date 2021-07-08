@@ -78,7 +78,7 @@ public class MaintainerController {
         }
     }
 
-    @PostMapping("/get-solutions")
+    @GetMapping("/get-solutions")
     public JsonResult handleGetSolutions(HttpServletRequest request) {
         Integer uid = CookieUtils.parseInt(request.getCookies(), "uid");
         List<WorkOrderWithFiles> res;
