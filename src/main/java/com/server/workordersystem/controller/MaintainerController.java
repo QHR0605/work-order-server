@@ -6,14 +6,21 @@ import com.server.workordersystem.dto.WorkOrderMessage;
 import com.server.workordersystem.dto.WorkOrderWithFiles;
 import com.server.workordersystem.service.MaintainerService;
 import com.server.workordersystem.util.http.CookieUtils;
+import com.server.workordersystem.util.idGenerator.IdGenerator;
+import com.server.workordersystem.util.image.AliyunOssUtil;
 import com.server.workordersystem.util.json.JsonResult;
 import com.server.workordersystem.util.json.JsonResultFactory;
 import com.server.workordersystem.util.json.JsonResultStateCode;
+import com.server.workordersystem.util.security.SecurityUtil;
+import com.sun.xml.internal.txw2.output.ResultFactory;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import springfox.documentation.spring.web.json.Json;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -76,6 +83,25 @@ public class MaintainerController {
         } else {
             return JsonResultFactory.buildFailureResult();
         }
+    }
+
+    @PostMapping("/upload-image")
+    public JsonResult handleUploadFile(MultipartFile file){
+        JsonResult jsonResult;
+        try {
+            byte[] bytes = file.getBytes();
+            String key = IdGenerator.getId()+".png";
+            String url = AliyunOssUtil.uploadFile(bytes, key);
+            jsonResult = JsonResultFactory.buildJsonResult(
+                    JsonResultStateCode.SUCCESS,
+                    JsonResultStateCode.SUCCESS_DESC,
+                    url
+            );
+        } catch (IOException e) {
+            e.printStackTrace();
+            jsonResult = JsonResultFactory.buildFailureResult();
+        }
+        return jsonResult;
     }
 
     @GetMapping("/get-solutions")

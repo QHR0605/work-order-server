@@ -1,0 +1,7 @@
+aliyun:
+  endpoint: oss-cn-shenzhen.aliyuncs.com
+  domain: kao.wilfredshen.cn
+  access-key: LTAI5t7y895ULJoXY8MA2bz8
+  secret-key: YiDmKa9ONys0v4Ssq48YXnTRUw3oqp
+  bucket-name: work-order-system
+  region: huanan
