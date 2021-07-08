@@ -1,7 +1,6 @@
 package com.server.workordersystem.service;
 
-import com.server.workordersystem.dto.ModifyUserPowerMessage;
-import com.server.workordersystem.dto.NewUserMessage;
+import com.server.workordersystem.dto.*;
 import com.server.workordersystem.entity.User;
 
 import java.util.List;
@@ -22,6 +21,14 @@ public interface AdminService {
     /**
      * 修改用户权限和分组
      *
+     * @param userTypeGroups 用户uid、分组、权限
+     * @return 操作是否成功
+     */
+    Integer auths(List<UserTypeGroup> userTypeGroups);
+
+    /**
+     * 修改用户权限和分组
+     *
      * @param message 用户uid、分组、权限
      * @return 操作是否成功
      */
@@ -38,19 +45,19 @@ public interface AdminService {
     /**
      * 批量删除用户
      *
-     * @param uid 要删除的用户名单
+     * @param uids 要删除的用户名单
      * @return 删除个数
      */
-    Integer deleteUsersByUid(List<Integer> uid);
+    Integer deleteUsersByUid(List<Integer> uids);
 
     /**
      * 批量注销用户
      *
-     * @param username 用户名单
+     * @param uids 用户名单
      * @param logState 注销状态
      * @return 注销个数
      */
-    Integer updateUsersLogState(List<String> username, Boolean logState);
+    Integer updateUsersLogState(List<Integer> uids, Boolean logState);
 
     /**
      * 修改用户类型

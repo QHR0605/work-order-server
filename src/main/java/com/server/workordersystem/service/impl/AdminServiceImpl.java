@@ -1,9 +1,7 @@
 package com.server.workordersystem.service.impl;
 
 import com.server.workordersystem.config.SpringContextConfig;
-import com.server.workordersystem.dto.LatestLoginMsg;
-import com.server.workordersystem.dto.ModifyUserPowerMessage;
-import com.server.workordersystem.dto.NewUserMessage;
+import com.server.workordersystem.dto.*;
 import com.server.workordersystem.entity.User;
 import com.server.workordersystem.mapper.AdminMapper;
 import com.server.workordersystem.mapper.LoginMapper;
@@ -11,6 +9,7 @@ import com.server.workordersystem.mapper.UserMapper;
 import com.server.workordersystem.service.AdminService;
 import com.server.workordersystem.util.http.CookieUtils;
 import com.server.workordersystem.util.http.HttpUtil;
+import com.server.workordersystem.util.idGenerator.IdGenerator;
 import com.server.workordersystem.util.interceptor.IpUtil;
 import com.server.workordersystem.util.json.JsonResultStateCode;
 import com.server.workordersystem.util.token.TokenGenerator;
@@ -91,6 +90,22 @@ public class AdminServiceImpl implements AdminService {
         return username;
     }
 
+    /*
+    修改用户权限和分组
+     */
+    @Override
+    public Integer auths(List<UserTypeGroup> userTypeGroups) {
+        Integer row = null;
+
+        try {
+            row = adminMapper.updateUserAuthorizations(userTypeGroups);
+
+            System.out.println(row);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return row;
+    }
 
     /*
     修改用户权限和分组
@@ -113,9 +128,11 @@ public class AdminServiceImpl implements AdminService {
     public Integer createUser(NewUserMessage message) {
 
         User user = new User()
+                .uid(IdGenerator.getId())
                 .username(message.getUsername())
                 .password(message.getPassword())
                 .accountType(message.getAccountType());
+        System.out.println(user.getUid());
         Integer row = null;
         try {
             row = adminMapper.insertNewUser(user);
@@ -140,12 +157,14 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Integer updateUsersLogState(List<String> usernames, Boolean logState) {
+    public Integer updateUsersLogState(List<Integer> uids, Boolean logState) {
 
         Integer row = null;
 
         try {
-            row = adminMapper.updateUserLogState(usernames, logState);
+            row = adminMapper.updateUserLogState(uids, logState);
+
+            System.out.println(row);
         } catch (Exception e) {
             e.printStackTrace();
         }

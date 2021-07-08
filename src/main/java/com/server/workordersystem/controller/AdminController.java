@@ -1,10 +1,7 @@
 package com.server.workordersystem.controller;
 
 import com.server.workordersystem.config.SpringContextConfig;
-import com.server.workordersystem.dto.LoginMessage;
-import com.server.workordersystem.dto.ModifyUserPowerMessage;
-import com.server.workordersystem.dto.NewUserMessage;
-import com.server.workordersystem.dto.UserNameAndType;
+import com.server.workordersystem.dto.*;
 import com.server.workordersystem.entity.User;
 import com.server.workordersystem.service.AdminService;
 import com.server.workordersystem.service.impl.AdminServiceImpl;
@@ -52,6 +49,32 @@ public class AdminController {
         return res;
     }
 
+
+    @PostMapping("/auths")
+    @IsAdmin
+    public JsonResult handleAuthorize(@RequestBody TypeGroupListMeg typeGroupListMegs) {
+
+        if ((typeGroupListMegs != null)){
+
+            Integer rows = adminService.auths(typeGroupListMegs.getUserTypeGroupMegs());
+            if (rows != null){
+                if ((rows.equals(typeGroupListMegs.getUserTypeGroupMegs().size()))){
+                    return JsonResultFactory.buildSuccessResult();
+                } else {
+                    return JsonResultFactory.
+                            buildJsonResult(
+                                    JsonResultStateCode.OPERATION_IS_NOT_COMPLETED,
+                                    JsonResultStateCode.OPERATION_IS_NOT_COMPLETED_DESC, null);
+                }
+            } else {
+                return JsonResultFactory.buildFailureResult();
+            }
+        } else {
+            return JsonResultFactory.buildFailureResult();
+        }
+
+
+    }
     /*
     修改用户权限和分组
      */
@@ -70,32 +93,13 @@ public class AdminController {
     /*
     删除用户
      */
-//    @PostMapping("/delete-users")
-//    @IsAdmin
-//    public JsonResult handleDeleteUser(@RequestBody List<String> usernames) {
-//
-//        Integer rows = adminService.deleteUsersByUsername(usernames);
-//        if (rows != null) {
-//            if (rows.equals(usernames.size())) {
-//                return JsonResultFactory.buildSuccessResult();
-//            } else {
-//                return JsonResultFactory.buildJsonResult(JsonResultStateCode.OPERATION_IS_NOT_COMPLETED, JsonResultStateCode.OPERATION_IS_NOT_COMPLETED_DESC, null);
-//            }
-//        } else {
-//            return JsonResultFactory.buildFailureResult();
-//        }
-//    }
-
-    /*
-    删除用户
-     */
     @PostMapping("/delete-users")
     @IsAdmin
-    public JsonResult handleDeleteUser(@RequestBody List<Integer> uids) {
+    public JsonResult handleDeleteUser(@RequestBody UserListMsg message) {
 
-        Integer rows = adminService.deleteUsersByUid(uids);
+        Integer rows = adminService.deleteUsersByUid(message.getUids());
         if (rows != null) {
-            if (rows.equals(uids.size())) {
+            if (rows.equals(message.getUids().size())) {
                 return JsonResultFactory.buildSuccessResult();
             } else {
                 return JsonResultFactory.buildJsonResult(JsonResultStateCode.OPERATION_IS_NOT_COMPLETED, JsonResultStateCode.OPERATION_IS_NOT_COMPLETED_DESC, null);
@@ -107,10 +111,10 @@ public class AdminController {
 
     @PostMapping("/logout-users")
     @IsAdmin
-    public JsonResult handleLogout(@RequestBody List<String> usernames) {
-        Integer rows = adminService.updateUsersLogState(usernames, true);
+    public JsonResult handleLogout(@RequestBody UserListMsg message) {
+        Integer rows = adminService.updateUsersLogState(message.getUids(), true);
         if (rows != null) {
-            if (rows.equals(usernames.size())) {
+            if (rows.equals(message.getUids().size())) {
                 return JsonResultFactory.buildSuccessResult();
             } else {
                 return JsonResultFactory.buildJsonResult(JsonResultStateCode.OPERATION_IS_NOT_COMPLETED, JsonResultStateCode.OPERATION_IS_NOT_COMPLETED_DESC, null);
@@ -122,10 +126,10 @@ public class AdminController {
 
     @PostMapping("/login-users")
     @IsAdmin
-    public JsonResult handleLogin(@RequestBody List<String> usernames) {
-        Integer rows = adminService.updateUsersLogState(usernames, false);
+    public JsonResult handleLogin(@RequestBody UserListMsg message) {
+        Integer rows = adminService.updateUsersLogState(message.getUids(), false);
         if (rows != null) {
-            if (rows.equals(usernames.size())) {
+            if (rows.equals(message.getUids().size())) {
                 return JsonResultFactory.buildSuccessResult();
             } else {
                 return JsonResultFactory.buildJsonResult(JsonResultStateCode.OPERATION_IS_NOT_COMPLETED, JsonResultStateCode.OPERATION_IS_NOT_COMPLETED_DESC, null);
