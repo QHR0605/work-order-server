@@ -1,15 +1,15 @@
 package com.server.workordersystem.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.server.workordersystem.dto.SolutionMessage;
 import com.server.workordersystem.dto.WorkOrderMessage;
-import com.server.workordersystem.entity.WorkOrder;
+import com.server.workordersystem.dto.WorkOrderWithFiles;
 import com.server.workordersystem.service.MaintainerService;
 import com.server.workordersystem.util.http.CookieUtils;
 import com.server.workordersystem.util.json.JsonResult;
 import com.server.workordersystem.util.json.JsonResultFactory;
 import com.server.workordersystem.util.json.JsonResultStateCode;
 import io.swagger.annotations.Api;
-import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,7 +48,7 @@ public class MaintainerController {
     }
 
     @PostMapping("/create-draft")
-    public JsonResult handleCreateDraft(@RequestBody WorkOrderMessage message){
+    public JsonResult handleCreateDraft(@RequestBody WorkOrderMessage message) {
         Integer row;
         row = maintainerService.insertNewDraft(message);
         if (row != null && row == 1) {
@@ -59,8 +59,8 @@ public class MaintainerController {
     }
 
     @PostMapping("/commit-draft")
-    public JsonResult handleCommit(Integer orderId){
-        Integer row = maintainerService.updateOrderState(orderId,0);
+    public JsonResult handleCommit(Integer orderId) {
+        Integer row = maintainerService.updateOrderState(orderId, 0);
         if (row != null && row == 1) {
             return JsonResultFactory.buildSuccessResult();
         } else {
@@ -68,12 +68,42 @@ public class MaintainerController {
         }
     }
 
+    @PostMapping("/commit-solution")
+    public JsonResult handleCommitSolution(@RequestBody SolutionMessage message) {
+        Integer row = maintainerService.insertNewSolution(message);
+        if (row != null && row == 1) {
+            return JsonResultFactory.buildSuccessResult();
+        } else {
+            return JsonResultFactory.buildFailureResult();
+        }
+    }
+
+    @PostMapping("/get-solutions")
+    public JsonResult handleGetSolutions(HttpServletRequest request) {
+        Integer uid = CookieUtils.parseInt(request.getCookies(), "uid");
+        List<WorkOrderWithFiles> res;
+        res = maintainerService.getHandledOrders(uid);
+        if (res == null) {
+            return JsonResultFactory.buildFailureResult();
+        } else if (res.size() > 0) {
+            return JsonResultFactory.buildJsonResult(
+                    JsonResultStateCode.SUCCESS,
+                    JsonResultStateCode.SUCCESS_DESC,
+                    res
+            );
+        } else {
+            return JsonResultFactory.buildJsonResult(
+                    JsonResultStateCode.NOT_FOUND,
+                    JsonResultStateCode.NOT_FOUND_DESC, null);
+        }
+    }
+
 
     @PostMapping("/complete-order")
-    public JsonResult handleCompleteOrder(@RequestBody JSONObject jsonObject, HttpServletRequest request) {
-        Boolean completed = Boolean.valueOf(jsonObject.getString("completed"));
+    public JsonResult handleCompleteOrder(@RequestBody JSONObject jsonObject) {
         Integer orderId = jsonObject.getInteger("orderId");
-        Integer row = maintainerService.completeOrder(orderId, completed);
+        Integer state = jsonObject.getInteger("state");
+        Integer row = maintainerService.updateOrderState(orderId, state);
 
         if (row != null && row == 1) {
             return JsonResultFactory.buildSuccessResult();
@@ -86,7 +116,7 @@ public class MaintainerController {
     public JsonResult handleGetOrders(HttpServletRequest request) {
 
         Integer uid = CookieUtils.parseInt(request.getCookies(), "uid");
-        List<WorkOrder> res;
+        List<WorkOrderWithFiles> res;
         res = maintainerService.getOrders(uid);
         if (res == null) {
             return JsonResultFactory.buildFailureResult();
@@ -104,10 +134,10 @@ public class MaintainerController {
     }
 
     @GetMapping("/get-drafts")
-    public JsonResult handleGetDraft(HttpServletRequest request){
+    public JsonResult handleGetDraft(HttpServletRequest request) {
 
         Integer uid = CookieUtils.parseInt(request.getCookies(), "uid");
-        List<WorkOrder> res;
+        List<WorkOrderWithFiles> res;
         res = maintainerService.getDrafts(uid);
         if (res == null) {
             return JsonResultFactory.buildFailureResult();

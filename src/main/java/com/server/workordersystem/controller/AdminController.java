@@ -12,7 +12,6 @@ import com.server.workordersystem.util.json.JsonResultStateCode;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -83,7 +82,7 @@ public class AdminController {
     public JsonResult handleAuthorize(@RequestBody ModifyUserPowerMessage message) {
 
         Integer rows = adminService.auth(message);
-        if (rows != null && rows == 1){
+        if (rows != null && rows == 1) {
             return JsonResultFactory.buildSuccessResult();
         } else {
             return JsonResultFactory.buildFailureResult();

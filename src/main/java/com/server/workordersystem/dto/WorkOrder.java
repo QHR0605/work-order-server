@@ -1,4 +1,4 @@
-package com.server.workordersystem.entity;
+package com.server.workordersystem.dto;
 
 import java.sql.Date;
 
@@ -12,93 +12,94 @@ public class WorkOrder {
     private String handleGroup;
     private Date createTime;
     private String content;
-    private String image;
     private Date completionTime;
     private Integer state;
     private Boolean deleted;
-    private Integer type;
+    private String type;
     private String verification;
     private Date verifiedTime;
     private Integer handle;
     private Date handleTime;
     private String handlerContent;
+    private Integer cid;
+    private Integer sid;
 
-    public WorkOrder orderId(Integer orderId){
+    public WorkOrder orderId(Integer orderId) {
         this.setOrderId(orderId);
         return this;
     }
 
-    public WorkOrder orderName(String orderName){
+    public WorkOrder orderName(String orderName) {
         this.setOrderName(orderName);
         return this;
     }
 
-    public WorkOrder creator(String creator){
+    public WorkOrder creator(String creator) {
         this.setCreator(creator);
         return this;
     }
 
-    public WorkOrder createTime(Date createTime){
+    public WorkOrder createTime(Date createTime) {
         this.setCreateTime(createTime);
         return this;
     }
 
-    public WorkOrder content(String content){
+    public WorkOrder content(String content) {
         this.setContent(content);
         return this;
     }
 
-    public WorkOrder completionTime(Date completionTime){
+    public WorkOrder completionTime(Date completionTime) {
         this.setCompletionTime(completionTime);
         return this;
     }
 
-    public WorkOrder state(Integer createTime){
+    public WorkOrder state(Integer createTime) {
         this.setState(state);
         return this;
     }
 
-    public WorkOrder deleted(Boolean deleted){
+    public WorkOrder deleted(Boolean deleted) {
         this.setDeleted(deleted);
         return this;
     }
 
-    public WorkOrder handleGroup(String handleGroup){
+    public WorkOrder handleGroup(String handleGroup) {
         this.setHandleGroup(handleGroup);
         return this;
     }
 
-    public WorkOrder type(Integer type){
+    public WorkOrder type(String type) {
         this.setType(type);
         return this;
     }
 
-    public WorkOrder verifier(String verifier){
+    public WorkOrder verifier(String verifier) {
         this.setVerifier(verifier);
         return this;
     }
 
-    public WorkOrder verification(String verification){
+    public WorkOrder verification(String verification) {
         this.setVerification(verification);
         return this;
     }
 
-    public WorkOrder verifiedTime(Date verifiedTime){
+    public WorkOrder verifiedTime(Date verifiedTime) {
         this.setVerifiedTime(verifiedTime);
         return this;
     }
 
-    public WorkOrder handle(Integer handle){
+    public WorkOrder handle(Integer handle) {
         this.setHandle(handle);
         return this;
     }
 
-    public WorkOrder handleTime(Date handleTime){
+    public WorkOrder handleTime(Date handleTime) {
         this.setHandleTime(handleTime);
         return this;
     }
 
-    public WorkOrder handlerContent(String handlerContent){
+    public WorkOrder handlerContent(String handlerContent) {
         this.setHandlerContent(handlerContent);
         return this;
     }
@@ -167,14 +168,6 @@ public class WorkOrder {
         this.content = content;
     }
 
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
     public Date getCompletionTime() {
         return completionTime;
     }
@@ -199,11 +192,11 @@ public class WorkOrder {
         this.state = state;
     }
 
-    public Integer getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(Integer type) {
+    public void setType(String type) {
         this.type = type;
     }
 
@@ -245,5 +238,21 @@ public class WorkOrder {
 
     public void setHandlerContent(String handlerContent) {
         this.handlerContent = handlerContent;
+    }
+
+    public Integer getCid() {
+        return cid;
+    }
+
+    public void setCid(Integer cid) {
+        this.cid = cid;
+    }
+
+    public Integer getSid() {
+        return sid;
+    }
+
+    public void setSid(Integer sid) {
+        this.sid = sid;
     }
 }

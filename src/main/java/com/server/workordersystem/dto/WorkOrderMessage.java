@@ -80,4 +80,5 @@ public class WorkOrderMessage {
     public void setType(Integer type) {
         this.type = type;
     }
+
 }

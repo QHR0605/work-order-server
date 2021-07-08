@@ -1,10 +1,6 @@
 package com.server.workordersystem.service.impl;
 
-import com.server.workordersystem.dto.CommitAttachFile;
-import com.server.workordersystem.dto.OrderAttachFile;
-import com.server.workordersystem.dto.WorkOrderDto;
-import com.server.workordersystem.dto.WorkOrderMessage;
-import com.server.workordersystem.entity.WorkOrder;
+import com.server.workordersystem.dto.*;
 import com.server.workordersystem.mapper.MaintainerMapper;
 import com.server.workordersystem.service.MaintainerService;
 import com.server.workordersystem.util.idGenerator.IdGenerator;
@@ -71,38 +67,48 @@ public class MaintainerServiceImpl implements MaintainerService {
     }
 
     @Override
-    public Integer completeOrder(Integer orderId, Boolean completed) {
+    public List<WorkOrderWithFiles> getOrders(Integer uid) {
 
-        Integer row = null;
-        try {
-            row = maintainerMapper.updateOrderCompletedState(orderId, completed);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return row;
-    }
+        List<WorkOrder> orders;
+        List<String> commitFiles;
+        List<String> solutionAttachFiles;
+        List<WorkOrderWithFiles> result = new LinkedList<>();
 
-    @Override
-    public List<WorkOrder> getOrders(Integer uid) {
-
-        List<WorkOrder> orders = null;
         try {
             orders = maintainerMapper.selectOrders(uid);
+            for (WorkOrder order : orders
+            ) {
+                commitFiles = maintainerMapper.getOrderFiles(order.getOrderId());
+                solutionAttachFiles = maintainerMapper.getSolutionFiles(order.getSid());
+                WorkOrderWithFiles res = new WorkOrderWithFiles(order);
+                res.setCommitImages(commitFiles);
+                res.setSolutionImages(solutionAttachFiles);
+                result.add(res);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return orders;
+        return result;
     }
 
     @Override
-    public List<WorkOrder> getDrafts(Integer uid) {
+    public List<WorkOrderWithFiles> getDrafts(Integer uid) {
         List<WorkOrder> orders = null;
+        List<String> commitFiles;
+        List<WorkOrderWithFiles> result = new LinkedList<>();
         try {
             orders = maintainerMapper.selectDrafts(uid);
+            for (WorkOrder order : orders
+            ) {
+                commitFiles = maintainerMapper.getOrderFiles(order.getOrderId());
+                WorkOrderWithFiles res = new WorkOrderWithFiles(order);
+                res.setCommitImages(commitFiles);
+                result.add(res);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return orders;
+        return result;
     }
 
     @Override
@@ -113,11 +119,12 @@ public class MaintainerServiceImpl implements MaintainerService {
             workOrderDto.setCid(IdGenerator.getId());
             maintainerMapper.insertNewCommitLog(workOrderDto);
             row = workOrderDto.getRow();
-            if (row == 0){
+            System.out.println("插入记录和工单: " + row);
+            if (row == 0) {
                 return null;
             }
             row = maintainerMapper.deleteOrderFile(workOrderDto.getOrderId());
-            if (row == null){
+            if (row == null) {
                 return row;
             }
             //添加工单附件
@@ -166,7 +173,7 @@ public class MaintainerServiceImpl implements MaintainerService {
         try {
             message.setOrderId(IdGenerator.getId());
             row = maintainerMapper.insertNewDraft(message);
-            if (row == null || row != 1){
+            if (row == null || row != 1) {
                 return row;
             }//添加工单附件
             List<OrderAttachFile> orderAttachFiles = new LinkedList<>();
@@ -195,10 +202,85 @@ public class MaintainerServiceImpl implements MaintainerService {
 
         Integer row = null;
         try {
-            row = maintainerMapper.updateOrderState(orderId,state);
+            row = maintainerMapper.updateOrderState(orderId, state);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return row;
+    }
+
+    @Override
+    public Integer insertNewSolution(SolutionMessage message) {
+        Integer row = null;
+
+        try {
+            row = maintainerMapper.insertNewSolution(message);
+            if (row == 0) {
+                return null;
+            }
+            List<SolutionAttachFile> orderAttachFiles = new LinkedList<>();
+            for (String url : message.getImages()
+            ) {
+                SolutionAttachFile file = new SolutionAttachFile();
+                file.setFid(IdGenerator.getId());
+                file.setUrl(url);
+                file.setSid(message.getSid());
+                orderAttachFiles.add(file);
+            }
+            row = maintainerMapper.insertNewSolutionFile(orderAttachFiles);
+            System.out.println("插入解决记录附件表: " + row);
+            if (row == null || row != orderAttachFiles.size()) {
+                return null;
+            }
+            row = 1;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return row;
+    }
+
+    @Override
+    public List<WorkOrderWithFiles> getHandledOrders(Integer uid) {
+        List<WorkOrder> orders;
+        List<String> commitFiles;
+        List<String> solutionAttachFiles;
+        List<WorkOrderWithFiles> result = new LinkedList<>();
+
+        try {
+            orders = maintainerMapper.selectHandledOrders(uid);
+            for (WorkOrder order : orders
+            ) {
+                commitFiles = maintainerMapper.getOrderFiles(order.getOrderId());
+                solutionAttachFiles = maintainerMapper.getSolutionFiles(order.getSid());
+                WorkOrderWithFiles res = new WorkOrderWithFiles(order);
+                res.setCommitImages(commitFiles);
+                res.setSolutionImages(solutionAttachFiles);
+                result.add(res);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    @Override
+    public List<WorkOrderWithFiles> getNotHandledOrders(Integer uid) {
+        List<WorkOrder> orders;
+        List<String> commitFiles;
+        List<WorkOrderWithFiles> result = new LinkedList<>();
+
+        try {
+            orders = maintainerMapper.selectNotHandledOrders(uid);
+            for (WorkOrder order : orders
+            ) {
+                commitFiles = maintainerMapper.getOrderFiles(order.getOrderId());
+                WorkOrderWithFiles res = new WorkOrderWithFiles(order);
+                res.setCommitImages(commitFiles);
+                result.add(res);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 }

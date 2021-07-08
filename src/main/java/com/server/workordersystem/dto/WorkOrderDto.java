@@ -3,7 +3,6 @@ package com.server.workordersystem.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.sql.Date;
-import java.util.List;
 
 public class WorkOrderDto {
     private Integer orderId;
@@ -24,6 +23,7 @@ public class WorkOrderDto {
         this.createTime = message.getCreateTime();
         this.content = message.getContent();
         this.handleGroup = message.getHandleGroup();
+        this.type = message.getType();
     }
 
     public Integer getOrderId() {
@@ -96,5 +96,20 @@ public class WorkOrderDto {
 
     public void setRow(Integer row) {
         this.row = row;
+    }
+
+    @Override
+    public String toString() {
+        return "WorkOrderDto{" +
+                "orderId=" + orderId +
+                ", orderName='" + orderName + '\'' +
+                ", creator=" + creator +
+                ", createTime=" + createTime +
+                ", content='" + content + '\'' +
+                ", handleGroup=" + handleGroup +
+                ", type=" + type +
+                ", cid=" + cid +
+                ", row=" + row +
+                '}';
     }
 }

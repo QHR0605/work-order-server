@@ -1,7 +1,6 @@
 package com.server.workordersystem.mapper;
 
 import com.server.workordersystem.dto.*;
-import com.server.workordersystem.entity.WorkOrder;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -16,11 +15,13 @@ public interface MaintainerMapper {
      */
     Integer insertNewWorkOrder(WorkOrderDto workOrderDto) throws Exception;
 
-    Integer insertNewOrderFile(List<OrderAttachFile> files);
+    Integer insertNewOrderFile(List<OrderAttachFile> files) throws Exception;
 
-    Integer insertNewCommitFile(List<CommitAttachFile> files);
+    Integer insertNewCommitFile(List<CommitAttachFile> files) throws Exception;
 
-    Integer insertNewSolutionFile(List<SolutionAttachFile> files);
+    Integer insertNewSolutionFile(List<SolutionAttachFile> files) throws Exception;
+
+    Integer insertNewSolution(SolutionMessage message) throws Exception;
 
     /**
      * @param workOrderDto 提交记录
@@ -39,11 +40,21 @@ public interface MaintainerMapper {
      */
     Integer updateOrderCompletedState(Integer orderId, Boolean completed) throws Exception;
 
-    Integer updateOrderState(Integer orderId,Integer state) throws Exception;
+    Integer updateOrderState(Integer orderId, Integer state) throws Exception;
 
     List<WorkOrder> selectOrders(Integer uid) throws Exception;
 
     List<WorkOrder> selectDrafts(Integer uid) throws Exception;
 
+    List<WorkOrder> selectHandledOrders(Integer uid) throws Exception;
+
+    List<WorkOrder> selectNotHandledOrders(Integer uid) throws Exception;
+
     Integer deleteOrderFile(Integer orderId);
+
+    List<String> getOrderFiles(Integer orderId);
+
+    List<String> getSolutionFiles(Integer sid);
+
+    List<String> getCommitFiles(Integer cid);
 }

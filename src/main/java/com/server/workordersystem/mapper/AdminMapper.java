@@ -36,7 +36,7 @@ public interface AdminMapper {
     /**
      * 修改权限
      *
-     * @param message   用户uid、分组、权限
+     * @param message 用户uid、分组、权限
      * @return 操作是否成功
      * @throws Exception 数据库操作异常
      */

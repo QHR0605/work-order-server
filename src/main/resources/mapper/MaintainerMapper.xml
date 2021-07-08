@@ -8,11 +8,22 @@
         <parameter property="orderId" mode="IN" jdbcType="BIGINT"/>
         <parameter property="orderName" mode="IN" jdbcType="VARCHAR"/>
         <parameter property="creator" mode="IN" jdbcType="BIGINT"/>
+        <parameter property="createTime" mode="IN" jdbcType="DATE"/>
         <parameter property="content" mode="IN" jdbcType="VARCHAR"/>
-        <parameter property="handleGroup" mode="IN" jdbcType="VARCHAR"/>
+        <parameter property="handleGroup" mode="IN" jdbcType="BIGINT"/>
         <parameter property="type" mode="IN" jdbcType="INTEGER"/>
-        <parameter property="cid" mode="IN" jdbcType="VARCHAR"/>
-        <parameter property="row" mode="OUT" jdbcType="VARCHAR"/>
+        <parameter property="cid" mode="IN" jdbcType="BIGINT"/>
+        <parameter property="row" mode="OUT" jdbcType="INTEGER"/>
+    </parameterMap>
+    <parameterMap id="solution" type="com.server.workordersystem.dto.SolutionMessage">
+        <parameter property="sid" mode="IN" jdbcType="INTEGER"/>
+        <parameter property="orderId" mode="IN" jdbcType="INTEGER"/>
+        <parameter property="uid" mode="IN" jdbcType="INTEGER"/>
+        <parameter property="cid" mode="IN" jdbcType="INTEGER"/>
+        <parameter property="advice" mode="IN" jdbcType="INTEGER"/>
+        <parameter property="handleTime" mode="IN" jdbcType="DATE"/>
+        <parameter property="handleResult" mode="IN" jdbcType="TINYINT"/>
+        <parameter property="row" mode="OUT" jdbcType="INTEGER"/>
     </parameterMap>
     <insert id="insertNewWorkOrder" parameterMap="map" statementType="CALLABLE">
         {
@@ -30,7 +41,8 @@
             }
     </insert>
     <insert id="insertNewCommitLog" parameterMap="map" statementType="CALLABLE">
-        CALL recommit_order( #{orderId,mode=IN},
+        CALL recommit_order(
+            #{orderId,mode=IN},
             #{orderName,mode=IN},
             #{creator,mode=IN},
             #{createTime,mode=IN},
@@ -80,6 +92,18 @@
                 #{handleGroup},
                 #{type})
     </insert>
+    <insert id="insertNewSolution" parameterMap="solution" statementType="CALLABLE">
+        CALL solute_order(
+            #{sid},
+            #{orderId},
+            #{cid},
+            #{uid},
+            #{advice},
+            #{handleTime},
+            #{handleResult},
+            #{row}
+        )
+    </insert>
     <update id="updateOrderCompletedState">
         UPDATE work_order
         SET completed = #{completed},
@@ -96,17 +120,44 @@
         FROM work_order_file
         WHERE order_id = #{orderId}
     </delete>
-    <select id="selectOrders" resultType="com.server.workordersystem.entity.WorkOrder">
+    <select id="selectOrders" resultType="com.server.workordersystem.dto.WorkOrder">
         SELECT *
-        FROM order_msg
+        FROM new_order_msg
         WHERE uid = #{uid}
           AND state != 1
     </select>
-    <select id="selectDrafts" resultType="com.server.workordersystem.entity.WorkOrder">
+    <select id="selectDrafts" resultType="com.server.workordersystem.dto.WorkOrder">
         SELECT *
-        FROM order_msg
+        FROM new_order_msg
         WHERE uid = #{uid}
           AND state = 1
+    </select>
+    <select id="getOrderFiles" resultType="java.lang.String">
+        SELECT url
+        FROM work_order_file
+        WHERE order_id = #{orderId}
+    </select>
+    <select id="getSolutionFiles" resultType="java.lang.String">
+        SELECT url
+        from solution_file
+        WHERE sid = #{sid}
+    </select>
+    <select id="getCommitFiles" resultType="java.lang.String">
+        SELECT url
+        from commit_file
+        WHERE cid = #{cid}
+    </select>
+    <select id="selectHandledOrders" resultType="com.server.workordersystem.dto.WorkOrder">
+        SELECT *
+        FROM new_order_msg
+        WHERE handler = #{uid}
+          AND state = 5
+    </select>
+    <select id="selectNotHandledOrders" resultType="com.server.workordersystem.dto.WorkOrder">
+        SELECT *
+        FROM new_order_msg
+        WHERE handler = #{uid}
+          AND state = 4
     </select>
 </mapper>
 

@@ -7,40 +7,40 @@ public class SolutionLog {
     private Integer sid;
     private Integer uid;
     private String advice;
-    private String image;
     private Date handleTime;
+    private Boolean handleResult;
     private Integer cid;
 
-    public SolutionLog(){
-
+    public SolutionLog(Integer sid, Integer uid, String advice, Date handleTime, Boolean handleResult, Integer cid) {
+        this.sid = sid;
+        this.uid = uid;
+        this.advice = advice;
+        this.handleTime = handleTime;
+        this.handleResult = handleResult;
+        this.cid = cid;
     }
 
-    public SolutionLog sid(Integer sid){
+    public SolutionLog sid(Integer sid) {
         this.setSid(sid);
         return this;
     }
 
-    public SolutionLog uid(Integer uid){
+    public SolutionLog uid(Integer uid) {
         this.setUid(uid);
         return this;
     }
 
-    public SolutionLog advice(String advice){
+    public SolutionLog advice(String advice) {
         this.setAdvice(advice);
         return this;
     }
 
-    public SolutionLog image(String image){
-        this.setImage(image);
-        return this;
-    }
-
-    public SolutionLog handleTime(Date handleTime){
+    public SolutionLog handleTime(Date handleTime) {
         this.setHandleTime(handleTime);
         return this;
     }
 
-    public SolutionLog cid(Integer cid){
+    public SolutionLog cid(Integer cid) {
         this.setCid(cid);
         return this;
     }
@@ -70,20 +70,20 @@ public class SolutionLog {
         this.advice = advice;
     }
 
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
     public Date getHandleTime() {
         return handleTime;
     }
 
     public void setHandleTime(Date handleTime) {
         this.handleTime = handleTime;
+    }
+
+    public Boolean getHandleResult() {
+        return handleResult;
+    }
+
+    public void setHandleResult(Boolean handleResult) {
+        this.handleResult = handleResult;
     }
 
     public Integer getCid() {
