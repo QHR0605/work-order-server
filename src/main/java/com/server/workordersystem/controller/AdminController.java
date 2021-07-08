@@ -1,5 +1,6 @@
 package com.server.workordersystem.controller;
 
+import com.fasterxml.jackson.core.JsonFactory;
 import com.server.workordersystem.config.SpringContextConfig;
 import com.server.workordersystem.dto.*;
 import com.server.workordersystem.entity.User;
@@ -82,8 +83,18 @@ public class AdminController {
     public JsonResult handleAuthorize(@RequestBody ModifyUserPowerMessage message) {
 
         Integer rows = adminService.auth(message);
-        if (rows != null && rows == 1) {
+        if (rows == 1) {
             return JsonResultFactory.buildSuccessResult();
+        } else if (rows == -1){
+            return JsonResultFactory.
+                    buildJsonResult(
+                            JsonResultStateCode.FAILED,
+                            "该用户已是该组组长", null);
+        } else if (rows == 0){
+            return JsonResultFactory.
+                    buildJsonResult(
+                            JsonResultStateCode.FAILED,
+                            "该组已有组长", null);
         } else {
             return JsonResultFactory.buildFailureResult();
         }
@@ -141,7 +152,7 @@ public class AdminController {
     @GetMapping("/get-users")
     @IsAdmin
     public JsonResult handleGetUsers() {
-        List<User> userList = adminService.getAllUsers();
+        List<UserInfoMsg> userList = adminService.getAllUsers();
         if (userList != null) {
             if (userList.size() > 0) {
                 return JsonResultFactory.buildJsonResult(

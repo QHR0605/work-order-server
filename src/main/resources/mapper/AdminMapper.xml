@@ -9,6 +9,7 @@
         FROM user
         WHERE user.username = #{userName} and user.account_type = 2
     </select>
+
     <insert id="insertNewUser">
         INSERT INTO user(uid, username, password, phone, `account_type`, `latest_login_time`, `latest_login_ip`,
                          `avatar_url`)
@@ -43,8 +44,8 @@
         FROM user
         WHERE user.username = #{username}
     </select>
-    <select id="selectAllUsers" resultType="com.server.workordersystem.entity.User">
-        SELECT *
+    <select id="selectAllUsers" resultType="com.server.workordersystem.dto.UserInfoMsg">
+        SELECT uid,`group`,username,`name`,sex,age,phone,email,logout,`avatar_url`,`account_type`
         FROM user
     </select>
 
@@ -55,16 +56,22 @@
         </foreach>
     </update>
 
-<!--     <update id="updateUserAuthorization">-->
-<!--            UPDATE user SET `account_type` = #{type}-->
-<!--            WHERE user.username IN-->
-<!--            <foreach collection="usernames" item="username" index="index" open="(" close=")" separator=",">-->
-<!--                #{username}-->
-<!--            </foreach>-->
-<!--        </update> -->
-
-    <update id="updateUserAuthorization">
-        UPDATE user SET `account_type` = #{accountType}, `group` = #{group}
-        WHERE #{uid} = uid
+    <select id="selectMentor" resultType="com.server.workordersystem.entity.Group">
+        SELECT *
+        FROM `group`
+        WHERE `gid` = #{group}
+    </select>
+    <select id="selectUser" resultType="com.server.workordersystem.entity.User">
+        SELECT *
+        FROM `user`
+        WHERE `uid` = #{uid}
+    </select>
+    <update id="updateMentor">
+        UPDATE `group` SET `mentor` = #{mentor}
+        WHERE `gid` = #{group};
+    </update>
+    <update id="updateUserAuthMentor">
+        UPDATE `user` SET `account_type` = #{accountType}, `group` = #{group}
+        WHERE #{uid} = `uid`;
     </update>
 </mapper>

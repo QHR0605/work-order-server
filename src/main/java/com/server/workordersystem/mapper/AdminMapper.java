@@ -2,7 +2,9 @@ package com.server.workordersystem.mapper;
 
 import com.server.workordersystem.dto.ModifyUserPowerMessage;
 import com.server.workordersystem.dto.TypeGroupListMeg;
+import com.server.workordersystem.dto.UserInfoMsg;
 import com.server.workordersystem.dto.UserTypeGroup;
+import com.server.workordersystem.entity.Group;
 import com.server.workordersystem.entity.User;
 import io.swagger.models.auth.In;
 import org.springframework.stereotype.Repository;
@@ -34,23 +36,40 @@ public interface AdminMapper {
     Integer updateUserAuthorizations(List<UserTypeGroup> message) throws Exception;
 
     /**
+     * 查询组长
+     *
+     * @param message 用户uid、分组、权限
+     * @return 操作是否成功
+     * @throws Exception 数据库操作异常
+     */
+    Group selectMentor(ModifyUserPowerMessage message) throws Exception;
+
+    /**
+     * 查询用户信息
+     *
+     * @param message 用户uid、分组、权限
+     * @return 操作是否成功
+     * @throws Exception 数据库操作异常
+     */
+    User selectUser(ModifyUserPowerMessage message) throws Exception;
+
+    /**
+     * 修改组长
+     *
+     * @param group,mentor 用户uid、分组、权限
+     * @return 操作是否成功
+     * @throws Exception 数据库操作异常
+     */
+    Integer updateMentor(Integer group,Integer mentor) throws Exception;
+
+    /**
      * 修改权限
      *
      * @param message 用户uid、分组、权限
      * @return 操作是否成功
      * @throws Exception 数据库操作异常
      */
-    Integer updateUserAuthorization(ModifyUserPowerMessage message) throws Exception;
-
-//    /**
-//     * 修改权限
-//     *
-//     * @param usernames 用户集合
-//     * @param type      用户类型
-//     * @return 授权的个数
-//     * @throws Exception 数据库操作异常
-//     */
-////    Integer updateUserAuthorization(List<String> usernames, Integer type) throws Exception;
+    Integer updateUserAuthMentor(ModifyUserPowerMessage message) throws Exception;
 
     /**
      * 创建新账户
@@ -76,7 +95,7 @@ public interface AdminMapper {
      * @return 用户列表
      * @throws Exception 数据库操作异常
      */
-    List<User> selectAllUsers() throws Exception;
+    List<UserInfoMsg> selectAllUsers() throws Exception;
 
     /**
      * 修改用户类型

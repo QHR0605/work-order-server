@@ -73,5 +73,5 @@ public interface AdminService {
      *
      * @return 所有用户
      */
-    List<User> getAllUsers();
+    List<UserInfoMsg> getAllUsers();
 }

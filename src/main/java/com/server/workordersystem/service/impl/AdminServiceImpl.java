@@ -2,6 +2,7 @@ package com.server.workordersystem.service.impl;
 
 import com.server.workordersystem.config.SpringContextConfig;
 import com.server.workordersystem.dto.*;
+import com.server.workordersystem.entity.Group;
 import com.server.workordersystem.entity.User;
 import com.server.workordersystem.mapper.AdminMapper;
 import com.server.workordersystem.mapper.UserMapper;
@@ -112,11 +113,30 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public Integer auth(ModifyUserPowerMessage message) {
         Integer row = null;
+        User infoUser = null;
+        Group infoGroup = null;
 
         try {
-            row = adminMapper.updateUserAuthorization(message);
-
-            System.out.println(row);
+            if (message.getGroup() < 9 && message.getGroup() > 0) {
+                infoUser = adminMapper.selectUser(message);
+                if (infoUser.getAccountType().equals(1)) {
+                    if (message.getAccountType().equals(1)) {
+                        infoGroup = adminMapper.selectMentor(message);
+                        if (infoGroup.getMentor() == null) {
+                            row = adminMapper.updateMentor(message.getGroup(), message.getUid());
+                        } else if (infoGroup.getMentor().equals(message.getUid())) {
+                            return row = -1;
+                        } else {
+                            return row = 0;
+                        }
+                    }
+                } else {
+                    row = adminMapper.updateMentor(message.getGroup(), message.getUid());
+                }
+                row = adminMapper.updateUserAuthMentor(message);
+            } else {
+                return row = null;
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -183,8 +203,8 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public List<User> getAllUsers() {
-        List<User> users = null;
+    public List<UserInfoMsg> getAllUsers() {
+        List<UserInfoMsg> users = null;
         try {
             users = adminMapper.selectAllUsers();
         } catch (Exception e) {
