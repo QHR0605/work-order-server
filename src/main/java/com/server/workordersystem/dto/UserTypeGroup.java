@@ -6,7 +6,7 @@ public class UserTypeGroup {
     private Integer group;
     private Integer accountType;
 
-    public UserTypeGroup(){
+    public UserTypeGroup() {
 
     }
 

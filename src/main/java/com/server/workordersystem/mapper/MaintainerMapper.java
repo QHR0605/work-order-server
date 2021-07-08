@@ -42,6 +42,8 @@ public interface MaintainerMapper {
 
     Integer updateOrderState(Integer orderId, Integer state) throws Exception;
 
+    Integer updateOrder(UpdatedOrderMessage message) throws Exception;
+
     List<WorkOrder> selectOrders(Integer uid) throws Exception;
 
     List<WorkOrder> selectDrafts(Integer uid) throws Exception;

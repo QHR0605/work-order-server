@@ -53,11 +53,11 @@ public class AdminController {
     @IsAdmin
     public JsonResult handleAuthorize(@RequestBody TypeGroupListMeg typeGroupListMegs) {
 
-        if ((typeGroupListMegs != null)){
+        if ((typeGroupListMegs != null)) {
 
             Integer rows = adminService.auths(typeGroupListMegs.getUserTypeGroupMegs());
-            if (rows != null){
-                if ((rows.equals(1))){
+            if (rows != null) {
+                if ((rows.equals(1))) {
                     return JsonResultFactory.buildSuccessResult();
                 } else {
                     return JsonResultFactory.
@@ -74,6 +74,7 @@ public class AdminController {
 
 
     }
+
     /*
     修改用户权限和分组
      */

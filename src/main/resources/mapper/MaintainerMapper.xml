@@ -41,8 +41,7 @@
             }
     </insert>
     <insert id="insertNewCommitLog" parameterMap="map" statementType="CALLABLE">
-        CALL recommit_order(
-            #{orderId,mode=IN},
+        CALL recommit_order( #{orderId,mode=IN},
             #{orderName,mode=IN},
             #{creator,mode=IN},
             #{createTime,mode=IN},
@@ -93,8 +92,7 @@
                 #{type})
     </insert>
     <insert id="insertNewSolution" parameterMap="solution" statementType="CALLABLE">
-        CALL solute_order(
-            #{sid,mode=IN},
+        CALL solute_order( #{sid,mode=IN},
             #{orderId,mode=IN},
             #{cid,mode=IN},
             #{uid,mode=IN},
@@ -102,7 +100,7 @@
             #{handleTime,mode=IN},
             #{handleResult,mode=IN},
             #{row,mode=OUT,jdbcType=INTEGER}
-        )
+            )
     </insert>
     <update id="updateOrderCompletedState">
         UPDATE work_order
@@ -114,6 +112,14 @@
         UPDATE work_order
         SET state = #{state}
         WHERE order_id = #{orderId}
+    </update>
+    <update id="updateOrder">
+        UPDATE work_order
+        SET order_name  = #{orderName},
+            content     = #{content},
+            handle_group=#{handleGroup},
+            type=#{type}
+        WHERE work_order.order_id = #{orderId}
     </update>
     <delete id="deleteOrderFile">
         DELETE

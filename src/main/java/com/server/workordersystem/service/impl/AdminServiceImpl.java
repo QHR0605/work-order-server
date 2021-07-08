@@ -1,7 +1,10 @@
 package com.server.workordersystem.service.impl;
 
 import com.server.workordersystem.config.SpringContextConfig;
-import com.server.workordersystem.dto.*;
+import com.server.workordersystem.dto.LatestLoginMsg;
+import com.server.workordersystem.dto.ModifyUserPowerMessage;
+import com.server.workordersystem.dto.NewUserMessage;
+import com.server.workordersystem.dto.UserTypeGroup;
 import com.server.workordersystem.entity.User;
 import com.server.workordersystem.mapper.AdminMapper;
 import com.server.workordersystem.mapper.UserMapper;

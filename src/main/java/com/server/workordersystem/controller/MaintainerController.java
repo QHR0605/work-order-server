@@ -2,6 +2,7 @@ package com.server.workordersystem.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.server.workordersystem.dto.SolutionMessage;
+import com.server.workordersystem.dto.UpdatedOrderMessage;
 import com.server.workordersystem.dto.WorkOrderMessage;
 import com.server.workordersystem.dto.WorkOrderWithFiles;
 import com.server.workordersystem.service.MaintainerService;
@@ -11,13 +12,10 @@ import com.server.workordersystem.util.image.AliyunOssUtil;
 import com.server.workordersystem.util.json.JsonResult;
 import com.server.workordersystem.util.json.JsonResultFactory;
 import com.server.workordersystem.util.json.JsonResultStateCode;
-import com.server.workordersystem.util.security.SecurityUtil;
-import com.sun.xml.internal.txw2.output.ResultFactory;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import springfox.documentation.spring.web.json.Json;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -86,11 +84,11 @@ public class MaintainerController {
     }
 
     @PostMapping("/upload-image")
-    public JsonResult handleUploadFile(MultipartFile file){
+    public JsonResult handleUploadFile(MultipartFile file) {
         JsonResult jsonResult;
         try {
             byte[] bytes = file.getBytes();
-            String key = IdGenerator.getId()+".png";
+            String key = IdGenerator.getId() + ".png";
             String url = AliyunOssUtil.uploadFile(bytes, key);
             jsonResult = JsonResultFactory.buildJsonResult(
                     JsonResultStateCode.SUCCESS,
@@ -177,6 +175,17 @@ public class MaintainerController {
             return JsonResultFactory.buildJsonResult(
                     JsonResultStateCode.NOT_FOUND,
                     JsonResultStateCode.NOT_FOUND_DESC, null);
+        }
+    }
+
+    @PostMapping("update-order")
+    public JsonResult handleUpdateOrder(@RequestBody UpdatedOrderMessage message) {
+
+        Integer row = maintainerService.updateOrder(message);
+        if (row != null && row == 1) {
+            return JsonResultFactory.buildSuccessResult();
+        } else {
+            return JsonResultFactory.buildFailureResult();
         }
     }
 

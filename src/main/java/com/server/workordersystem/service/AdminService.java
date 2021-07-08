@@ -1,6 +1,8 @@
 package com.server.workordersystem.service;
 
-import com.server.workordersystem.dto.*;
+import com.server.workordersystem.dto.ModifyUserPowerMessage;
+import com.server.workordersystem.dto.NewUserMessage;
+import com.server.workordersystem.dto.UserTypeGroup;
 import com.server.workordersystem.entity.User;
 
 import java.util.List;
@@ -53,7 +55,7 @@ public interface AdminService {
     /**
      * 批量注销用户
      *
-     * @param uids 用户名单
+     * @param uids     用户名单
      * @param logState 注销状态
      * @return 注销个数
      */

@@ -1,10 +1,8 @@
 package com.server.workordersystem.mapper;
 
 import com.server.workordersystem.dto.ModifyUserPowerMessage;
-import com.server.workordersystem.dto.TypeGroupListMeg;
 import com.server.workordersystem.dto.UserTypeGroup;
 import com.server.workordersystem.entity.User;
-import io.swagger.models.auth.In;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -27,7 +25,7 @@ public interface AdminMapper {
     /**
      * 批量修改权限和分组
      *
-     * @param message   用户uid、分组、权限
+     * @param message 用户uid、分组、权限
      * @return 操作是否成功
      * @throws Exception 数据库操作异常
      */
@@ -91,8 +89,8 @@ public interface AdminMapper {
     /**
      * 批量注销用户
      *
-     * @param uids 要注销的用户集合
-     * @param logState  注销状态
+     * @param uids     要注销的用户集合
+     * @param logState 注销状态
      * @return 注销的个数
      * @throws Exception 数据库操作异常
      */

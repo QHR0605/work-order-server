@@ -1,6 +1,7 @@
 package com.server.workordersystem.service;
 
 import com.server.workordersystem.dto.SolutionMessage;
+import com.server.workordersystem.dto.UpdatedOrderMessage;
 import com.server.workordersystem.dto.WorkOrderMessage;
 import com.server.workordersystem.dto.WorkOrderWithFiles;
 
@@ -25,4 +26,6 @@ public interface MaintainerService {
     List<WorkOrderWithFiles> getHandledOrders(Integer uid);
 
     List<WorkOrderWithFiles> getNotHandledOrders(Integer uid);
+
+    Integer updateOrder(UpdatedOrderMessage message);
 }
