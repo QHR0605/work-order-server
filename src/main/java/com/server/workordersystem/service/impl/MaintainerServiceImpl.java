@@ -215,9 +215,9 @@ public class MaintainerServiceImpl implements MaintainerService {
         message.setSid(IdGenerator.getId());
         System.out.println(message);
         try {
-             maintainerMapper.insertNewSolution(message);
-             row = message.getRow();
-            System.out.println("插入解决记录表: "+row);
+            maintainerMapper.insertNewSolution(message);
+            row = message.getRow();
+            System.out.println("插入解决记录表: " + row);
             if (row == 0) {
                 return null;
             }
@@ -285,5 +285,17 @@ public class MaintainerServiceImpl implements MaintainerService {
             e.printStackTrace();
         }
         return result;
+    }
+
+    @Override
+    public Integer updateOrder(UpdatedOrderMessage message) {
+        Integer row = null;
+
+        try {
+            row = maintainerMapper.updateOrder(message);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return row;
     }
 }

@@ -12,7 +12,7 @@ public class UserInfoMsg {
     private String phone;
     private String email;
     private String avatarUrl;
-    private String group;
+    private Integer group;
     private Boolean logout;
     private Integer accountType;
 
@@ -80,11 +80,11 @@ public class UserInfoMsg {
         this.avatarUrl = avatarUrl;
     }
 
-    public String getGroup() {
+    public Integer getGroup() {
         return group;
     }
 
-    public void setGroup(String group) {
+    public void setGroup(Integer group) {
         this.group = group;
     }
 
