@@ -90,7 +90,10 @@
     <update id="updateVerifyOrder">
         UPDATE `work_order`
         SET `state` = #{state}
-        WHERE `order_id` = #{verifyOrderMeg.orderId}
+        WHERE `order_id` = #{verifyOrderMeg.orderId};
+        UPDATE `commit_log`
+        SET `verifiyer` = #{uid},`verification` = #{verifyOrderMeg.verification},`verified_time` = #{verifyOrderMeg.verifiedTime},`verified_result` = #{verifyOrderMeg.verifiedResult}
+        WHERE `cid` = #{cid}
     </update>
 
     <update id="updateAllocateOrder">

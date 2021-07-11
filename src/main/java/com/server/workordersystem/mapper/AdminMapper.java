@@ -147,7 +147,7 @@ public interface AdminMapper {
      * @return 修改的用户个数
      * @throws Exception 数据库操作异常
      */
-    Integer updateVerifyOrder(VerifyOrderMeg verifyOrderMeg,Integer state) throws Exception;
+    Integer updateVerifyOrder(VerifyOrderMeg verifyOrderMeg, Integer state, Integer cid, Integer uid) throws Exception;
 
     /**
      * 工单分配给组

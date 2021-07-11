@@ -8,12 +8,14 @@ import com.server.workordersystem.entity.WorkOrder;
 import com.server.workordersystem.service.AdminService;
 import com.server.workordersystem.service.impl.AdminServiceImpl;
 import com.server.workordersystem.util.annotation.IsAdmin;
+import com.server.workordersystem.util.http.CookieUtils;
 import com.server.workordersystem.util.json.JsonResult;
 import com.server.workordersystem.util.json.JsonResultFactory;
 import com.server.workordersystem.util.json.JsonResultStateCode;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -174,6 +176,9 @@ public class AdminController {
         }
     }
 
+    /*
+    获取所有用户信息
+     */
     @GetMapping("/get-users")
     @IsAdmin
     public JsonResult handleGetUsers() {
@@ -197,6 +202,9 @@ public class AdminController {
         }
     }
 
+    /*
+    创建用户
+     */
     @PostMapping("/create-user")
     @IsAdmin
     public JsonResult handleCreate(@RequestBody NewUserMessage userMessage) {
@@ -214,6 +222,9 @@ public class AdminController {
         }
     }
 
+    /*
+    获取工单
+     */
     @GetMapping("/get-work-order")
     @IsAdmin
     public JsonResult handleGetWorkOrder() {
@@ -270,10 +281,11 @@ public class AdminController {
      */
     @PostMapping("/verify-work-order")
     @IsAdmin
-    public JsonResult handleVerifyOrder(@RequestBody VerifyOrderMeg verifyOrderMeg) {
+    public JsonResult handleVerifyOrder(@RequestBody VerifyOrderMeg verifyOrderMeg, HttpServletRequest request) {
 
         Integer rows;
-        rows = adminService.updateVerifyOrder(verifyOrderMeg);
+        Integer uid = CookieUtils.parseInt(request.getCookies(), "uid");
+        rows = adminService.updateVerifyOrder(verifyOrderMeg, uid);
         if (rows != null) {
             if (rows == 1) {
                 return JsonResultFactory.buildSuccessResult();

@@ -87,7 +87,7 @@ public interface AdminService {
     /**
      * 获取所有工单
      *
-     * @return 所有用户
+     * @return 所有工单
      */
     List<WorkOrder> getAllWorkOrder();
 
@@ -97,7 +97,7 @@ public interface AdminService {
      * @param verifyOrderMeg 工单号和审核结果
      * @return 修改个数
      */
-    Integer updateVerifyOrder(VerifyOrderMeg verifyOrderMeg);
+    Integer updateVerifyOrder(VerifyOrderMeg verifyOrderMeg, Integer uid);
 
     /**
      * 分配工单给组

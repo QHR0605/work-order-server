@@ -6,9 +6,15 @@
 
 
     <select id="selectMembers" resultType="com.server.workordersystem.dto.UserInfoMsg">
-        SELECT uid,`group`,username,`name`,sex,age,phone,email,logout,`avatar_url`,`account_type`
-        FROM user
-        WHERE
+        SELECT `uid`,`group`,`username`,`name`,`sex`,`age`,`phone`,`email`,`logout`,`avatar_url`,`account_type`
+        FROM `user`
+        WHERE `group` = #{group}
+    </select>
+
+    <select id="selectGroupOrder" resultType="com.server.workordersystem.entity.WorkOrder">
+        SELECT *
+        FROM `work_order`
+        WHERE `handle_group` = #{orderId} AND `state` = 2
     </select>
 
 

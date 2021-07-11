@@ -261,23 +261,23 @@ public class AdminServiceImpl implements AdminService {
     审核工单
      */
     @Override
-    public Integer updateVerifyOrder(VerifyOrderMeg verifyOrderMeg) {
+    public Integer updateVerifyOrder(VerifyOrderMeg verifyOrderMeg, Integer uid) {
         Integer row = null;
         Integer state = null;
         WorkOrder workOrder = null;
         try {
-            //判断工单是否存在、已审核
+            //判断工单是否存在、待审核
             workOrder = adminMapper.selectWorkOrder(verifyOrderMeg.getOrderId());
             if (workOrder != null) {
-                if (workOrder.getState().equals(1)) {
-                    if (verifyOrderMeg.getState()) {
+                if (workOrder.getState().equals(0)) {
+                    if (verifyOrderMeg.getVerifiedResult()) {
                         //审核通过，工单状态为2
                         state = 2;
-                        row = adminMapper.updateVerifyOrder(verifyOrderMeg, state);
+                        row = adminMapper.updateVerifyOrder(verifyOrderMeg, state, workOrder.getCid(), uid);
                     } else {
                         //审核不通过，工单状态为3
                         state = 3;
-                        row = adminMapper.updateVerifyOrder(verifyOrderMeg, state);
+                        row = adminMapper.updateVerifyOrder(verifyOrderMeg, state, workOrder.getCid(), uid);
                     }
                 } else {
                     return row = -1;
@@ -317,6 +317,9 @@ public class AdminServiceImpl implements AdminService {
         return row;
     }
 
+    /*
+    关闭工单
+     */
     @Override
     public Integer closeOrder(OrderCloseMeg orderCloseMeg) {
         Integer row = null;
@@ -339,6 +342,9 @@ public class AdminServiceImpl implements AdminService {
         return row;
     }
 
+    /*
+    查询分组成员
+     */
     @Override
     public List<UserInfoMsg> getGroupMember(GroupMemberMeg groupMemberMeg) {
         List<UserInfoMsg> users = null;
