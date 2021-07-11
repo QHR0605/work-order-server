@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.server.workordersystem.mapper.MonitorMapper">
+
+
+    <select id="selectMembers" resultType="com.server.workordersystem.dto.UserInfoMsg">
+        SELECT uid,`group`,username,`name`,sex,age,phone,email,logout,`avatar_url`,`account_type`
+        FROM user
+        WHERE
+    </select>
+
+
+
+</mapper>

@@ -1,10 +1,9 @@
 package com.server.workordersystem.mapper;
 
-import com.server.workordersystem.dto.ModifyUserPowerMessage;
-import com.server.workordersystem.dto.UserInfoMsg;
-import com.server.workordersystem.dto.UserTypeGroup;
+import com.server.workordersystem.dto.*;
 import com.server.workordersystem.entity.Group;
 import com.server.workordersystem.entity.User;
+import com.server.workordersystem.entity.WorkOrder;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -45,11 +44,11 @@ public interface AdminMapper {
     /**
      * 查询用户信息
      *
-     * @param message 用户uid、分组、权限
+     * @param uid 用户uid
      * @return 操作是否成功
      * @throws Exception 数据库操作异常
      */
-    User selectUser(ModifyUserPowerMessage message) throws Exception;
+    User selectUser(Integer uid) throws Exception;
 
     /**
      * 修改组长
@@ -106,6 +105,15 @@ public interface AdminMapper {
     Integer updateUserType(List<String> usernames, Integer type) throws Exception;
 
     /**
+     * 重置密码
+     *
+     * @param resetPasswordMeg 用户uid、新密码
+     * @return 操作是否成功
+     * @throws Exception 数据库操作异常
+     */
+    Integer updateResetPassword(ResetPasswordMeg resetPasswordMeg) throws Exception;
+
+    /**
      * 批量注销用户
      *
      * @param uids     要注销的用户集合
@@ -114,5 +122,57 @@ public interface AdminMapper {
      * @throws Exception 数据库操作异常
      */
     Integer updateUserLogState(List<Integer> uids, Boolean logState) throws Exception;
+
+    /**
+     * 获取所有工单
+     *
+     * @return 所有工单
+     * @throws Exception 数据库操作异常
+     */
+    List<WorkOrder> selectAllWorkOrder() throws Exception;
+
+    /**
+     * 查找工单
+     *
+     * @param orderId 工单号
+     * @return 工单信息
+     * @throws Exception 数据库操作异常
+     */
+    WorkOrder selectWorkOrder(Integer orderId) throws Exception;
+
+    /**
+     * 工单审核结果
+     *
+     * @param verifyOrderMeg 工单号和审核结果
+     * @return 修改的用户个数
+     * @throws Exception 数据库操作异常
+     */
+    Integer updateVerifyOrder(VerifyOrderMeg verifyOrderMeg,Integer state) throws Exception;
+
+    /**
+     * 工单分配给组
+     *
+     * @param allocateOrderMeg 工单号和待分配的组
+     * @return 操作成功
+     * @throws Exception 数据库操作异常
+     */
+    Integer updateAllocateOrder(AllocateOrderMeg allocateOrderMeg) throws Exception;
+
+    /**
+     * 关闭工单
+     *
+     * @param orderCloseMeg 工单号和时间
+     * @return 操作成功
+     * @throws Exception 数据库操作异常
+     */
+    Integer updateCloseOrder(OrderCloseMeg orderCloseMeg) throws Exception;
+
+    /**
+     * 获取分组成员
+     *
+     * @return 成员用户列表
+     * @throws Exception 数据库操作异常
+     */
+    List<UserInfoMsg> selectGroupMember(Integer group) throws Exception;
 
 }

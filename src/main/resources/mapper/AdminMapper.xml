@@ -15,11 +15,13 @@
                          `avatar_url`)
         VALUES (#{uid}, #{username}, #{password}, #{phone}, #{accountType}, #{latestLoginTime}, #{latestLoginIp}, #{avatarUrl})
     </insert>
-    <update id="updatePassword">
-        UPDATE user
-        SET user.password = #{newPassword}
-        WHERE user.username = #{userName}
+
+    <update id="updateResetPassword">
+        UPDATE `user`
+        SET `password` = #{password}
+        WHERE `uid` = #{uid}
     </update>
+
     <update id="updateUserType">
         UPDATE user SET account_type = #{type} WHERE user.username IN
         <foreach collection="usernames" index="index" item="username" open="(" close=")" separator=",">
@@ -48,6 +50,16 @@
         SELECT uid,`group`,username,`name`,sex,age,phone,email,logout,`avatar_url`,`account_type`
         FROM user
     </select>
+    <select id="selectAllWorkOrder" resultType="com.server.workordersystem.entity.WorkOrder">
+        SELECT *
+        FROM `work_order`
+        WHERE `state` &lt;&gt; 1;
+    </select>
+    <select id="selectWorkOrder" resultType="com.server.workordersystem.entity.WorkOrder">
+        SELECT *
+        FROM `work_order`
+        WHERE `order_id` = #{orderId}
+    </select>
 
     <update id="updateUserAuthorizations">
         <foreach collection="list" item="item" index="index" separator=";" close=";">
@@ -74,4 +86,28 @@
         UPDATE `user` SET `account_type` = #{accountType}, `group` = #{group}
         WHERE #{uid} = `uid`;
     </update>
+
+    <update id="updateVerifyOrder">
+        UPDATE `work_order`
+        SET `state` = #{state}
+        WHERE `order_id` = #{verifyOrderMeg.orderId}
+    </update>
+
+    <update id="updateAllocateOrder">
+        UPDATE `work_order`
+        SET `handle_group` = #{group}
+        WHERE `order_id` = #{orderId}
+    </update>
+
+    <update id="updateCloseOrder">
+        UPDATE `work_order`
+        SET `completion_time` = #{completionTime},`state` = 8
+        WHERE `order_id` = #{orderId}
+    </update>
+
+    <select id="selectGroupMember" resultType="com.server.workordersystem.dto.UserInfoMsg">
+        SELECT uid,`group`,username,`name`,sex,age,phone,email,logout,`avatar_url`,`account_type`
+        FROM `user`
+        WHERE `group` = #{group}
+    </select>
 </mapper>

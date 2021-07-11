@@ -5,6 +5,7 @@ import com.server.workordersystem.config.SpringContextConfig;
 import com.server.workordersystem.dto.*;
 import com.server.workordersystem.entity.Group;
 import com.server.workordersystem.entity.User;
+import com.server.workordersystem.entity.WorkOrder;
 import com.server.workordersystem.mapper.AdminMapper;
 import com.server.workordersystem.mapper.UserMapper;
 import com.server.workordersystem.service.AdminService;
@@ -29,10 +30,10 @@ public class AdminServiceImpl implements AdminService {
 
     private final AdminMapper adminMapper = SpringContextConfig.getBean(AdminMapper.class);
     private final UserMapper userMapper = SpringContextConfig.getBean(UserMapper.class);
+
     /*
     管理员登录
      */
-
     @Override
     public String handleLoginAdmin(String username, String password) {
         try {
@@ -119,7 +120,7 @@ public class AdminServiceImpl implements AdminService {
 
         try {
             if (message.getGroup() < 9 && message.getGroup() > 0) {
-                infoUser = adminMapper.selectUser(message);
+                infoUser = adminMapper.selectUser(message.getUid());
                 if (infoUser.getAccountType().equals(1)) {
                     if (message.getAccountType().equals(1)) {
                         infoGroup = adminMapper.selectMentor(message);
@@ -144,6 +145,30 @@ public class AdminServiceImpl implements AdminService {
         return row;
     }
 
+    /*
+    重置密码
+     */
+    @Override
+    public Integer resetPw(ResetPasswordMeg resetPasswordMeg) {
+        Integer row = null;
+        User user = null;
+        try {
+            user = adminMapper.selectUser(resetPasswordMeg.getUid());
+            if (user != null){
+                row = adminMapper.updateResetPassword(resetPasswordMeg);
+            } else {
+                return row = 0;
+            }
+            System.out.println(row);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return row;
+    }
+
+    /*
+    创建用户
+     */
     @Override
     public Integer createUser(NewUserMessage message) {
 
@@ -194,7 +219,6 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public Integer updateUsersType(List<String> usernames, Integer type) {
         Integer row = null;
-        StringBuilder content = new StringBuilder();
         try {
             row = adminMapper.updateUserType(usernames, type);
         } catch (Exception e) {
@@ -203,6 +227,9 @@ public class AdminServiceImpl implements AdminService {
         return row;
     }
 
+    /*
+    获取所有用户信息
+     */
     @Override
     public List<UserInfoMsg> getAllUsers() {
         List<UserInfoMsg> users = null;
@@ -214,5 +241,115 @@ public class AdminServiceImpl implements AdminService {
         }
         return users;
     }
+
+    /*
+    获取所有工单
+     */
+    @Override
+    public List<WorkOrder> getAllWorkOrder() {
+        List<WorkOrder> workOrders = null;
+        try {
+            workOrders = adminMapper.selectAllWorkOrder();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return workOrders;
+        }
+        return workOrders;
+    }
+
+    /*
+    审核工单
+     */
+    @Override
+    public Integer updateVerifyOrder(VerifyOrderMeg verifyOrderMeg) {
+        Integer row = null;
+        Integer state = null;
+        WorkOrder workOrder = null;
+        try {
+            //判断工单是否存在、已审核
+            workOrder = adminMapper.selectWorkOrder(verifyOrderMeg.getOrderId());
+            if (workOrder != null) {
+                if (workOrder.getState().equals(1)) {
+                    if (verifyOrderMeg.getState()) {
+                        //审核通过，工单状态为2
+                        state = 2;
+                        row = adminMapper.updateVerifyOrder(verifyOrderMeg, state);
+                    } else {
+                        //审核不通过，工单状态为3
+                        state = 3;
+                        row = adminMapper.updateVerifyOrder(verifyOrderMeg, state);
+                    }
+                } else {
+                    return row = -1;
+                }
+            } else  {
+                return  row = 0;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return row;
+    }
+
+    /*
+    分配工单给组
+     */
+    @Override
+    public Integer allocateOrder(AllocateOrderMeg allocateOrderMeg) {
+
+        Integer row = null;
+        WorkOrder workOrder = null;
+        try {
+            //查找工单，并判断状态为已审核(待分配)才能分配
+            workOrder = adminMapper.selectWorkOrder(allocateOrderMeg.getOrderId());
+            if (workOrder != null) {
+                if (workOrder.getState().equals(2) && workOrder.getHandleGroup() == 4) {
+                    row = adminMapper.updateAllocateOrder(allocateOrderMeg);
+                } else {
+                    return row = -1;
+                }
+            } else  {
+                return  row = 0;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return row;
+    }
+
+    @Override
+    public Integer closeOrder(OrderCloseMeg orderCloseMeg) {
+        Integer row = null;
+        WorkOrder workOrder = null;
+        try {
+            //查找工单
+            workOrder = adminMapper.selectWorkOrder(orderCloseMeg.getOrderId());
+            if (workOrder != null && workOrder.getState() != 1) {
+                if (orderCloseMeg.getCompletionTime().after(workOrder.getCreateTime())){
+                    row = adminMapper.updateCloseOrder(orderCloseMeg);
+                } else {
+                    row = -1;
+                }
+            } else {
+                return  row = 0;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return row;
+    }
+
+    @Override
+    public List<UserInfoMsg> getGroupMember(GroupMemberMeg groupMemberMeg) {
+        List<UserInfoMsg> users = null;
+        try {
+            users = adminMapper.selectGroupMember(groupMemberMeg.getGroup());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return users;
+        }
+        return users;
+    }
+
 
 }

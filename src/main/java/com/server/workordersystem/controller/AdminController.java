@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonFactory;
 import com.server.workordersystem.config.SpringContextConfig;
 import com.server.workordersystem.dto.*;
 import com.server.workordersystem.entity.User;
+import com.server.workordersystem.entity.WorkOrder;
 import com.server.workordersystem.service.AdminService;
 import com.server.workordersystem.service.impl.AdminServiceImpl;
 import com.server.workordersystem.util.annotation.IsAdmin;
@@ -73,7 +74,6 @@ public class AdminController {
             return JsonResultFactory.buildFailureResult();
         }
 
-
     }
 
     /*
@@ -86,16 +86,40 @@ public class AdminController {
         Integer rows = adminService.auth(message);
         if (rows == 1) {
             return JsonResultFactory.buildSuccessResult();
-        } else if (rows == -1){
+        } else if (rows == -1) {
             return JsonResultFactory.
                     buildJsonResult(
                             JsonResultStateCode.FAILED,
                             "该用户已是该组组长", null);
-        } else if (rows == 0){
+        } else if (rows == 0) {
             return JsonResultFactory.
                     buildJsonResult(
                             JsonResultStateCode.FAILED,
                             "该组已有组长", null);
+        } else {
+            return JsonResultFactory.buildFailureResult();
+        }
+    }
+
+    /*
+    重置密码
+    */
+    @PostMapping("/reset-password")
+    @IsAdmin
+    public JsonResult handleResetPassword(@RequestBody ResetPasswordMeg resetPasswordMeg) {
+
+        Integer rows;
+        rows = adminService.resetPw(resetPasswordMeg);
+        if (rows != null) {
+            if (rows == 1) {
+                return JsonResultFactory.buildSuccessResult();
+            } else if (rows == 0) {
+                return JsonResultFactory.buildJsonResult(
+                        JsonResultStateCode.FAILED,
+                        "用户不存在", null);
+            } else {
+                return JsonResultFactory.buildFailureResult();
+            }
         } else {
             return JsonResultFactory.buildFailureResult();
         }
@@ -189,4 +213,142 @@ public class AdminController {
             return JsonResultFactory.buildFailureResult();
         }
     }
+
+    @GetMapping("/get-work-order")
+    @IsAdmin
+    public JsonResult handleGetWorkOrder() {
+        List<WorkOrder> workOrders = adminService.getAllWorkOrder();
+        if (workOrders != null) {
+            if (workOrders.size() > 0) {
+                return JsonResultFactory.buildJsonResult(
+                        JsonResultStateCode.SUCCESS,
+                        JsonResultStateCode.SUCCESS_DESC,
+                        workOrders
+                );
+            } else {
+                return JsonResultFactory.buildJsonResult(
+                        JsonResultStateCode.NOT_FOUND,
+                        JsonResultStateCode.NOT_FOUND_DESC,
+                        null
+                );
+            }
+        } else {
+            return JsonResultFactory.buildFailureResult();
+        }
+    }
+
+    /*
+    分配工单给组
+     */
+    @PostMapping("/allocate-work-order")
+    @IsAdmin
+    public JsonResult handleAllocate(@RequestBody AllocateOrderMeg allocateOrderMeg) {
+
+        Integer rows;
+        rows = adminService.allocateOrder(allocateOrderMeg);
+        if (rows != null) {
+            if (rows == 1) {
+                return JsonResultFactory.buildSuccessResult();
+            } else if (rows == -1) {
+                return JsonResultFactory.buildJsonResult(
+                        JsonResultStateCode.FAILED,
+                        "该工单已分配或待审核", null);
+            } else if (rows == 0) {
+                return JsonResultFactory.buildJsonResult(
+                        JsonResultStateCode.FAILED,
+                        "工单号不存在", null);
+            } else {
+                return JsonResultFactory.buildFailureResult();
+            }
+        } else {
+            return JsonResultFactory.buildFailureResult();
+        }
+    }
+
+    /*
+    审核工单
+     */
+    @PostMapping("/verify-work-order")
+    @IsAdmin
+    public JsonResult handleVerifyOrder(@RequestBody VerifyOrderMeg verifyOrderMeg) {
+
+        Integer rows;
+        rows = adminService.updateVerifyOrder(verifyOrderMeg);
+        if (rows != null) {
+            if (rows == 1) {
+                return JsonResultFactory.buildSuccessResult();
+            } else if (rows == -1) {
+                return JsonResultFactory.buildJsonResult(
+                        JsonResultStateCode.FAILED,
+                        "该工单已审核", null);
+            } else if (rows == 0) {
+                return JsonResultFactory.buildJsonResult(
+                        JsonResultStateCode.FAILED,
+                        "工单号不存在", null);
+            } else {
+                return JsonResultFactory.buildFailureResult();
+            }
+        } else {
+            return JsonResultFactory.buildFailureResult();
+        }
+    }
+
+    /*
+    关闭工单
+     */
+    @PostMapping("/close-work-order")
+    @IsAdmin
+    public JsonResult handleCloseOrder(@RequestBody OrderCloseMeg orderCloseMeg) {
+
+        Integer rows;
+        rows = adminService.closeOrder(orderCloseMeg);
+        if (rows != null) {
+            if (rows == 1) {
+                return JsonResultFactory.buildSuccessResult();
+            } else if (rows == -1) {
+                return JsonResultFactory.buildJsonResult(
+                        JsonResultStateCode.FAILED,
+                        "完成时间早于创建时间", null);
+            } else if (rows == 0) {
+                return JsonResultFactory.buildJsonResult(
+                        JsonResultStateCode.FAILED,
+                        "工单号不存在", null);
+            } else {
+                return JsonResultFactory.buildFailureResult();
+            }
+        } else {
+            return JsonResultFactory.buildFailureResult();
+        }
+    }
+
+    /*
+    查询分组成员
+     */
+    @PostMapping("/query-teammate")
+    @IsAdmin
+    public JsonResult handleQueryMate(@RequestBody GroupMemberMeg groupMemberMeg) {
+
+        List<UserInfoMsg> userList = adminService.getGroupMember(groupMemberMeg);
+        if (userList != null) {
+            if (userList.size() > 0) {
+                return JsonResultFactory.buildJsonResult(
+                        JsonResultStateCode.SUCCESS,
+                        JsonResultStateCode.SUCCESS_DESC,
+                        userList
+                );
+            } else {
+                return JsonResultFactory.buildJsonResult(
+                        JsonResultStateCode.NOT_FOUND,
+                        JsonResultStateCode.NOT_FOUND_DESC,
+                        null
+                );
+            }
+        } else {
+            return JsonResultFactory.buildJsonResult(
+                    JsonResultStateCode.NOT_FOUND,
+                    JsonResultStateCode.NOT_FOUND_DESC,
+                    null);
+        }
+    }
+
 }
