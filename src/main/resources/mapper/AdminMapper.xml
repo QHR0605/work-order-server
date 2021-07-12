@@ -63,7 +63,7 @@
     <select id="selectUnallocatedOrder" resultType="com.server.workordersystem.entity.WorkOrder">
         SELECT *
         FROM `work_order`
-        WHERE `state` = 2 AND `handle_group` is null ;
+        WHERE `state` = 2 AND `handle_group` = 4 ;
     </select>
 
     <select id="selectWorkOrder" resultType="com.server.workordersystem.entity.WorkOrder">
