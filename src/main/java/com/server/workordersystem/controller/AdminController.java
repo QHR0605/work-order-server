@@ -249,6 +249,58 @@ public class AdminController {
     }
 
     /*
+    获取未分配工单
+     */
+    @GetMapping("/get-unallocated-order")
+    @IsAdmin
+    public JsonResult handleGetUnallocatedOrder() {
+        List<WorkOrder> workOrders = adminService.getUnallocatedOrder();
+        if (workOrders != null) {
+            if (workOrders.size() > 0) {
+                return JsonResultFactory.buildJsonResult(
+                        JsonResultStateCode.SUCCESS,
+                        JsonResultStateCode.SUCCESS_DESC,
+                        workOrders
+                );
+            } else {
+                return JsonResultFactory.buildJsonResult(
+                        JsonResultStateCode.NOT_FOUND,
+                        JsonResultStateCode.NOT_FOUND_DESC,
+                        null
+                );
+            }
+        } else {
+            return JsonResultFactory.buildFailureResult();
+        }
+    }
+
+    /*
+    获取未审核工单
+     */
+    @GetMapping("/get-not-verify-order")
+    @IsAdmin
+    public JsonResult handleGetNotVerifyOrder() {
+        List<WorkOrder> workOrders = adminService.getNotVerifyOrder();
+        if (workOrders != null) {
+            if (workOrders.size() > 0) {
+                return JsonResultFactory.buildJsonResult(
+                        JsonResultStateCode.SUCCESS,
+                        JsonResultStateCode.SUCCESS_DESC,
+                        workOrders
+                );
+            } else {
+                return JsonResultFactory.buildJsonResult(
+                        JsonResultStateCode.NOT_FOUND,
+                        JsonResultStateCode.NOT_FOUND_DESC,
+                        null
+                );
+            }
+        } else {
+            return JsonResultFactory.buildFailureResult();
+        }
+    }
+
+    /*
     分配工单给组
      */
     @PostMapping("/allocate-work-order")

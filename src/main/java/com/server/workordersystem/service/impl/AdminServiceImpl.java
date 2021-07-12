@@ -258,6 +258,38 @@ public class AdminServiceImpl implements AdminService {
     }
 
     /*
+    获取未分配工单
+     */
+    @Override
+    public List<WorkOrder> getUnallocatedOrder() {
+        List<WorkOrder> workOrders = null;
+        try {
+            workOrders = adminMapper.selectUnallocatedOrder();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return workOrders;
+        }
+        return workOrders;
+    }
+
+    /*
+    获取未审核工单
+     */
+    @Override
+    public List<WorkOrder> getNotVerifyOrder() {
+        List<WorkOrder> workOrders = null;
+        try {
+            workOrders = adminMapper.selectNotVerifyOrder();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return workOrders;
+        }
+        return workOrders;
+    }
+
+
+
+    /*
     审核工单
      */
     @Override

@@ -92,6 +92,20 @@ public interface AdminService {
     List<WorkOrder> getAllWorkOrder();
 
     /**
+     * 获取所有未审核工单
+     *
+     * @return 所有未审核工单
+     */
+    List<WorkOrder> getNotVerifyOrder();
+
+    /**
+     * 获取所有未分配工单
+     *
+     * @return 所有工单
+     */
+    List<WorkOrder> getUnallocatedOrder();
+
+    /**
      * 审核工单
      *
      * @param verifyOrderMeg 工单号和审核结果

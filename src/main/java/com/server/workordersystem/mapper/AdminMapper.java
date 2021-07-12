@@ -132,6 +132,22 @@ public interface AdminMapper {
     List<WorkOrder> selectAllWorkOrder() throws Exception;
 
     /**
+     * 获取所有未审核工单
+     *
+     * @return 所有未审核工单
+     * @throws Exception 数据库操作异常
+     */
+    List<WorkOrder> selectNotVerifyOrder() throws Exception;
+
+    /**
+     * 获取所有未分配工单
+     *
+     * @return 所有未分配工单
+     * @throws Exception 数据库操作异常
+     */
+    List<WorkOrder> selectUnallocatedOrder() throws Exception;
+
+    /**
      * 查找工单
      *
      * @param orderId 工单号
