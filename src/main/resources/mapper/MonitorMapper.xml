@@ -17,6 +17,22 @@
         WHERE `handle_group` = #{orderId} AND `state` = 2
     </select>
 
+    <insert id="insertAllocateOrder">
+        INSERT INTO solution_log(
+                                 sid,
+                                 uid,
+                                 cid)
+             VALUE (
+                #{sid},
+                #{orderAllocateMeg.uid},
+                #{cid})
+    </insert>
+
+    <update id="updateAllocateOrder">
+        UPDATE `work_order`
+        SET `state` = 4,`sid` = #{sid}
+        WHERE `order_id` = #{orderAllocateMeg.orderId}
+    </update>
 
 
 </mapper>

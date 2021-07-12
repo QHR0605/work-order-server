@@ -1,7 +1,9 @@
 package com.server.workordersystem.service;
 
+import com.server.workordersystem.dto.OrderAllocateMeg;
 import com.server.workordersystem.dto.UserInfoMsg;
 import com.server.workordersystem.entity.WorkOrder;
+import io.swagger.models.auth.In;
 
 import java.util.List;
 
@@ -20,4 +22,11 @@ public interface MonitorService {
      * @return 被分配到组的工单
      */
     List<WorkOrder> getGroupOrder(Integer uid);
+
+    /**
+     * 分配工单
+     *
+     * @return 操作成功
+     */
+    Integer insertAllocateOrder(OrderAllocateMeg orderAllocateMeg, Integer uid);
 }
