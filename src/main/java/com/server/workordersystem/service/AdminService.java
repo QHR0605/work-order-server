@@ -136,4 +136,12 @@ public interface AdminService {
      */
     List<UserInfoMsg> getGroupMember(GroupMemberMeg groupMemberMeg);
 
+    /**
+     * 查询工单流转信息
+     *
+     * @param orderIdMeg 工单流转信息
+     * @return 操作成功
+     */
+    OrderCircleMeg getOrderCircle(OrderIdMeg orderIdMeg);
+
 }

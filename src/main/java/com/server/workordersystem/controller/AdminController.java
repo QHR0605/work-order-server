@@ -415,4 +415,26 @@ public class AdminController {
         }
     }
 
+    /*
+    查询工单流转
+    */
+    @PostMapping("/get-order-circle")
+    @IsAdmin
+    public JsonResult handleGetOrderCircle(@RequestBody OrderIdMeg orderIdMeg) {
+
+        OrderCircleMeg orderCircleMeg = adminService.getOrderCircle(orderIdMeg);
+        if (orderCircleMeg != null) {
+                return JsonResultFactory.buildJsonResult(
+                        JsonResultStateCode.SUCCESS,
+                        JsonResultStateCode.SUCCESS_DESC,
+                        orderCircleMeg
+                );
+        } else {
+            return JsonResultFactory.buildJsonResult(
+                    JsonResultStateCode.NOT_FOUND,
+                    JsonResultStateCode.NOT_FOUND_DESC,
+                    null);
+        }
+    }
+
 }

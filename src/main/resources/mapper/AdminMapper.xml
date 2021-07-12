@@ -89,6 +89,11 @@
         FROM `user`
         WHERE `uid` = #{uid}
     </select>
+    <select id="selectSolutionLog" resultType="com.server.workordersystem.entity.SolutionLog">
+        SELECT *
+        FROM `solution_log`
+        WHERE `sid` = #{sid}
+    </select>
     <update id="updateMentor">
         UPDATE `group` SET `mentor` = #{mentor}
         WHERE `gid` = #{group};

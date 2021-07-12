@@ -21,11 +21,13 @@
         INSERT INTO solution_log(
                                  sid,
                                  uid,
-                                 cid)
+                                 cid,
+                                 distribute_time)
              VALUE (
                 #{sid},
                 #{orderAllocateMeg.uid},
-                #{cid})
+                #{cid},
+                #{orderAllocateMeg.distributeTime})
     </insert>
 
     <update id="updateAllocateOrder">

@@ -2,6 +2,7 @@ package com.server.workordersystem.mapper;
 
 import com.server.workordersystem.dto.*;
 import com.server.workordersystem.entity.Group;
+import com.server.workordersystem.entity.SolutionLog;
 import com.server.workordersystem.entity.User;
 import com.server.workordersystem.entity.WorkOrder;
 import org.springframework.stereotype.Repository;
@@ -49,6 +50,15 @@ public interface AdminMapper {
      * @throws Exception 数据库操作异常
      */
     User selectUser(Integer uid) throws Exception;
+
+    /**
+     * 查询处理记录
+     *
+     * @param sid 处理记录id
+     * @return 处理记录
+     * @throws Exception 数据库操作异常
+     */
+    SolutionLog selectSolutionLog(Integer sid) throws Exception;
 
     /**
      * 修改组长

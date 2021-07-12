@@ -10,14 +10,16 @@ public class SolutionLog {
     private Date handleTime;
     private Boolean handleResult;
     private Integer cid;
+    private Date distributeTime;
 
-    public SolutionLog(Integer sid, Integer uid, String advice, Date handleTime, Boolean handleResult, Integer cid) {
+    public SolutionLog(Integer sid, Integer uid, String advice, Date handleTime, Boolean handleResult, Integer cid, Date distributeTime) {
         this.sid = sid;
         this.uid = uid;
         this.advice = advice;
         this.handleTime = handleTime;
         this.handleResult = handleResult;
         this.cid = cid;
+        this.distributeTime = distributeTime;
     }
 
     public SolutionLog sid(Integer sid) {
@@ -45,6 +47,10 @@ public class SolutionLog {
         return this;
     }
 
+    public SolutionLog distributeTime(Date distributeTime){
+        this.setDistributeTime(distributeTime);
+        return this;
+    }
 
     public Integer getSid() {
         return sid;
@@ -93,4 +99,13 @@ public class SolutionLog {
     public void setCid(Integer cid) {
         this.cid = cid;
     }
+
+    public Date getDistributeTime() {
+        return distributeTime;
+    }
+
+    public void setDistributeTime(Date distributeTime) {
+        this.distributeTime = distributeTime;
+    }
+
 }

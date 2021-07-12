@@ -4,6 +4,7 @@ import com.server.workordersystem.config.SpringContextConfig;
 
 import com.server.workordersystem.dto.*;
 import com.server.workordersystem.entity.Group;
+import com.server.workordersystem.entity.SolutionLog;
 import com.server.workordersystem.entity.User;
 import com.server.workordersystem.entity.WorkOrder;
 import com.server.workordersystem.mapper.AdminMapper;
@@ -154,7 +155,7 @@ public class AdminServiceImpl implements AdminService {
         User user = null;
         try {
             user = adminMapper.selectUser(resetPasswordMeg.getUid());
-            if (user != null){
+            if (user != null) {
                 row = adminMapper.updateResetPassword(resetPasswordMeg);
             } else {
                 return row = 0;
@@ -288,7 +289,6 @@ public class AdminServiceImpl implements AdminService {
     }
 
 
-
     /*
     审核工单
      */
@@ -314,8 +314,8 @@ public class AdminServiceImpl implements AdminService {
                 } else {
                     return row = -1;
                 }
-            } else  {
-                return  row = 0;
+            } else {
+                return row = 0;
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -340,8 +340,8 @@ public class AdminServiceImpl implements AdminService {
                 } else {
                     return row = -1;
                 }
-            } else  {
-                return  row = 0;
+            } else {
+                return row = 0;
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -360,13 +360,13 @@ public class AdminServiceImpl implements AdminService {
             //查找工单
             workOrder = adminMapper.selectWorkOrder(orderCloseMeg.getOrderId());
             if (workOrder != null && workOrder.getState() != 1) {
-                if (orderCloseMeg.getCompletionTime().after(workOrder.getCreateTime())){
+                if (orderCloseMeg.getCompletionTime().after(workOrder.getCreateTime())) {
                     row = adminMapper.updateCloseOrder(orderCloseMeg);
                 } else {
                     row = -1;
                 }
             } else {
-                return  row = 0;
+                return row = 0;
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -387,6 +387,38 @@ public class AdminServiceImpl implements AdminService {
             return users;
         }
         return users;
+    }
+
+    @Override
+    public OrderCircleMeg getOrderCircle(OrderIdMeg orderIdMeg) {
+        User user = null;
+        User user1 = null;
+        SolutionLog solutionLog = null;
+        WorkOrder workOrder = null;
+        OrderCircleMeg orderCircleMeg = new OrderCircleMeg();
+        try {
+            workOrder = adminMapper.selectWorkOrder(orderIdMeg.getOrderId());
+            if (workOrder != null) {
+                user = adminMapper.selectUser(workOrder.getCreator());
+                solutionLog = adminMapper.selectSolutionLog(workOrder.getSid());
+                if (solutionLog != null) {
+                    user1 = adminMapper.selectUser(solutionLog.getUid());
+                    orderCircleMeg.setHandlerId(user1.getUid());
+                    orderCircleMeg.setHandlerName(user1.getName());
+                    orderCircleMeg.setDistributeTime(solutionLog.getDistributeTime());
+                    orderCircleMeg.setHandleTime(solutionLog.getHandleTime());
+                }
+                orderCircleMeg.setCreatorId(user.getUid());
+                orderCircleMeg.setCreatorName(user.getName());
+                orderCircleMeg.setCreateTime(workOrder.getCreateTime());
+                orderCircleMeg.setCompletionTime(workOrder.getCompletionTime());
+                orderCircleMeg.setState(workOrder.getState());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return orderCircleMeg;
+        }
+        return orderCircleMeg;
     }
 
 
