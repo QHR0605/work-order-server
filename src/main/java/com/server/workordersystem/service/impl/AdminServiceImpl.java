@@ -122,16 +122,25 @@ public class AdminServiceImpl implements AdminService {
         try {
             if (message.getGroup() < 9 && message.getGroup() > 0) {
                 infoUser = adminMapper.selectUser(message.getUid());
+                //判断用户原本是否为组长
                 if (infoUser.getAccountType().equals(1)) {
+                    //判断用户需修改账户类型是否为组长
                     if (message.getAccountType().equals(1)) {
                         infoGroup = adminMapper.selectMentor(message);
+                        //判断对应组是否有组长
                         if (infoGroup.getMentor() == null) {
                             row = adminMapper.updateMentor(message.getGroup(), message.getUid());
+                            row = adminMapper.updateMentor(infoUser.getGroup(), null);
+                            //需修改组组长即是现在自己
                         } else if (infoGroup.getMentor().equals(message.getUid())) {
                             return row = -1;
                         } else {
                             return row = 0;
                         }
+                    } else {
+                        //将用户组长身份从group中清除,更新user表中用户分组和用户类型
+                        row = adminMapper.updateMentor(message.getGroup(), null);
+                        row = adminMapper.updateUserAuthMentor(message);
                     }
                 } else {
                     row = adminMapper.updateMentor(message.getGroup(), message.getUid());
