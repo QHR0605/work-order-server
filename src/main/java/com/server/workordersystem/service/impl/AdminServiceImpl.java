@@ -307,7 +307,7 @@ public class AdminServiceImpl implements AdminService {
         Integer state = null;
         WorkOrder workOrder = null;
         try {
-            //判断工单是否存在、待审核
+            //判断工单是否存在、待审核、或以审核
             workOrder = adminMapper.selectWorkOrder(verifyOrderMeg.getOrderId());
             if (workOrder != null) {
                 if (workOrder.getState().equals(0)) {

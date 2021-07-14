@@ -6,6 +6,7 @@ package com.server.workordersystem.service.impl;
 
 import com.server.workordersystem.config.SpringContextConfig;
 import com.server.workordersystem.dto.LatestLoginMsg;
+import com.server.workordersystem.dto.LoginUserType;
 import com.server.workordersystem.entity.User;
 import com.server.workordersystem.mapper.LoginMapper;
 import com.server.workordersystem.mapper.UserMapper;
@@ -93,5 +94,16 @@ public class LoginServiceImpl implements LoginService {
             e.printStackTrace();
             return rows;
         }
+    }
+
+    @Override
+    public LoginUserType handleLoginType(String username) {
+        LoginUserType loginUserType = null;
+        try {
+            loginUserType = loginMapper.selectUserType(username);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return loginUserType;
     }
 }
