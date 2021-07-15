@@ -34,7 +34,7 @@ public class AliyunOssUtil {
     }
 
     public static String packUrl(String filename) {
-        return "https://" + aliyunOssUtil.properties.bucketName + "." + aliyunOssUtil.properties.endpoint + "/" + filename;
+        return "http://" + aliyunOssUtil.properties.domain + "/" + filename;
     }
 
     @PostConstruct
