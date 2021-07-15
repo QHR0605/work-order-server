@@ -3,6 +3,8 @@ package com.server.workordersystem.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.server.workordersystem.config.SpringContextConfig;
 import com.server.workordersystem.dto.LoginMessage;
+import com.server.workordersystem.dto.LoginUserType;
+import com.server.workordersystem.dto.LoginUserTypeMeg;
 import com.server.workordersystem.entity.User;
 import com.server.workordersystem.service.LoginService;
 import com.server.workordersystem.util.json.JsonResult;
@@ -61,5 +63,18 @@ public class LoginController {
         } else {
             return JsonResultFactory.buildFailureResult();
         }
+    }
+
+    @PostMapping("/login-type")
+    public JsonResult handleLoginType(@RequestBody LoginUserTypeMeg loginUserTypeMeg) {
+
+        LoginUserType loginUserType = loginService.handleLoginType(loginUserTypeMeg.getUsername());
+        JsonResult res = null;
+        if (loginUserType != null) {
+            res = JsonResultFactory.buildJsonResult(JsonResultStateCode.SUCCESS,JsonResultStateCode.SUCCESS_DESC , loginUserType);
+        } else {
+            res = JsonResultFactory.buildJsonResult(JsonResultStateCode.NOT_FOUND, JsonResultStateCode.NOT_FOUND_DESC, null);
+        }
+        return res;
     }
 }

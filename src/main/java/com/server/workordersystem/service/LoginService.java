@@ -1,6 +1,7 @@
 package com.server.workordersystem.service;
 
 
+import com.server.workordersystem.dto.LoginUserType;
 import com.server.workordersystem.entity.User;
 
 /**
@@ -32,6 +33,14 @@ public interface LoginService {
      * @return 修改的密码数
      */
     Integer updatePassword(String username, String newPassword);
+
+    /**
+     * 登录验证
+     *
+     * @param username 用户名
+     * @return 返回用户类型
+     */
+    LoginUserType handleLoginType(String username);
 
 
 }

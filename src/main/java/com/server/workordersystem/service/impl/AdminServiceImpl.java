@@ -1,12 +1,14 @@
 package com.server.workordersystem.service.impl;
 
 import com.server.workordersystem.config.SpringContextConfig;
-import com.server.workordersystem.dto.LatestLoginMsg;
-import com.server.workordersystem.dto.ModifyUserPowerMessage;
-import com.server.workordersystem.dto.NewUserMessage;
-import com.server.workordersystem.dto.UserTypeGroup;
+
+import com.server.workordersystem.dto.*;
+import com.server.workordersystem.entity.Group;
+import com.server.workordersystem.entity.SolutionLog;
 import com.server.workordersystem.entity.User;
+import com.server.workordersystem.entity.WorkOrder;
 import com.server.workordersystem.mapper.AdminMapper;
+import com.server.workordersystem.mapper.LoginMapper;
 import com.server.workordersystem.mapper.UserMapper;
 import com.server.workordersystem.service.AdminService;
 import com.server.workordersystem.util.http.CookieUtils;
@@ -30,10 +32,10 @@ public class AdminServiceImpl implements AdminService {
 
     private final AdminMapper adminMapper = SpringContextConfig.getBean(AdminMapper.class);
     private final UserMapper userMapper = SpringContextConfig.getBean(UserMapper.class);
+
     /*
     管理员登录
      */
-
     @Override
     public String handleLoginAdmin(String username, String password) {
         try {
@@ -115,10 +117,59 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public Integer auth(ModifyUserPowerMessage message) {
         Integer row = null;
+        User infoUser = null;
+        Group infoGroup = null;
 
         try {
-            row = adminMapper.updateUserAuthorization(message);
+            if (message.getGroup() < 9 && message.getGroup() > 0) {
+                infoUser = adminMapper.selectUser(message.getUid());
+                //判断用户原本是否为组长
+                if (infoUser.getAccountType().equals(1)) {
+                    //判断用户需修改账户类型是否为组长
+                    if (message.getAccountType().equals(1)) {
+                        infoGroup = adminMapper.selectMentor(message);
+                        //判断对应组是否有组长
+                        if (infoGroup.getMentor() == null) {
+                            row = adminMapper.updateMentor(message.getGroup(), message.getUid());
+                            row = adminMapper.updateMentor(infoUser.getGroup(), null);
+                            //需修改组组长即是现在自己
+                        } else if (infoGroup.getMentor().equals(message.getUid())) {
+                            return row = -1;
+                        } else {
+                            return row = 0;
+                        }
+                    } else {
+                        //将用户组长身份从group中清除,更新user表中用户分组和用户类型
+                        row = adminMapper.updateMentor(message.getGroup(), null);
+                        row = adminMapper.updateUserAuthMentor(message);
+                    }
+                } else {
+                    row = adminMapper.updateMentor(message.getGroup(), message.getUid());
+                }
+                row = adminMapper.updateUserAuthMentor(message);
+            } else {
+                return row = null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return row;
+    }
 
+    /*
+    重置密码
+     */
+    @Override
+    public Integer resetPw(ResetPasswordMeg resetPasswordMeg) {
+        Integer row = null;
+        User user = null;
+        try {
+            user = adminMapper.selectUser(resetPasswordMeg.getUid());
+            if (user != null) {
+                row = adminMapper.updateResetPassword(resetPasswordMeg);
+            } else {
+                return row = 0;
+            }
             System.out.println(row);
         } catch (Exception e) {
             e.printStackTrace();
@@ -126,6 +177,9 @@ public class AdminServiceImpl implements AdminService {
         return row;
     }
 
+    /*
+    创建用户
+     */
     @Override
     public Integer createUser(NewUserMessage message) {
 
@@ -135,9 +189,15 @@ public class AdminServiceImpl implements AdminService {
                 .password(message.getPassword())
                 .accountType(message.getAccountType());
         System.out.println(user.getUid());
+        User user1 = null;
         Integer row = null;
         try {
-            row = adminMapper.insertNewUser(user);
+            user1 = adminMapper.findUserByUserNameAdmin(user.getUsername());
+            if (user1 != null){
+                row = adminMapper.insertNewUser(user);
+            } else {
+                row = 0;
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -176,7 +236,6 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public Integer updateUsersType(List<String> usernames, Integer type) {
         Integer row = null;
-        StringBuilder content = new StringBuilder();
         try {
             row = adminMapper.updateUserType(usernames, type);
         } catch (Exception e) {
@@ -185,9 +244,12 @@ public class AdminServiceImpl implements AdminService {
         return row;
     }
 
+    /*
+    获取所有用户信息
+     */
     @Override
-    public List<User> getAllUsers() {
-        List<User> users = null;
+    public List<UserInfoMsg> getAllUsers() {
+        List<UserInfoMsg> users = null;
         try {
             users = adminMapper.selectAllUsers();
         } catch (Exception e) {
@@ -196,5 +258,184 @@ public class AdminServiceImpl implements AdminService {
         }
         return users;
     }
+
+    /*
+    获取所有工单
+     */
+    @Override
+    public List<WorkOrder> getAllWorkOrder() {
+        List<WorkOrder> workOrders = null;
+        try {
+            workOrders = adminMapper.selectAllWorkOrder();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return workOrders;
+        }
+        return workOrders;
+    }
+
+    /*
+    获取未分配工单
+     */
+    @Override
+    public List<WorkOrder> getUnallocatedOrder() {
+        List<WorkOrder> workOrders = null;
+        try {
+            workOrders = adminMapper.selectUnallocatedOrder();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return workOrders;
+        }
+        return workOrders;
+    }
+
+    /*
+    获取未审核工单
+     */
+    @Override
+    public List<WorkOrder> getNotVerifyOrder() {
+        List<WorkOrder> workOrders = null;
+        try {
+            workOrders = adminMapper.selectNotVerifyOrder();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return workOrders;
+        }
+        return workOrders;
+    }
+
+
+    /*
+    审核工单
+     */
+    @Override
+    public Integer updateVerifyOrder(VerifyOrderMeg verifyOrderMeg, Integer uid) {
+        Integer row = null;
+        Integer state = null;
+        WorkOrder workOrder = null;
+        try {
+            //判断工单是否存在、待审核、或以审核
+            workOrder = adminMapper.selectWorkOrder(verifyOrderMeg.getOrderId());
+            if (workOrder != null) {
+                if (workOrder.getState().equals(0)) {
+                    if (verifyOrderMeg.getVerifiedResult()) {
+                        //审核通过，工单状态为2
+                        state = 2;
+                        row = adminMapper.updateVerifyOrder(verifyOrderMeg, state, workOrder.getCid(), uid);
+                    } else {
+                        //审核不通过，工单状态为3
+                        state = 3;
+                        row = adminMapper.updateVerifyOrder(verifyOrderMeg, state, workOrder.getCid(), uid);
+                    }
+                } else {
+                    return row = -1;
+                }
+            } else {
+                return row = 0;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return row;
+    }
+
+    /*
+    分配工单给组
+     */
+    @Override
+    public Integer allocateOrder(AllocateOrderMeg allocateOrderMeg) {
+
+        Integer row = null;
+        WorkOrder workOrder = null;
+        try {
+            //查找工单，并判断状态为已审核(待分配)才能分配
+            workOrder = adminMapper.selectWorkOrder(allocateOrderMeg.getOrderId());
+            if (workOrder != null) {
+                if (workOrder.getState().equals(2) && workOrder.getHandleGroup() == 4) {
+                    row = adminMapper.updateAllocateOrder(allocateOrderMeg);
+                } else {
+                    return row = -1;
+                }
+            } else {
+                return row = 0;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return row;
+    }
+
+    /*
+    关闭工单
+     */
+    @Override
+    public Integer closeOrder(OrderCloseMeg orderCloseMeg) {
+        Integer row = null;
+        WorkOrder workOrder = null;
+        try {
+            //查找工单
+            workOrder = adminMapper.selectWorkOrder(orderCloseMeg.getOrderId());
+            if (workOrder != null && workOrder.getState() != 1) {
+                if (orderCloseMeg.getCompletionTime().after(workOrder.getCreateTime())) {
+                    row = adminMapper.updateCloseOrder(orderCloseMeg);
+                } else {
+                    row = -1;
+                }
+            } else {
+                return row = 0;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return row;
+    }
+
+    /*
+    查询分组成员
+     */
+    @Override
+    public List<UserInfoMsg> getGroupMember(GroupMemberMeg groupMemberMeg) {
+        List<UserInfoMsg> users = null;
+        try {
+            users = adminMapper.selectGroupMember(groupMemberMeg.getGroup());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return users;
+        }
+        return users;
+    }
+
+    @Override
+    public OrderCircleMeg getOrderCircle(OrderIdMeg orderIdMeg) {
+        User user = null;
+        User user1 = null;
+        SolutionLog solutionLog = null;
+        WorkOrder workOrder = null;
+        OrderCircleMeg orderCircleMeg = new OrderCircleMeg();
+        try {
+            workOrder = adminMapper.selectWorkOrder(orderIdMeg.getOrderId());
+            if (workOrder != null) {
+                user = adminMapper.selectUser(workOrder.getCreator());
+                solutionLog = adminMapper.selectSolutionLog(workOrder.getSid());
+                if (solutionLog != null) {
+                    user1 = adminMapper.selectUser(solutionLog.getUid());
+                    orderCircleMeg.setHandlerId(user1.getUid());
+                    orderCircleMeg.setHandlerName(user1.getName());
+                    orderCircleMeg.setDistributeTime(solutionLog.getDistributeTime());
+                    orderCircleMeg.setHandleTime(solutionLog.getHandleTime());
+                }
+                orderCircleMeg.setCreatorId(user.getUid());
+                orderCircleMeg.setCreatorName(user.getName());
+                orderCircleMeg.setCreateTime(workOrder.getCreateTime());
+                orderCircleMeg.setCompletionTime(workOrder.getCompletionTime());
+                orderCircleMeg.setState(workOrder.getState());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return orderCircleMeg;
+        }
+        return orderCircleMeg;
+    }
+
 
 }

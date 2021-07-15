@@ -1,9 +1,8 @@
 package com.server.workordersystem.service;
 
-import com.server.workordersystem.dto.ModifyUserPowerMessage;
-import com.server.workordersystem.dto.NewUserMessage;
-import com.server.workordersystem.dto.UserTypeGroup;
+import com.server.workordersystem.dto.*;
 import com.server.workordersystem.entity.User;
+import com.server.workordersystem.entity.WorkOrder;
 
 import java.util.List;
 
@@ -35,6 +34,14 @@ public interface AdminService {
      * @return 操作是否成功
      */
     Integer auth(ModifyUserPowerMessage message);
+
+    /**
+     * 重置用户密码
+     *
+     * @param resetPasswordMeg 用户uid、新密码
+     * @return 操作是否成功
+     */
+    Integer resetPw(ResetPasswordMeg resetPasswordMeg);
 
     /**
      * 创建新账户
@@ -75,5 +82,66 @@ public interface AdminService {
      *
      * @return 所有用户
      */
-    List<User> getAllUsers();
+    List<UserInfoMsg> getAllUsers();
+
+    /**
+     * 获取所有工单
+     *
+     * @return 所有工单
+     */
+    List<WorkOrder> getAllWorkOrder();
+
+    /**
+     * 获取所有未审核工单
+     *
+     * @return 所有未审核工单
+     */
+    List<WorkOrder> getNotVerifyOrder();
+
+    /**
+     * 获取所有未分配工单
+     *
+     * @return 所有工单
+     */
+    List<WorkOrder> getUnallocatedOrder();
+
+    /**
+     * 审核工单
+     *
+     * @param verifyOrderMeg 工单号和审核结果
+     * @return 修改个数
+     */
+    Integer updateVerifyOrder(VerifyOrderMeg verifyOrderMeg, Integer uid);
+
+    /**
+     * 分配工单给组
+     *
+     * @param allocateOrderMeg 工单号和待分配的组
+     * @return 操作成功
+     */
+    Integer allocateOrder(AllocateOrderMeg allocateOrderMeg);
+
+    /**
+     * 关闭工单
+     *
+     * @param orderCloseMeg 工单号和时间
+     * @return 操作成功
+     */
+    Integer closeOrder(OrderCloseMeg orderCloseMeg);
+
+    /**
+     * 获取分组成员
+     *
+     * @return 所有用户
+     */
+    List<UserInfoMsg> getGroupMember(GroupMemberMeg groupMemberMeg);
+
+    /**
+     * 查询工单流转信息
+     *
+     * @param orderIdMeg 工单流转信息
+     * @return 操作成功
+     */
+    OrderCircleMeg getOrderCircle(OrderIdMeg orderIdMeg);
+
 }

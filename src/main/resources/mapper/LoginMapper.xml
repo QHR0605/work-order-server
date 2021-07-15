@@ -14,4 +14,10 @@
         FROM user
         WHERE user.username = #{userName}
     </select>
+
+    <select id="selectUserType" resultType="com.server.workordersystem.dto.LoginUserType">
+        SELECT `account_type`
+        FROM `user`
+        WHERE `username` = #{userName}
+    </select>
 </mapper>
