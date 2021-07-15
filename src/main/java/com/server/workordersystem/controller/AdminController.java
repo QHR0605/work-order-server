@@ -215,7 +215,10 @@ public class AdminController {
             if (rows == 1) {
                 return JsonResultFactory.buildSuccessResult();
             } else {
-                return JsonResultFactory.buildFailureResult();
+                return JsonResultFactory.buildJsonResult(
+                        JsonResultStateCode.FAILED,
+                        "用户名已被注册",
+                        null);
             }
         } else {
             return JsonResultFactory.buildFailureResult();

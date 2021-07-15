@@ -8,6 +8,7 @@ import com.server.workordersystem.entity.SolutionLog;
 import com.server.workordersystem.entity.User;
 import com.server.workordersystem.entity.WorkOrder;
 import com.server.workordersystem.mapper.AdminMapper;
+import com.server.workordersystem.mapper.LoginMapper;
 import com.server.workordersystem.mapper.UserMapper;
 import com.server.workordersystem.service.AdminService;
 import com.server.workordersystem.util.http.CookieUtils;
@@ -188,9 +189,15 @@ public class AdminServiceImpl implements AdminService {
                 .password(message.getPassword())
                 .accountType(message.getAccountType());
         System.out.println(user.getUid());
+        User user1 = null;
         Integer row = null;
         try {
-            row = adminMapper.insertNewUser(user);
+            user1 = adminMapper.findUserByUserNameAdmin(user.getUsername());
+            if (user1 != null){
+                row = adminMapper.insertNewUser(user);
+            } else {
+                row = 0;
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
