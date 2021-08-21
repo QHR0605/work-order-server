@@ -64,8 +64,22 @@ public class MaintainerController {
     }
 
     @PostMapping("/commit-draft")
-    public JsonResult handleCommit(Integer orderId) {
-        Integer row = maintainerService.updateOrderState(orderId, 0);
+    public JsonResult handleCommit(Integer orderId, HttpServletRequest request) {
+        Integer uid = CookieUtils.parseInt(request.getCookies(), "uid");
+        List<WorkOrderWithFiles> drafts = maintainerService.getDrafts(uid);
+        int state = 0;
+        for (WorkOrderWithFiles w : drafts
+        ) {
+            if (orderId.equals(w.getWorkOrder().getOrderId())) {
+                if ("维护类".equals(w.getWorkOrder().getType())) {
+                    state = 0;
+                } else {
+                    state = 2;
+                }
+                break;
+            }
+        }
+        Integer row = maintainerService.updateOrderState(orderId, state);
         if (row != null && row == 1) {
             return JsonResultFactory.buildSuccessResult();
         } else {

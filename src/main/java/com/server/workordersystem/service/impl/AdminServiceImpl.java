@@ -1,14 +1,12 @@
 package com.server.workordersystem.service.impl;
 
 import com.server.workordersystem.config.SpringContextConfig;
-
 import com.server.workordersystem.dto.*;
 import com.server.workordersystem.entity.Group;
 import com.server.workordersystem.entity.SolutionLog;
 import com.server.workordersystem.entity.User;
 import com.server.workordersystem.entity.WorkOrder;
 import com.server.workordersystem.mapper.AdminMapper;
-import com.server.workordersystem.mapper.LoginMapper;
 import com.server.workordersystem.mapper.UserMapper;
 import com.server.workordersystem.service.AdminService;
 import com.server.workordersystem.util.http.CookieUtils;
@@ -193,7 +191,7 @@ public class AdminServiceImpl implements AdminService {
         Integer row = null;
         try {
             user1 = adminMapper.findUserByUserNameAdmin(user.getUsername());
-            if (user1 != null){
+            if (user1 != null) {
                 row = adminMapper.insertNewUser(user);
             } else {
                 row = 0;

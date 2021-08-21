@@ -17,7 +17,7 @@ public class WorkOrder {
     private Integer cid;
     private Integer sid;
 
-    public WorkOrder(){
+    public WorkOrder() {
 
     }
 

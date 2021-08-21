@@ -1,7 +1,6 @@
 package com.server.workordersystem.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import io.swagger.models.auth.In;
 
 import java.util.Date;
 
@@ -45,8 +44,6 @@ public class VerifyOrderMeg {
     public void setVerifiedResult(Boolean verifiedResult) {
         this.verifiedResult = verifiedResult;
     }
-
-
 
 
 }

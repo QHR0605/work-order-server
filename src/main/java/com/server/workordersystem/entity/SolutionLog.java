@@ -47,7 +47,7 @@ public class SolutionLog {
         return this;
     }
 
-    public SolutionLog distributeTime(Date distributeTime){
+    public SolutionLog distributeTime(Date distributeTime) {
         this.setDistributeTime(distributeTime);
         return this;
     }

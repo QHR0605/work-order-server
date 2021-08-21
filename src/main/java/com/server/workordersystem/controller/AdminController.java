@@ -1,9 +1,7 @@
 package com.server.workordersystem.controller;
 
-import com.fasterxml.jackson.core.JsonFactory;
 import com.server.workordersystem.config.SpringContextConfig;
 import com.server.workordersystem.dto.*;
-import com.server.workordersystem.entity.User;
 import com.server.workordersystem.entity.WorkOrder;
 import com.server.workordersystem.service.AdminService;
 import com.server.workordersystem.service.impl.AdminServiceImpl;
@@ -427,11 +425,11 @@ public class AdminController {
 
         OrderCircleMeg orderCircleMeg = adminService.getOrderCircle(orderIdMeg);
         if (orderCircleMeg != null) {
-                return JsonResultFactory.buildJsonResult(
-                        JsonResultStateCode.SUCCESS,
-                        JsonResultStateCode.SUCCESS_DESC,
-                        orderCircleMeg
-                );
+            return JsonResultFactory.buildJsonResult(
+                    JsonResultStateCode.SUCCESS,
+                    JsonResultStateCode.SUCCESS_DESC,
+                    orderCircleMeg
+            );
         } else {
             return JsonResultFactory.buildJsonResult(
                     JsonResultStateCode.NOT_FOUND,

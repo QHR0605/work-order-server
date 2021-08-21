@@ -7,13 +7,15 @@
     <select id="findUserByUserNameAdmin" resultType="com.server.workordersystem.entity.User">
         SELECT *
         FROM user
-        WHERE user.username = #{userName} and user.account_type = 2
+        WHERE user.username = #{userName}
+          and user.account_type = 2
     </select>
 
     <insert id="insertNewUser">
         INSERT INTO user(uid, username, password, phone, `account_type`, `latest_login_time`, `latest_login_ip`,
                          `avatar_url`)
-        VALUES (#{uid}, #{username}, #{password}, #{phone}, #{accountType}, #{latestLoginTime}, #{latestLoginIp}, #{avatarUrl})
+        VALUES (#{uid}, #{username}, #{password}, #{phone}, #{accountType}, #{latestLoginTime}, #{latestLoginIp},
+                #{avatarUrl})
     </insert>
 
     <update id="updateResetPassword">
@@ -47,7 +49,17 @@
         WHERE user.username = #{username}
     </select>
     <select id="selectAllUsers" resultType="com.server.workordersystem.dto.UserInfoMsg">
-        SELECT uid,`group`,username,`name`,sex,age,phone,email,logout,`avatar_url`,`account_type`
+        SELECT uid,
+               `group`,
+               username,
+               `name`,
+               sex,
+               age,
+               phone,
+               email,
+               logout,
+               `avatar_url`,
+               `account_type`
         FROM user
     </select>
     <select id="selectAllWorkOrder" resultType="com.server.workordersystem.entity.WorkOrder">
@@ -63,7 +75,8 @@
     <select id="selectUnallocatedOrder" resultType="com.server.workordersystem.entity.WorkOrder">
         SELECT *
         FROM `work_order`
-        WHERE `state` = 2 AND `handle_group` = 4 ;
+        WHERE `state` = 2
+          AND `handle_group` = 4;
     </select>
 
     <select id="selectWorkOrder" resultType="com.server.workordersystem.entity.WorkOrder">
@@ -95,11 +108,14 @@
         WHERE `sid` = #{sid}
     </select>
     <update id="updateMentor">
-        UPDATE `group` SET `mentor` = #{mentor}
+        UPDATE `group`
+        SET `mentor` = #{mentor}
         WHERE `gid` = #{group};
     </update>
     <update id="updateUserAuthMentor">
-        UPDATE `user` SET `account_type` = #{accountType}, `group` = #{group}
+        UPDATE `user`
+        SET `account_type` = #{accountType},
+            `group`        = #{group}
         WHERE #{uid} = `uid`;
     </update>
 
@@ -108,7 +124,10 @@
         SET `state` = #{state}
         WHERE `order_id` = #{verifyOrderMeg.orderId};
         UPDATE `commit_log`
-        SET `verifiyer` = #{uid},`verification` = #{verifyOrderMeg.verification},`verified_time` = #{verifyOrderMeg.verifiedTime},`verified_result` = #{verifyOrderMeg.verifiedResult}
+        SET `verifiyer`       = #{uid},
+            `verification`    = #{verifyOrderMeg.verification},
+            `verified_time`   = #{verifyOrderMeg.verifiedTime},
+            `verified_result` = #{verifyOrderMeg.verifiedResult}
         WHERE `cid` = #{cid}
     </update>
 
@@ -120,12 +139,23 @@
 
     <update id="updateCloseOrder">
         UPDATE `work_order`
-        SET `completion_time` = #{completionTime},`state` = 8
+        SET `completion_time` = #{completionTime},
+            `state`           = 8
         WHERE `order_id` = #{orderId}
     </update>
 
     <select id="selectGroupMember" resultType="com.server.workordersystem.dto.UserInfoMsg">
-        SELECT uid,`group`,username,`name`,sex,age,phone,email,logout,`avatar_url`,`account_type`
+        SELECT uid,
+               `group`,
+               username,
+               `name`,
+               sex,
+               age,
+               phone,
+               email,
+               logout,
+               `avatar_url`,
+               `account_type`
         FROM `user`
         WHERE `group` = #{group}
     </select>

@@ -6,7 +6,17 @@
 
 
     <select id="selectMembers" resultType="com.server.workordersystem.dto.UserInfoMsg">
-        SELECT `uid`,`group`,`username`,`name`,`sex`,`age`,`phone`,`email`,`logout`,`avatar_url`,`account_type`
+        SELECT `uid`,
+               `group`,
+               `username`,
+               `name`,
+               `sex`,
+               `age`,
+               `phone`,
+               `email`,
+               `logout`,
+               `avatar_url`,
+               `account_type`
         FROM `user`
         WHERE `group` = #{group}
     </select>
@@ -14,25 +24,32 @@
     <select id="selectGroupOrder" resultType="com.server.workordersystem.entity.WorkOrder">
         SELECT *
         FROM `work_order`
-        WHERE `handle_group` = #{orderId} AND `state` = 2
+        WHERE `handle_group` = #{orderId}
+          AND `state` = 2
+    </select>
+    <select id="selectAllocatedGroupOrder" resultType="com.server.workordersystem.entity.WorkOrder">
+        SELECT *
+        FROM `work_order`
+        WHERE `handle_group` = #{orderId}
+          AND `state` > 2
     </select>
 
     <insert id="insertAllocateOrder">
-        INSERT INTO solution_log(
-                                 sid,
+        INSERT INTO solution_log(sid,
                                  uid,
                                  cid,
                                  distribute_time)
-             VALUE (
-                #{sid},
-                #{orderAllocateMeg.uid},
-                #{cid},
-                #{orderAllocateMeg.distributeTime})
+            VALUE (
+                   #{sid},
+                   #{orderAllocateMeg.uid},
+                   #{cid},
+                   #{orderAllocateMeg.distributeTime})
     </insert>
 
     <update id="updateAllocateOrder">
         UPDATE `work_order`
-        SET `state` = 4,`sid` = #{sid}
+        SET `state` = 4,
+            `sid`   = #{sid}
         WHERE `order_id` = #{orderAllocateMeg.orderId}
     </update>
 

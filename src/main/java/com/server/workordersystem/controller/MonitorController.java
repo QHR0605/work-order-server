@@ -2,9 +2,7 @@ package com.server.workordersystem.controller;
 
 import com.server.workordersystem.dto.OrderAllocateMeg;
 import com.server.workordersystem.dto.UserInfoMsg;
-import com.server.workordersystem.dto.UserMessage;
 import com.server.workordersystem.entity.WorkOrder;
-import com.server.workordersystem.service.MaintainerService;
 import com.server.workordersystem.service.MonitorService;
 import com.server.workordersystem.util.http.CookieUtils;
 import com.server.workordersystem.util.json.JsonResult;
@@ -53,8 +51,35 @@ public class MonitorController {
                     JsonResultStateCode.NOT_FOUND,
                     "非组长",
                     null
+            );
+        }
+    }
+
+    @GetMapping("/get-allocated-order")
+    public JsonResult handleGetAllocatedOrder(HttpServletRequest request) {
+        Integer uid = CookieUtils.parseInt(request.getCookies(), "uid");
+        List<WorkOrder> workOrderList = monitorService.getAllocatedGroupOrder(uid);
+        if (workOrderList != null) {
+            if (workOrderList.size() > 0) {
+                return JsonResultFactory.buildJsonResult(
+                        JsonResultStateCode.SUCCESS,
+                        JsonResultStateCode.SUCCESS_DESC,
+                        workOrderList
+                );
+            } else {
+                return JsonResultFactory.buildJsonResult(
+                        JsonResultStateCode.FAILED,
+                        JsonResultStateCode.FAILED_DESC,
+                        null
                 );
             }
+        } else {
+            return JsonResultFactory.buildJsonResult(
+                    JsonResultStateCode.FAILED,
+                    "非组长",
+                    null
+            );
+        }
     }
 
     /*
@@ -82,7 +107,7 @@ public class MonitorController {
         } else {
             return JsonResultFactory.buildJsonResult(
                     JsonResultStateCode.FAILED,
-                   "非组长",
+                    "非组长",
                     null
             );
         }
@@ -116,7 +141,7 @@ public class MonitorController {
                         "工单不存在",
                         null
                 );
-            } else if (row.equals(-2)){
+            } else if (row.equals(-2)) {
                 return JsonResultFactory.buildJsonResult(
                         JsonResultStateCode.FAILED,
                         "工单未审核或已分配",

@@ -67,7 +67,7 @@ public interface AdminMapper {
      * @return 操作是否成功
      * @throws Exception 数据库操作异常
      */
-    Integer updateMentor(Integer group,Integer mentor) throws Exception;
+    Integer updateMentor(Integer group, Integer mentor) throws Exception;
 
     /**
      * 修改权限

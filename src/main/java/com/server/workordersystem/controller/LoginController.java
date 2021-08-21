@@ -71,7 +71,7 @@ public class LoginController {
         LoginUserType loginUserType = loginService.handleLoginType(loginUserTypeMeg.getUsername());
         JsonResult res = null;
         if (loginUserType != null) {
-            res = JsonResultFactory.buildJsonResult(JsonResultStateCode.SUCCESS,JsonResultStateCode.SUCCESS_DESC , loginUserType);
+            res = JsonResultFactory.buildJsonResult(JsonResultStateCode.SUCCESS, JsonResultStateCode.SUCCESS_DESC, loginUserType);
         } else {
             res = JsonResultFactory.buildJsonResult(JsonResultStateCode.NOT_FOUND, JsonResultStateCode.NOT_FOUND_DESC, null);
         }

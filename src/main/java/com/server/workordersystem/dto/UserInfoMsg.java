@@ -1,7 +1,5 @@
 package com.server.workordersystem.dto;
 
-import io.swagger.models.auth.In;
-
 public class UserInfoMsg {
 
     private Integer uid;

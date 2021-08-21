@@ -26,13 +26,15 @@ public interface MonitorMapper {
      */
     List<WorkOrder> selectGroupOrder(Integer group) throws Exception;
 
+    List<WorkOrder> selectAllocatedGroupOrder(Integer group) throws Exception;
+
     /**
      * 分配工单
      *
      * @return 操作成功
      * @throws Exception 数据库操作异常
      */
-    Integer insertAllocateOrder(OrderAllocateMeg orderAllocateMeg,Integer sid, Integer cid) throws Exception;
+    Integer insertAllocateOrder(OrderAllocateMeg orderAllocateMeg, Integer sid, Integer cid) throws Exception;
 
-    Integer updateAllocateOrder(OrderAllocateMeg orderAllocateMeg,Integer sid) throws Exception;
+    Integer updateAllocateOrder(OrderAllocateMeg orderAllocateMeg, Integer sid) throws Exception;
 }

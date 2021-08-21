@@ -4,14 +4,23 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.server.workordersystem.mapper.UserMapper">
     <update id="updateUserLatestLoginMsg">
-        UPDATE user SET latest_login_time = #{latestLoginTime},latest_login_ip = #{latestLoginIp}
+        UPDATE user
+        SET latest_login_time = #{latestLoginTime},
+            latest_login_ip   = #{latestLoginIp}
         WHERE #{username} = username
     </update>
     <update id="updateUserMsg">
-        UPDATE user SET sex = #{sex},age = #{age},phone = #{phone},email=#{email},avatar_url=#{avatarUrl}
+        UPDATE user
+        SET sex       = #{sex},
+            age       = #{age},
+            phone     = #{phone},
+            email=#{email},
+            avatar_url=#{avatarUrl}
         WHERE uid = #{uid}
     </update>
     <select id="getUserInfo" resultType="com.server.workordersystem.dto.UserMessage">
-        SELECT * FROM user_msg WHERE uid = #{uid}
+        SELECT *
+        FROM user_msg
+        WHERE uid = #{uid}
     </select>
 </mapper>

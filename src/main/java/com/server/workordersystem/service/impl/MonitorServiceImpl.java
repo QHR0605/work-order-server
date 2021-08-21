@@ -62,6 +62,24 @@ public class MonitorServiceImpl implements MonitorService {
     }
 
     @Override
+    public List<WorkOrder> getAllocatedGroupOrder(Integer uid) {
+        User user = null;
+        List<WorkOrder> workOrderList = null;
+        try {
+            user = adminMapper.selectUser(uid);
+            if (user.getAccountType().equals(1)) {
+                workOrderList = monitorMapper.selectAllocatedGroupOrder(user.getGroup());
+            } else {
+                workOrderList = null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return workOrderList;
+        }
+        return workOrderList;
+    }
+
+    @Override
     public Integer insertAllocateOrder(OrderAllocateMeg orderAllocateMeg, Integer uid) {
         Integer row = null;
         Integer sid = null;
