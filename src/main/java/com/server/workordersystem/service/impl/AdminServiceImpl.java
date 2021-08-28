@@ -191,7 +191,7 @@ public class AdminServiceImpl implements AdminService {
         Integer row = null;
         try {
             user1 = adminMapper.findUserByUserNameAdmin(user.getUsername());
-            if (user1 != null) {
+            if (user1 == null) {
                 row = adminMapper.insertNewUser(user);
             } else {
                 row = 0;
