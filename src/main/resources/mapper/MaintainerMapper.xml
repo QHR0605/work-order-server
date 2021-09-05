@@ -157,6 +157,7 @@
         SELECT *
         FROM new_order_msg
         WHERE handler_id = #{uid}
+        AND state = 5
     </select>
     <select id="selectNotHandledOrders" resultType="com.server.workordersystem.dto.WorkOrder">
         SELECT *

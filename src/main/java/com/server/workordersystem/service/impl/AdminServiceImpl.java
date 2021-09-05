@@ -184,8 +184,12 @@ public class AdminServiceImpl implements AdminService {
         User user = new User()
                 .uid(IdGenerator.getId())
                 .username(message.getUsername())
+                .sex(message.getSex())
+                .phone(message.getPhone())
+                .name(message.getName())
                 .password(message.getPassword())
-                .accountType(message.getAccountType());
+                .accountType(message.getAccountType())
+                .group(message.getGroup());
         System.out.println(user.getUid());
         User user1 = null;
         Integer row = null;

@@ -12,9 +12,11 @@
     </select>
 
     <insert id="insertNewUser">
-        INSERT INTO user(uid, username, password, phone, `account_type`, `latest_login_time`, `latest_login_ip`,
+        INSERT INTO user(uid, username, name, sex, `group`, password, phone, `account_type`, `latest_login_time`,
+                         `latest_login_ip`,
                          `avatar_url`)
-        VALUES (#{uid}, #{username}, #{password}, #{phone}, #{accountType}, #{latestLoginTime}, #{latestLoginIp},
+        VALUES (#{uid}, #{username}, #{name}, #{sex}, #{group}, #{password}, #{phone}, #{accountType},
+                #{latestLoginTime}, #{latestLoginIp},
                 #{avatarUrl})
     </insert>
 

@@ -64,7 +64,8 @@ public class MaintainerController {
     }
 
     @PostMapping("/commit-draft")
-    public JsonResult handleCommit(Integer orderId, HttpServletRequest request) {
+    public JsonResult handleCommit(@RequestBody JSONObject object, HttpServletRequest request) {
+        Integer orderId = object.getInteger("orderId");
         Integer uid = CookieUtils.parseInt(request.getCookies(), "uid");
         List<WorkOrderWithFiles> drafts = maintainerService.getDrafts(uid);
         int state = 0;

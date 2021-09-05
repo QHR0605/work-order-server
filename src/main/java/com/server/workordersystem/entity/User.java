@@ -36,6 +36,11 @@ public class User {
         return this;
     }
 
+    public User sex(Boolean sex) {
+        this.setSex(sex);
+        return this;
+    }
+
     public User password(String password) {
         this.setPassword(password);
         return this;
@@ -53,6 +58,11 @@ public class User {
 
     public User accountType(Integer accountType) {
         this.setAccountType(accountType);
+        return this;
+    }
+
+    public User group(Integer group) {
+        this.setGroup(group);
         return this;
     }
 

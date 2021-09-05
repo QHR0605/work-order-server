@@ -12,7 +12,6 @@ public class WorkOrder {
     private String handleGroup;
     private Date createTime;
     private String content;
-    private Date completionTime;
     private Integer state;
     private Boolean deleted;
     private String type;
@@ -46,11 +45,6 @@ public class WorkOrder {
 
     public WorkOrder content(String content) {
         this.setContent(content);
-        return this;
-    }
-
-    public WorkOrder completionTime(Date completionTime) {
-        this.setCompletionTime(completionTime);
         return this;
     }
 
@@ -166,14 +160,6 @@ public class WorkOrder {
 
     public void setContent(String content) {
         this.content = content;
-    }
-
-    public Date getCompletionTime() {
-        return completionTime;
-    }
-
-    public void setCompletionTime(Date completionTime) {
-        this.completionTime = completionTime;
     }
 
     public Boolean getDeleted() {

@@ -5,9 +5,45 @@ package com.server.workordersystem.dto;
  */
 public class NewUserMessage {
 
+    private String name;
+    private Boolean sex;
+    private Integer group;
+    private String phone;
     private String username;
     private String password;
     private Integer accountType;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Boolean getSex() {
+        return sex;
+    }
+
+    public void setSex(Boolean sex) {
+        this.sex = sex;
+    }
+
+    public Integer getGroup() {
+        return group;
+    }
+
+    public void setGroup(Integer group) {
+        this.group = group;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 
     public String getUsername() {
         return username;
