@@ -51,7 +51,6 @@ public class AdminServiceImpl implements AdminService {
                 } else {
                     //设置cookie:token和用户ID
                     HttpServletResponse response = HttpUtil.getResponse();
-                    System.out.println(user);
                     String token = TokenGenerator.generateToken(user.getUid(), password, user.getAccountType());
                     System.out.println("登录成功,生成token: " + token);
                     Cookie tokenCookie = CookieUtils.buildCookie("token", token);

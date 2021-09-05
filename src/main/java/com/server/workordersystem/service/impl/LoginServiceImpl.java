@@ -35,6 +35,7 @@ public class LoginServiceImpl implements LoginService {
             System.out.println("username: " + username);
             System.out.println("password: " + password);
             user = loginMapper.findUserByUserName(username);
+            System.out.printf("user is : %s",user);
             if (user == null) {
                 return JsonResultStateCode.USERNAME_WRONG_DESC;
             } else if (user.getLogout()) {
@@ -45,7 +46,6 @@ public class LoginServiceImpl implements LoginService {
                 } else {
                     //设置cookie:token和用户ID
                     HttpServletResponse response = HttpUtil.getResponse();
-                    System.out.println(user);
                     String token = TokenGenerator.generateToken(user.getUid(), password, user.getAccountType());
                     System.out.println("登录成功,生成token: " + token);
                     Cookie tokenCookie = CookieUtils.buildCookie("token", token);
