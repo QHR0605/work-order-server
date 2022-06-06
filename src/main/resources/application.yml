@@ -3,9 +3,9 @@ server:
 
 spring:
   datasource:
-    username: work_order_system
-    password: Root1234
-    url: jdbc:mysql://rm-wz9ev2rzm1e4s0r7eyo.mysql.rds.aliyuncs.com:3306/workform-system?characterEncoding=utf-8&allowMultiQueries=true
+    username: your_username
+    password: your_password
+    url: jdbc:mysql://xxx:3306/xxx?characterEncoding=utf-8&allowMultiQueries=true
 
 
     driver-class-name: com.mysql.cj.jdbc.Driver
